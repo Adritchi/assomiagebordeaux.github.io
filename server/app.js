@@ -4,10 +4,13 @@ const mysql = require('mysql');
 const os = require('os');
 
 let password;
+let database;
 if (os.platform() === 'win32') {
     password = ''; // Windows
+    database = 'siteamb';
 } else if (os.platform() === 'darwin') {
     password = 'root'; // Mac
+    database = 'siteAMB';
 } else {
     // Autre système d'exploitation
     console.error('Système d"exploitation non pris en charge');
@@ -18,7 +21,7 @@ const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: password, 
-    database: 'siteamb'
+    database: database
 });
 
 const port = 3000;
