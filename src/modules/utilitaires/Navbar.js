@@ -1,8 +1,7 @@
-import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
-import '../../assets/design/commun/navbar.css'
-
+import '../../assets/design/commun/navbar.css';
 import logo from '../../assets/images/LogoAMB.png';
 // import logo from '../images/LogoAMBNovember2.png';
 
@@ -18,11 +17,48 @@ function hideMenu() {
 }
 
 class Navbar extends Component {
+    
+    state = {
+            adminConnected: false
+    };
+
     componentDidMount() {
-        hideMenu();
+        this.checkLoginStatus(); // Vérifie immédiatement l'état de connexion au chargement du composant
+        this.interval = setInterval(this.checkLoginStatus, 5000); // Vérifie l'état de connexion toutes les 5 secondes
     }
+    
+    componentWillUnmount() {
+        clearInterval(this.interval); // Nettoie l'intervalle lors du démontage du composant pour éviter les fuites de mémoire
+    }
+    
+
+    checkLoginStatus = async () => {
+        try {
+            const response = await fetch('/checkLoginStatus');
+            const data = await response.json();
+            this.setState({ adminConnected: data.adminConnected });
+        } catch (error) {
+            console.error('Erreur lors de la vérification de l\'état de connexion :', error);
+        }
+    };
+
+    handleLogout = async () => {
+        try {
+            await fetch('/logout', { method: 'POST' }); // Une route pour déconnecter l'utilisateur
+            this.setState({ adminConnected: false });
+            window.location.reload();
+        } catch (error) {
+            console.error('Erreur lors de la déconnexion :', error);
+        }
+    };
 
     render() {
+        const { adminConnected } = this.state;
+        const connectLabel = adminConnected ? "Connecté" : null;
+        const logoutButton = adminConnected ? (
+            <button onClick={this.handleLogout}>Déconnexion</button>
+        ) : null;
+
         const data = {
             linkLogo: "/",
             nameFirst: "Accueil", linkFirst: "/",
@@ -32,66 +68,42 @@ class Navbar extends Component {
             name5: "ADHÉRER", link5: "/association/adhesion"
         };
 
-        function displayMenu() {
-            var x = document.getElementById("module-navbar-column-menu");
-            if (x.style.display === "none") {
-                x.style.display = "flex";
-            } else {
-                x.style.display = "none";
-            }
-        };
         return (
-            <div class="module-navbar">
-
-                <div class="module-navbar-row">
-                    <div class="module-navbar-row-logo">
-                        <Link class="module-navbar-row-logo-img" to={data.linkLogo}><img src={logo} alt="Logo"/></Link>
+            <div className="module-navbar">
+                <div className="module-navbar-row">
+                    <div className="module-navbar-row-logo">
+                        <Link className="module-navbar-row-logo-img" to={data.linkLogo}><img src={logo} alt="Logo" /></Link>
                     </div>
-                    <div class="module-navbar-row-menu">
-                        <div class="module-navbar-row-menu-lien">
+                    <div className="module-navbar-row-menu">
+                        <div className="module-navbar-row-menu-lien">
                             <Link to={data.linkFirst}>{data.nameFirst}</Link>
                         </div>
-                        <div class="module-navbar-row-menu-lien module-navbar-row-menu-lien-margin-left">
+                        <div className="module-navbar-row-menu-lien module-navbar-row-menu-lien-margin-left">
                             <Link to={data.linkSecond}>{data.nameSecond}</Link>
                         </div>
-                        <div class="module-navbar-row-menu-lien module-navbar-row-menu-lien-margin-left">
+                        <div className="module-navbar-row-menu-lien module-navbar-row-menu-lien-margin-left">
                             <Link to={data.linkThird}>{data.nameThird}</Link>
                         </div>
-                        <div class="module-navbar-row-menu-lien module-navbar-row-menu-lien-margin-left">
+                        <div className="module-navbar-row-menu-lien module-navbar-row-menu-lien-margin-left">
                             <Link to={data.linkFourth}>{data.nameFourth}</Link>
                         </div>
-                    </div>
-                </div>
-
-                <div class="module-navbar-column">
-                    <div class="module-navbar-column-first-row">
-                        <div class="module-navbabr-column-first-row-logo">
-                            <Link class="module-navbabr-column-first-row-logo-img" to={data.linkLogo}
-                                  onClick={hideMenu}><img src={logo} alt="Logo"/></Link>
-                        </div>
-                        <div className="module-navbabr-column-first-row-icon" onClick={displayMenu}>
-                            <i class="fa fa-bars"></i>
-                        </div>
-                    </div>
-                    <div id="module-navbar-column-menu" class="module-navbar-column-menu">
-                        <div class="module-navbar-column-menu-lien">
-                            <Link to={data.linkFirst} onClick={hideMenu}>{data.nameFirst}</Link>
-                        </div>
-                        <div class="module-navbar-column-menu-lien module-navbar-column-menu-lien-marginTop">
-                            <Link to={data.linkSecond} onClick={hideMenu}>{data.nameSecond}</Link>
-                        </div>
-                        <div class="module-navbar-column-menu-lien module-navbar-column-menu-lien-marginTop">
-                            <Link to={data.linkThird} onClick={hideMenu}>{data.nameThird}</Link>
-                        </div>
-                        <div class="module-navbar-column-menu-lien module-navbar-column-menu-lien-marginTop">
-                            <Link to={data.linkFourth} onClick={hideMenu}>{data.nameFourth}</Link>
+                        <div className="module-navbar-row-menu-lien module-navbar-row-menu-lien-margin-left">
+                            {connectLabel}
+                            {logoutButton}
                         </div>
                     </div>
                 </div>
 
+                <div className="module-navbar-column">
+                    <div className="module-navbar-column-first-row">
+                        <div className="module-navbabr-column-first-row-logo">
+                            <Link className="module-navbabr-column-first-row-logo-img" to={data.linkLogo}><img src={logo} alt="Logo" /></Link>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }
 }
 
-export default Navbar
+export default Navbar;
