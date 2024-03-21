@@ -7,8 +7,8 @@ function Login() {
     const [password, setPassword] = useState('');
     const [loginStatus, setLoginStatus] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const [attemptsLeft, setAttemptsLeft] = useState(5); // Nombre de tentatives restantes
-    const [isBanned, setIsBanned] = useState(false); // Pour vérifier si l'utilisateur est banni
+    const [attemptsLeft, setAttemptsLeft] = useState(localStorage.getItem('attemptsLeft') || 5); // Utilisation de localStorage
+    const [isBanned, setIsBanned] = useState(localStorage.getItem('isBanned') === 'true' || false); // Utilisation de localStorage
     const history = useHistory();
 
     const checkLoginStatus = async () => {
@@ -32,6 +32,7 @@ function Login() {
                 const res = await fetch('/checkIPBanned');
                 const data = await res.json();
                 setIsBanned(data.banned);
+                localStorage.setItem('isBanned', data.banned); // Stockage dans localStorage
             } catch (err) {
                 console.error('Erreur lors de la vérification du statut d\'interdiction IP :', err);
             }
@@ -58,11 +59,16 @@ function Login() {
             setErrorMessage('');
         } catch (err) {
             setLoginStatus('Failed');
-            setAttemptsLeft(prevAttempts => prevAttempts - 1); // Diminue le nombre de tentatives restantes
+            setAttemptsLeft(prevAttempts => {
+                const remainingAttempts = prevAttempts - 1;
+                localStorage.setItem('attemptsLeft', remainingAttempts); // Stockage dans localStorage
+                return remainingAttempts;
+            });
             setErrorMessage(`Identifiant ou mot de passe incorrect. Il vous reste ${attemptsLeft - 1} tentatives.`);
             if (attemptsLeft - 1 === 0) {
                 await fetch('/banIP');
                 setIsBanned(true);
+                localStorage.setItem('isBanned', true); // Stockage dans localStorage
             }
         }
     }
