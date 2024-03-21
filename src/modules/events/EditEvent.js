@@ -13,7 +13,7 @@ const EditEvent = ({ event, onUpdate }) => {
 
     const handleEditSubmit = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/events/${event.ID}`, {
+            const response = await fetch(`http://localhost:3000/event/${event.ID}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
