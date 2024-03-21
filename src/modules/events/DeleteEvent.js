@@ -9,11 +9,10 @@ const DeleteEvent = ({ event, onDelete }) => {
 
             if (response.ok) {
                 console.log('Événement supprimé avec succès');
-                onDelete(event.ID); // Appel de la fonction onDelete avec l'ID de l'événement supprimé
+                window.location.reload();
             } else {
                 console.error('Erreur lors de la suppression de l\'événement');
             }
-            window.location.reload();
         } catch (error) {
             console.error(error);
         }
