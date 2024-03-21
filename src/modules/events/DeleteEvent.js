@@ -9,7 +9,7 @@ const DeleteEvent = ({ event, onDelete }) => {
 
             if (response.ok) {
                 console.log('Événement supprimé avec succès');
-                onDelete(event.ID); // Appeler la fonction onDelete avec l'ID de l'événement supprimé
+                onDelete(event.ID); // Appel de la fonction onDelete avec l'ID de l'événement supprimé
             } else {
                 console.error('Erreur lors de la suppression de l\'événement');
             }
@@ -20,7 +20,7 @@ const DeleteEvent = ({ event, onDelete }) => {
 
     return (
         <div>
-            <button onClick={handleDelete}>Supprimer l'événement</button>
+            <button onClick={handleDelete}>Supprimer</button>
         </div>
     );
 };
