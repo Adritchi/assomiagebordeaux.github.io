@@ -40,7 +40,6 @@ class Events extends Component {
 
     render() {
         const {estAdmin} = this.state; // Récupération du boolean estAdmin
-        console.log('estAdmin', estAdmin); 
         return (
             <div class="page-event">
                 <div style={{ backgroundImage: "url(" + EventsIllustration + ")" }} class="page-events-illustration">

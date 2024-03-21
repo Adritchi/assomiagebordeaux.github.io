@@ -159,7 +159,7 @@ app.post('/event', (req, res) => {
 // Route pour récupérer tous les événements (requête GET)
 app.get('/event', (req, res) => {
     const currentDate = new Date().toISOString().split('T')[0]; // Date actuelle au format YYYY-MM-DD
-    const query = `SELECT * FROM evenement WHERE date_fin > '${currentDate}'`;
+    const query = `SELECT * FROM evenement WHERE date_fin > '${currentDate}' ORDER BY date_debut ASC`;
 
     connection.query(query, (error, results) => {
         if (error) {
@@ -173,7 +173,7 @@ app.get('/event', (req, res) => {
 
 app.get('/eventPasse', (req, res) => {
     const currentDate = new Date().toISOString().split('T')[0]; // Date actuelle au format YYYY-MM-DD
-    const query = `SELECT * FROM evenement WHERE date_fin < '${currentDate}'`;
+    const query = `SELECT * FROM evenement WHERE date_fin < '${currentDate}' ORDER BY date_debut ASC`;
 
     connection.query(query, (error, results) => {
         if (error) {

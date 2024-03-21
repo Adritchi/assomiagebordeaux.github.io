@@ -22,6 +22,37 @@ const CreerEvenement = () => {
 
     const handleCreateEvent = async () => {
         try {
+            // Vérifie si tous les champs requis sont remplis
+            const errors = {};
+            if (nouvelEvenement.titre.trim() === '') {
+                errors.titre = 'Le champ titre ne peut pas être vide';
+            }
+            if (nouvelEvenement.lieu.trim() === '') {
+                errors.lieu = 'Le champ lieu ne peut pas être vide';
+            }
+            if (nouvelEvenement.date_debut.trim() === '') {
+                errors.date_debut = 'Le champ date de début ne peut pas être vide';
+            }
+            if (nouvelEvenement.date_fin.trim() === '') {
+                errors.date_fin = 'Le champ date de fin ne peut pas être vide';
+            }
+            if (nouvelEvenement.description.trim() === '') {
+                errors.description = 'Le champ description ne peut pas être vide';
+            }
+            if (nouvelEvenement.lien.trim() === '') {
+                errors.lien = 'Le champ lien ne peut pas être vide';
+            }
+    
+            if (Object.keys(errors).length > 0) {
+                // Met à jour l'état avec les erreurs
+                setNouvelEvenement(prevState => ({
+                    ...prevState,
+                    ...errors
+                }));
+                return;
+            }
+    
+            // Si tous les champs requis sont remplis, continuez avec la logique de création de l'événement
             const response = await fetch('http://localhost:3000/event', {
                 method: 'POST',
                 headers: {
@@ -39,7 +70,7 @@ const CreerEvenement = () => {
             });
     
             if (response.ok) {
-                // Gére la réussite de la création
+                // Gère la réussite de la création
                 console.log('Événement créé avec succès');
                 // Réinitialise le formulaire après la création
                 setNouvelEvenement({
@@ -51,11 +82,11 @@ const CreerEvenement = () => {
                     description: '',
                     lien: '',
                 });
+                window.location.reload();
             } else {
-                // Gére l'échec de la création
+                // Gère l'échec de la création
                 console.error('Erreur lors de la création de l\'événement');
             }
-            window.location.reload();
         } catch (error) {
             console.error(error);
         }
