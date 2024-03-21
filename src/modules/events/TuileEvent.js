@@ -10,14 +10,7 @@ export function TuileEvent(props) {
         setIsEditing(true);
     };
 
-    const handleUpdate = (updatedEvent) => {
-        setIsEditing(false);
-        props.handleUpdate(updatedEvent);
-    };
-
     const handleDelete = (eventId) => {
-        // Implémentez la logique nécessaire pour supprimer l'événement dans le composant parent
-        // Vous pouvez utiliser une fonction handleDelete dans le composant parent pour cela
         props.handleDelete(eventId);
     };
 
@@ -43,7 +36,7 @@ export function TuileEvent(props) {
             )}
 
             {isEditing ? (
-                <EditEvent event={props} onUpdate={handleUpdate} />
+                <EditEvent event={props} />
             ) : (
                 <div className="module-tuileEvent-infos">
                     <div className="module-tuileEvent-info-titre">

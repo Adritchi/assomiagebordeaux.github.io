@@ -33,19 +33,25 @@ const ListEvent = ({ estAdmin, statut }) => {
     return (
         <div>
             <div className="liste-tuiles">
-                {events.map(event => (
-                    <TuileEvent
-                        ID={event.ID}
-                        titre={event.titre}
-                        lieu={event.lieu}
-                        date={`${formatDate(event.date_debut)} - ${formatDate(event.date_fin)}`}
-                        description={event.description}
-                        lien={event.lien}
-                        image={require(`../../assets/images/${event.image}`)}
-                        estAdmin={estAdmin} 
-                        status={new Date() > new Date(event.date_fin) ? 'over' : ''}
-                    />
-                ))}
+                {events.map(event => {
+                    const dateDebut = formatDate(event.date_debut);
+                    const dateFin = event.date_fin !== '0000-00-00' && event.date_fin !== null ? formatDate(event.date_fin) : '';
+                    const date = dateFin ? `${dateDebut} - ${dateFin}` : dateDebut;
+                    return (
+                        <TuileEvent
+                            key={event.ID}
+                            ID={event.ID}
+                            titre={event.titre}
+                            lieu={event.lieu}
+                            date={date}
+                            description={event.description}
+                            lien={event.lien}
+                            image={require(`../../assets/images/${event.image}`)}
+                            estAdmin={estAdmin} 
+                            status={new Date() > new Date(event.date_fin) ? 'over' : ''}
+                        />
+                    );
+                })}
             </div>  
         </div>
     );

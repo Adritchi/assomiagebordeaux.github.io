@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ImageDropdown from '../../pages/utilitaires/ImageDropdown';
 
 const EditEvent = ({ event }) => {
     const [updatedEvent, setUpdatedEvent] = useState(event);
@@ -15,6 +16,10 @@ const EditEvent = ({ event }) => {
         try {
             // Vérifie si tous les champs requis sont remplis
             const errors = {};
+            if (updatedEvent.image.trim() === '') {
+                errors.image = 'Le champ titre ne peut pas être vide';
+            }
+
             if (updatedEvent.titre.trim() === '') {
                 errors.titre = 'Le champ titre ne peut pas être vide';
             }
@@ -24,9 +29,7 @@ const EditEvent = ({ event }) => {
             if (updatedEvent.date_debut.trim() === '') {
                 errors.date_debut = 'Le champ date de début ne peut pas être vide';
             }
-            if (updatedEvent.date_fin.trim() === '') {
-                errors.date_fin = 'Le champ date de fin ne peut pas être vide';
-            }
+
             if (updatedEvent.description.trim() === '') {
                 errors.description = 'Le champ description ne peut pas être vide';
             }
@@ -63,7 +66,17 @@ const EditEvent = ({ event }) => {
 
     return (
         <div>
-            <input type="text" name="image" value={updatedEvent.image} onChange={handleInputChange} />
+            <ImageDropdown
+                name="image"
+                placeholder="Image (Ex: Afterwork.jpg)"
+                value={updatedEvent.image}
+                onChange={(e) => {
+                    setUpdatedEvent(prevState => ({
+                        ...prevState,
+                        [e.target.name]: e.target.value
+                    }));
+                }}
+            />
             <input type="text" name="titre" value={updatedEvent.titre} onChange={handleInputChange} />
             <input type="text" name="lieu" value={updatedEvent.lieu} onChange={handleInputChange} />
             <input type="date" name="date_debut" value={updatedEvent.date_debut} onChange={handleInputChange} />
