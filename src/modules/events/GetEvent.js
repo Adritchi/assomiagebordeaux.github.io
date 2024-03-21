@@ -8,7 +8,7 @@ const ListEvent = ({ estAdmin, statut }) => {
         const fetchEvents = async () => {
             if(statut==='passe'){
                 try {
-                    const response = await fetch('http://localhost:3000/eventsPasse');
+                    const response = await fetch('http://localhost:3000/eventPasse');
                     if (response.ok) {
                         const data = await response.json();
                         setEvents(data);
@@ -21,7 +21,7 @@ const ListEvent = ({ estAdmin, statut }) => {
                 }
             }else{
                 try {
-                    const response = await fetch('http://localhost:3000/events');
+                    const response = await fetch('http://localhost:3000/event');
                     if (response.ok) {
                         const data = await response.json();
                         setEvents(data);

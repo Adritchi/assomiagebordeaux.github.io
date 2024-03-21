@@ -21,7 +21,7 @@ const CreerEvenement = () => {
 
     const handleCreateEvent = async () => {
         try {
-            const response = await fetch('http://localhost:3000/events', {
+            const response = await fetch('http://localhost:3000/event', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

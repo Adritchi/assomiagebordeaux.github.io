@@ -3,7 +3,7 @@ import React from 'react';
 const DeleteEvent = ({ event, onDelete }) => {
     const handleDelete = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/events/${event.ID}`, {
+            const response = await fetch(`http://localhost:3000/event/${event.ID}`, {
                 method: 'DELETE',
             });
 

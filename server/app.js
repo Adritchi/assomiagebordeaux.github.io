@@ -132,7 +132,7 @@ app.delete('/events:id', (req, res) => {
 });
 
 // Route pour la création d'un événement (requête POST)
-app.post('/events', (req, res) => {
+app.post('/event', (req, res) => {
     console.log('Requête POST reçue pour la création d\'un événement:', req.body);
 
     const newEvent = [
@@ -157,7 +157,7 @@ app.post('/events', (req, res) => {
 });
 
 // Route pour récupérer tous les événements (requête GET)
-app.get('/events', (req, res) => {
+app.get('/event', (req, res) => {
     const currentDate = new Date().toISOString().split('T')[0]; // Date actuelle au format YYYY-MM-DD
     const query = `SELECT * FROM evenement WHERE date_fin > '${currentDate}'`;
 
@@ -171,7 +171,7 @@ app.get('/events', (req, res) => {
     });
 });
 
-app.get('/eventsPasse', (req, res) => {
+app.get('/eventPasse', (req, res) => {
     const currentDate = new Date().toISOString().split('T')[0]; // Date actuelle au format YYYY-MM-DD
     const query = `SELECT * FROM evenement WHERE date_fin < '${currentDate}'`;
 
@@ -186,7 +186,7 @@ app.get('/eventsPasse', (req, res) => {
 });
 
 // Route pour la modification d'un événement (requête PUT)
-app.put('/events:id', (req, res) => {
+app.put('/event:id', (req, res) => {
     const eventId = req.params.id;
     const updatedEvent = req.body;
 
