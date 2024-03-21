@@ -1,5 +1,5 @@
 const express = require('express');
-const connection = require('./connection'); 
+const connection = require('./connection');
 const router = express.Router();
 
 const bannedIPs = {}; // Stocke les IPs bannies et le temps jusqu'à la fin du bannissement
@@ -15,6 +15,7 @@ const isIPBanned = (ip) => {
     return false;
 };
 
+// Ajouter cette route dans app.js
 router.get('/checkIPBanned', (req, res) => {
     const ip = req.ip;
     if (isIPBanned(ip)) {
