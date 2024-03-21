@@ -108,15 +108,6 @@ app.post('/login', (req, res) => {
         res.sendStatus(200); // Envoie une réponse indiquant que la déconnexion a réussi
     });
 
-app.use(express.static(path.join(__dirname, '../build')));
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../build', 'index.html'));
-});
-
-app.listen(port, () => {
-    console.log(`Server is running at http://localhost:`+ port);
-});
-
 // -------------- EVENTS ----------------
 
 // Route pour supprimer un événement (requête DELETE)
@@ -219,4 +210,13 @@ app.put('/events:id', (req, res) => {
             res.status(200).send('Événement mis à jour avec succès');
         }
     });
+});
+
+app.use(express.static(path.join(__dirname, '../build')));
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../build', 'index.html'));
+});
+
+app.listen(port, () => {
+    console.log(`Server is running at http://localhost:`+ port);
 });
