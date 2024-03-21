@@ -186,7 +186,7 @@ app.get('/eventPasse', (req, res) => {
 });
 
 // Route pour la modification d'un événement (requête PUT)
-app.put('/event:id', (req, res) => {
+app.put('/event/:id', (req, res) => {
     const eventId = req.params.id;
     const updatedEvent = req.body;
 
