@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
-function ImageDropdown() {
+function ImageDropdown({ name, placeholder, value, onChange }) {
+    const handleImageChange = (e) => {
+        const selectedImage = e.target.value;
+        onChange({ target: { name, value: selectedImage } });
+      };
   const [imageNames, setImageNames] = useState([]);
 
   useEffect(() => {
@@ -8,12 +12,12 @@ function ImageDropdown() {
     const importAll = (r) => {
       return r.keys().map((fileName) => ({
         fileName,
-        name: fileName.split('/').pop().split('.')[0], // Extraire le nom du fichier sans l'extension
+        name: fileName.split('/').pop(), // Extraire le nom du fichier sans l'extension
       }));
     };
 
     // Importer toutes les images du dossier 'x/xX/'
-    const images = importAll(require.context('../../assets/images/', false, /.(png|jpe?g|svg)$/));
+    const images = importAll(require.context('../../assets/images/', false, /\.(png|jpe?g|svg)$/));
 
     // Extraire les noms des images
     const imageNames = images.map((image) => image.name);
@@ -23,7 +27,7 @@ function ImageDropdown() {
   }, []);
 
   return (
-      <select>
+      <select name={name} value={value} onChange={handleImageChange}>
         {imageNames.map((name, index) => (
           <option key={index} value={name}>{name}</option>
         ))}

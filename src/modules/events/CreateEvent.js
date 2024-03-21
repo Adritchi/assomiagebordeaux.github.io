@@ -63,7 +63,15 @@ const CreerEvenement = () => {
 
     return (
         <div>
-            <ImageDropdown/>
+            <ImageDropdown
+                name="image"
+                placeholder="Image (Ex: Afterwork.jpg)"
+                value={nouvelEvenement.image}
+                onChange={(e) => setNouvelEvenement(prevState => ({
+                    ...prevState,
+                    [e.target.name]: e.target.value
+                }))}
+            />
             {/* Champs de saisie pour chaque information de la tuile */}
             <input type="text" name="titre" placeholder="Titre" value={nouvelEvenement.titre} onChange={handleInputChange} />
             <input type="text" name="lieu" placeholder="Lieu" value={nouvelEvenement.lieu} onChange={handleInputChange} />
