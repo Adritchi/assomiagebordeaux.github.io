@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../../assets/design/commun/tuileEvent.css';
 import EditEvent from './EditEvent';
+import DeleteEvent from './DeleteEvent'; // Importer le composant DeleteEvent
 
 export function TuileEvent(props) {
     const [isEditing, setIsEditing] = useState(false);
@@ -11,9 +12,13 @@ export function TuileEvent(props) {
 
     const handleUpdate = (updatedEvent) => {
         setIsEditing(false);
-        // Mettre à jour les données de l'événement dans le composant parent si nécessaire
-        // Appeler la fonction handleUpdate du composant parent et passer updatedEvent comme argument
         props.handleUpdate(updatedEvent);
+    };
+
+    const handleDelete = (eventId) => {
+        // Implémentez la logique nécessaire pour supprimer l'événement dans le composant parent
+        // Vous pouvez utiliser une fonction handleDelete dans le composant parent pour cela
+        props.handleDelete(eventId);
     };
 
     return (
@@ -21,6 +26,8 @@ export function TuileEvent(props) {
             {props.estAdmin && (
                 <div className="module-tuileEvent-edit-button">
                     <button onClick={handleEditClick}>Modifier</button>
+                    {/* Ajouter le bouton de suppression si l'utilisateur est un admin */}
+                    <DeleteEvent event={props} onDelete={handleDelete} />
                 </div>
             )}
 

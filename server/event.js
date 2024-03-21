@@ -2,6 +2,28 @@ const express = require('express');
 const router = express.Router();
 const connection = require('./connection'); // Importer la connexion à la base de données
 
+// Route pour supprimer un événement (requête DELETE)
+router.delete('/:id', (req, res) => {
+    const eventId = req.params.id; // Récupérer l'ID de l'événement à supprimer
+
+    const query = 'DELETE FROM evenement WHERE ID = ?'; // Requête SQL pour supprimer l'événement avec l'ID spécifié
+
+    connection.query(query, eventId, (error, results) => {
+        if (error) {
+            console.error(error);
+            res.status(500).send('Erreur lors de la suppression de l\'événement');
+        } else {
+            if (results.affectedRows > 0) {
+                // Vérifier si des lignes ont été affectées, ce qui signifie que l'événement a été supprimé avec succès
+                res.status(200).send('Événement supprimé avec succès');
+            } else {
+                // Si aucune ligne n'a été affectée, cela signifie que l'événement avec l'ID spécifié n'a pas été trouvé
+                res.status(404).send('Événement non trouvé');
+            }
+        }
+    });
+});
+
 // Route pour la création d'un événement (requête POST)
 router.post('/', (req, res) => {
     console.log('Requête POST reçue pour la création d\'un événement:', req.body);

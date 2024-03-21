@@ -14,7 +14,7 @@ import '../../assets/design/pages/events.css'
 class Events extends Component {
 
     state = {
-        estAdmin: false, // Madiane j'attends le boolean
+        estAdmin: true, // Madiane j'attends le boolean
         showCreateEventForm: false,
     };
 
@@ -34,7 +34,8 @@ class Events extends Component {
             const data = await response.json();
             this.estAdmin=data.adminConnected;
         } catch (error) {
-            this.estAdmin=false;        }
+            this.estAdmin=false;        
+        }
     };
 
     toggleCreateEventForm = () => {
