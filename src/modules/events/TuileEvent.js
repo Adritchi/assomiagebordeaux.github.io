@@ -53,7 +53,7 @@ export function TuileEvent(props) {
                         {props.lieu}
                     </div>
                     <div className="module-tuileEvent-info-date">
-                        {props.date_debut}
+                        {props.date}
                     </div>
                     <div className="module-tuileEvent-info-description">
                         {props.description}
