@@ -43,7 +43,6 @@ const ListEvent = ({ estAdmin, statut }) => {
             <div className="liste-tuiles">
                 {events.map(event => (
                     <TuileEvent
-                        key={event.ID} // Ajoutez une clé unique à chaque élément de la liste
                         ID={event.ID}
                         titre={event.titre}
                         lieu={event.lieu}
