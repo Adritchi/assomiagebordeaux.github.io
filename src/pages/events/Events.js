@@ -14,7 +14,7 @@ import '../../assets/design/pages/events.css'
 class Events extends Component {
 
     state = {
-        estAdmin: true, // Madiane j'attends le boolean
+        estAdmin: false, // Madiane j'attends le boolean
         showCreateEventForm: false,
     };
 
@@ -32,10 +32,9 @@ class Events extends Component {
         try {
             const response = await fetch('/checkLoginStatus');
             const data = await response.json();
-            this.setState({ adminConnected: data.adminConnected });
+            this.estAdmin=data.adminConnected;
         } catch (error) {
-            console.error('Erreur lors de la vérification de l\'état de connexion :', error);
-        }
+            this.estAdmin=false;        }
     };
 
     toggleCreateEventForm = () => {
@@ -56,19 +55,6 @@ class Events extends Component {
                     </div>
                 </div>
                 <div class="page-events-contenu">
-
-                    <Tuile
-                        display="true"
-                        type="event"
-                        status="" // over = gris + button disparait
-                        image={Moustache}
-                        titre="Movember M-TECH X AMB"
-                        lieu="Joya - Talence"
-                        date="24 novembre 2022 21h00"
-                        description="Il va falloir ramener sa plus belle moustache !"
-                        lien="https://fb.me/e/30sQJAY0o" // A regrouper dans 1 des 4 tuiles
-                    />
-
                     <div>
                         {/* Affiche le bouton "Créer un événement" quand mode admin actif*/}
                         {estAdmin && (
@@ -80,25 +66,10 @@ class Events extends Component {
                     </div>
 
                     {/* Passe estAdmin comme prop à ListEvent */}
-                    <ListEvent estAdmin={estAdmin} />
+                    <ListEvent estAdmin={estAdmin} statut={'avant'}/>
 
-                    <div class="page-events-subtitle">Events passés</div> /* A gérer dans le backend */
-                    <Tuile
-                        display="true"
-                        type="event"
-                        status="over"
-                        image={WEI}
-                        typeEvent=""
-                        titre="Week-end d'intégration - MIAGE WEI-LANTA"
-                        lieu="Domaine de Peyreguilhot"
-                        date="01 - 02 octobre 2022"
-                        description="L'évènement de cette rentrée à ne surtout pas louper !"
-                        typeBouton="externe"
-                        button1Color="bleuAMB"
-                        button1Label="En savoir plus"
-                        button1Link=""
-                        isLast="false"
-                    />
+                    <div class="page-events-subtitle">Events passés</div>
+                    <ListEvent estAdmin={estAdmin} statut={'passe'}/>
                 </div>
             </div>
         );

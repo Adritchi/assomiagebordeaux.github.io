@@ -29,7 +29,22 @@ router.post('/', (req, res) => {
 
 // Route pour récupérer tous les événements (requête GET)
 router.get('/', (req, res) => {
-    const query = 'SELECT * FROM evenement';
+    const currentDate = new Date().toISOString().split('T')[0]; // Date actuelle au format YYYY-MM-DD
+    const query = `SELECT * FROM evenement WHERE date_fin > '${currentDate}'`;
+
+    connection.query(query, (error, results) => {
+        if (error) {
+            console.error(error);
+            res.status(500).send('Erreur lors de la récupération des événements');
+        } else {
+            res.status(200).json(results);
+        }
+    });
+});
+
+router.get('/eventsPasse', (req, res) => {
+    const currentDate = new Date().toISOString().split('T')[0]; // Date actuelle au format YYYY-MM-DD
+    const query = `SELECT * FROM evenement WHERE date_fin < '${currentDate}'`;
 
     connection.query(query, (error, results) => {
         if (error) {

@@ -1,27 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import TuileEvent from './TuileEvent';
 
-const ListEvent = ({ estAdmin }) => {
+const ListEvent = ({ estAdmin, statut }) => {
     const [events, setEvents] = useState([]);
 
     useEffect(() => {
         const fetchEvents = async () => {
-            try {
-                const response = await fetch('http://localhost:3000/events');
-                if (response.ok) {
-                    const data = await response.json();
-                    setEvents(data);
-                    console.log('Contenu de la base de données :', data);
-                } else {
-                    console.error('Erreur lors de la récupération des événements');
+            if(statut==='passe'){
+                try {
+                    const response = await fetch('http://localhost:3000/events/eventsPasse');
+                    if (response.ok) {
+                        const data = await response.json();
+                        setEvents(data);
+                        console.log('Contenu de la base de données :', data);
+                    } else {
+                        console.error('Erreur lors de la récupération des événements');
+                    }
+                } catch (error) {
+                    console.error(error);
                 }
-            } catch (error) {
-                console.error(error);
+            }else{
+                try {
+                    const response = await fetch('http://localhost:3000/events');
+                    if (response.ok) {
+                        const data = await response.json();
+                        setEvents(data);
+                        console.log('Contenu de la base de données :', data);
+                    } else {
+                        console.error('Erreur lors de la récupération des événements');
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
             }
         };
 
         fetchEvents();
-    }, [estAdmin]); // Ecoute les changements de estAdmin
+    }, [estAdmin, statut]); // Ecoute les changements de estAdmin
 
     return (
         <div>
@@ -37,7 +52,7 @@ const ListEvent = ({ estAdmin }) => {
                         lien={event.lien}
                         image={event.image}
                         estAdmin={estAdmin} 
-                        status= ''
+                        status={new Date() > new Date(event.date_fin) ? 'over' : ''}
                     />
                 ))}
             </div>  
