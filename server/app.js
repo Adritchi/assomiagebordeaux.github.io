@@ -111,7 +111,7 @@ app.post('/login', (req, res) => {
 // -------------- EVENTS ----------------
 
 // Route pour supprimer un événement (requête DELETE)
-app.delete('/events:id', (req, res) => {
+app.delete('/events/:id', (req, res) => {
     const eventId = req.params.id; // Récupère l'ID de l'événement à supprimer
 
     const query = 'DELETE FROM evenement WHERE ID = ?'; // Requête SQL
