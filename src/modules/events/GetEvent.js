@@ -12,7 +12,6 @@ const ListEvent = ({ estAdmin, statut }) => {
                     if (response.ok) {
                         const data = await response.json();
                         setEvents(data);
-                        console.log('Contenu de la base de données :', data);
                     } else {
                         console.error('Erreur lors de la récupération des événements');
                     }
@@ -25,7 +24,6 @@ const ListEvent = ({ estAdmin, statut }) => {
                     if (response.ok) {
                         const data = await response.json();
                         setEvents(data);
-                        console.log('Contenu de la base de données :', data);
                     } else {
                         console.error('Erreur lors de la récupération des événements');
                     }

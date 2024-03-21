@@ -14,25 +14,19 @@ import '../../assets/design/pages/events.css'
 class Events extends Component {
 
     state = {
-        estAdmin: true, // Madiane j'attends le boolean
+        estAdmin: false,
         showCreateEventForm: false,
     };
 
     componentDidMount() {
         this.checkLoginStatus(); // Vérifie immédiatement l'état de connexion au chargement du composant
-        this.interval = setInterval(this.checkLoginStatus, 5000); // Vérifie l'état de connexion toutes les 5 secondes
     }
     
-    componentWillUnmount() {
-        clearInterval(this.interval); // Nettoie l'intervalle lors du démontage du composant pour éviter les fuites de mémoire
-    }
-    
-
     checkLoginStatus = async () => {
         try {
             const response = await fetch('/checkLoginStatus');
             const data = await response.json();
-            this.estAdmin=data.adminConnected;
+            this.setState({ estAdmin: data.adminConnected }); // Mettre à jour l'état avec setState
         } catch (error) {
             this.estAdmin=false;        
         }
@@ -46,7 +40,7 @@ class Events extends Component {
 
     render() {
         const {estAdmin} = this.state; // Récupération du boolean estAdmin
-        console.log('estAdmin', estAdmin); // Marche stp
+        console.log('estAdmin', estAdmin); 
         return (
             <div class="page-event">
                 <div style={{ backgroundImage: "url(" + EventsIllustration + ")" }} class="page-events-illustration">
