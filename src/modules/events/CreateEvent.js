@@ -11,6 +11,7 @@ const CreerEvenement = () => {
         description: '',
         lien: '',
     });
+    const [imageError, setImageError] = useState(false); // State pour gérer les erreurs de sélection d'image
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -42,8 +43,12 @@ const CreerEvenement = () => {
             if (nouvelEvenement.lien.trim() === '') {
                 errors.lien = 'Le champ lien ne peut pas être vide';
             }
-    
-            if (Object.keys(errors).length > 0) {
+            if (nouvelEvenement.image.trim() === '') {
+                setImageError(true); // Définit l'erreur si aucune image n'est sélectionnée
+                return; // Arrête le traitement si une image n'est pas sélectionnée
+            }
+
+            if (Object.keys(errors).length > 0 || imageError) {
                 // Met à jour l'état avec les erreurs
                 setNouvelEvenement(prevState => ({
                     ...prevState,
@@ -51,24 +56,16 @@ const CreerEvenement = () => {
                 }));
                 return;
             }
-    
+
             // Si tous les champs requis sont remplis, continuez avec la logique de création de l'événement
             const response = await fetch('http://localhost:3000/event', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    titre: nouvelEvenement.titre,
-                    description: nouvelEvenement.description,
-                    image: nouvelEvenement.image,
-                    lien: nouvelEvenement.lien,
-                    date_debut: nouvelEvenement.date_debut,
-                    date_fin: nouvelEvenement.date_fin,
-                    lieu: nouvelEvenement.lieu,
-                }),
+                body: JSON.stringify(nouvelEvenement),
             });
-    
+
             if (response.ok) {
                 // Gère la réussite de la création
                 console.log('Événement créé avec succès');
@@ -82,6 +79,7 @@ const CreerEvenement = () => {
                     description: '',
                     lien: '',
                 });
+                setImageError(false); // Réinitialise l'état de l'erreur d'image
                 window.location.reload();
             } else {
                 // Gère l'échec de la création
@@ -98,11 +96,20 @@ const CreerEvenement = () => {
                 name="image"
                 placeholder="Image (Ex: Afterwork.jpg)"
                 value={nouvelEvenement.image}
-                onChange={(e) => setNouvelEvenement(prevState => ({
-                    ...prevState,
-                    [e.target.name]: e.target.value
-                }))}
+                onChange={(e) => {
+                    setNouvelEvenement(prevState => ({
+                        ...prevState,
+                        [e.target.name]: e.target.value
+                    }));
+                    setImageError(false); // Réinitialise l'état de l'erreur d'image lors de la sélection
+                }}
             />
+            {/* Affichage du message d'erreur pour la sélection d'image */}
+            {imageError && (
+                <div style={{ color: 'red' }}>
+                    Veuillez sélectionner une image
+                </div>
+            )}
             {/* Champs de saisie pour chaque information de la tuile */}
             <input type="text" name="titre" placeholder="Titre" value={nouvelEvenement.titre} onChange={handleInputChange} />
             <input type="text" name="lieu" placeholder="Lieu" value={nouvelEvenement.lieu} onChange={handleInputChange} />
@@ -118,4 +125,3 @@ const CreerEvenement = () => {
 };
 
 export default CreerEvenement;
-
