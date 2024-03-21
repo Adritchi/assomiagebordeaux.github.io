@@ -18,7 +18,7 @@ export function TuileEvent(props) {
 
     return (
         <div className="module-tuileEvent module-tuileEvent-margin">
-            {props.isAdmin && (
+            {props.estAdmin && (
                 <div className="module-tuileEvent-edit-button">
                     <button onClick={handleEditClick}>Modifier</button>
                 </div>
@@ -46,7 +46,7 @@ export function TuileEvent(props) {
                         {props.lieu}
                     </div>
                     <div className="module-tuileEvent-info-date">
-                        {props.date}
+                        {props.date_debut}
                     </div>
                     <div className="module-tuileEvent-info-description">
                         {props.description}

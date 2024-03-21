@@ -36,7 +36,8 @@ const EditEvent = ({ event, onUpdate }) => {
         <div>
             <input type="text" name="titre" value={updatedEvent.titre} onChange={handleInputChange} />
             <input type="text" name="lieu" value={updatedEvent.lieu} onChange={handleInputChange} />
-            <input type="text" name="date" value={updatedEvent.date} onChange={handleInputChange} />
+            <input type="text" name="date_debut" value={updatedEvent.date_debut} onChange={handleInputChange} />
+            <input type="text" name="date_fin" value={updatedEvent.date_fin} onChange={handleInputChange} />
             <input type="text" name="description" value={updatedEvent.description} onChange={handleInputChange} />
             <input type="text" name="lien" value={updatedEvent.lien} onChange={handleInputChange} />
             <button onClick={handleEditSubmit}>Enregistrer les modifications</button>

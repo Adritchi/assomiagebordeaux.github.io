@@ -1,9 +1,7 @@
-// EventsList.js
-
 import React, { useState, useEffect } from 'react';
-import TuileEvent from './TuileEvent'; // chemin tuileEvent
+import TuileEvent from './TuileEvent';
 
-const ListEvent = ({ isAdmin }) => {
+const ListEvent = ({ estAdmin }) => {
     const [events, setEvents] = useState([]);
 
     useEffect(() => {
@@ -23,21 +21,22 @@ const ListEvent = ({ isAdmin }) => {
         };
 
         fetchEvents();
-    }, []);
+    }, [estAdmin]); // Ecoute les changements de estAdmin
 
     return (
         <div>
             <div className="liste-tuiles">
                 {events.map(event => (
                     <TuileEvent
+                        key={event.ID} // Ajoutez une clé unique à chaque élément de la liste
                         ID={event.ID}
                         titre={event.titre}
                         lieu={event.lieu}
-                        date={event.date}
+                        date_debut={event.date_debut}
                         description={event.description}
                         lien={event.lien}
                         image={event.image}
-                        isAdmin={isAdmin} 
+                        estAdmin={estAdmin} 
                         status= ''
                     />
                 ))}
@@ -47,4 +46,3 @@ const ListEvent = ({ isAdmin }) => {
 };
 
 export default ListEvent;
-

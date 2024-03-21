@@ -5,7 +5,7 @@ const CreerEvenement = () => {
         image: '',
         titre: '',
         lieu: '',
-        date: '',
+        date_debut: '',
         description: '',
         lien: '',
     });
@@ -30,7 +30,7 @@ const CreerEvenement = () => {
                     description: nouvelEvenement.description,
                     image: nouvelEvenement.image,
                     lien: nouvelEvenement.lien,
-                    date: nouvelEvenement.date,
+                    date_debut: nouvelEvenement.date_debut,
                     lieu: nouvelEvenement.lieu,
                 }),
             });
@@ -43,7 +43,7 @@ const CreerEvenement = () => {
                     image: '',
                     titre: '',
                     lieu: '',
-                    date: '',
+                    date_debut: '',
                     description: '',
                     lien: '',
                 });
@@ -62,7 +62,7 @@ const CreerEvenement = () => {
             <input type="text" name="image" placeholder="URL de l'image" value={nouvelEvenement.image} onChange={handleInputChange} />
             <input type="text" name="titre" placeholder="Titre de l'événement" value={nouvelEvenement.titre} onChange={handleInputChange} />
             <input type="text" name="lieu" placeholder="Lieu de l'événement" value={nouvelEvenement.lieu} onChange={handleInputChange} />
-            <input type="text" name="date" placeholder="Date et heure de l'événement" value={nouvelEvenement.date} onChange={handleInputChange} />
+            <input type="text" name="date_debut" placeholder="Date et heure de l'événement" value={nouvelEvenement.date} onChange={handleInputChange} />
             <input type="text" name="description" placeholder="Description de l'événement" value={nouvelEvenement.description} onChange={handleInputChange} />
             <input type="text" name="lien" placeholder="Lien vers l'événement" value={nouvelEvenement.lien} onChange={handleInputChange} />
 

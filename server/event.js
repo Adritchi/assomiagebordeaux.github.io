@@ -11,11 +11,12 @@ router.post('/', (req, res) => {
         req.body.description || '',
         req.body.image || '',
         req.body.lien || '',
-        req.body.date || '',
+        req.body.date_debut || '',
+        req.body.date_fin || '',
         req.body.lieu || ''
     ];
 
-    const query = 'INSERT INTO evenement (titre, description, image, lien, date, lieu) VALUES (?, ?, ?, ?, ?, ?)';
+    const query = 'INSERT INTO evenement (titre, description, image, lien, date_debut, date_fin, lieu) VALUES (?, ?, ?, ?, ?, ?, ?)';
     connection.query(query, newEvent, (error, results) => {
         if (error) {
             console.error(error);
@@ -46,10 +47,18 @@ router.put('/:id', (req, res) => {
     const updatedEvent = req.body;
 
     // Champs à mettre à jour
-    const { titre, lieu, date, description, lien, image } = updatedEvent;
+    const { titre, lieu, date_debut, date_fin, description, lien, image } = updatedEvent;
 
-    const query = 'UPDATE evenement SET titre = ?, lieu = ?, date = ?, description = ?, lien = ?, image = ? WHERE ID = ?';
-    connection.query(query, [titre, lieu, date, description, lien, image, eventId], (error, results) => {
+    let query = 'UPDATE evenement SET titre = ?, lieu = ?, date_debut = ?, description = ?, lien = ?, image = ? WHERE ID = ?';
+    let queryParams = [titre, lieu, date_debut, description, lien, image, eventId];
+
+    // Vérifie si date_fin est fourni dans updatedEvent
+    if (date_fin !== undefined) {
+        query = 'UPDATE evenement SET titre = ?, lieu = ?, date_debut = ?, date_fin = ?, description = ?, lien = ?, image = ? WHERE ID = ?';
+        queryParams = [titre, lieu, date_debut, date_fin, description, lien, image, eventId];
+    }
+
+    connection.query(query, queryParams, (error, results) => {
         if (error) {
             console.error(error);
             res.status(500).send('Erreur lors de la mise à jour de l\'événement');

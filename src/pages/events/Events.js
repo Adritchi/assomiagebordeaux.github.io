@@ -14,7 +14,7 @@ import '../../assets/design/pages/events.css'
 class Events extends Component {
 
     state = {
-        isAdmin: false, // Madiane j'attends le boolean
+        estAdmin: true, // Madiane j'attends le boolean
         showCreateEventForm: false,
     };
 
@@ -45,8 +45,8 @@ class Events extends Component {
     };
 
     render() {
-        const {isAdmin} = this.state; // Récupération du boolean isAdmin
-        console.log('isAdmin', isAdmin); // Marche stp
+        const {estAdmin} = this.state; // Récupération du boolean estAdmin
+        console.log('estAdmin', estAdmin); // Marche stp
         return (
             <div class="page-event">
                 <div style={{ backgroundImage: "url(" + EventsIllustration + ")" }} class="page-events-illustration">
@@ -71,7 +71,7 @@ class Events extends Component {
 
                     <div>
                         {/* Affiche le bouton "Créer un événement" quand mode admin actif*/}
-                        {isAdmin && (
+                        {estAdmin && (
                             <button onClick={this.toggleCreateEventForm}>Créer un événement</button>
                         )}
 
@@ -79,8 +79,8 @@ class Events extends Component {
                         {this.state.showCreateEventForm && <CreerEvenement />}
                     </div>
 
-                    {/* Passe isAdmin comme prop à ListEvent */}
-                    <ListEvent isAdmin={isAdmin} />
+                    {/* Passe estAdmin comme prop à ListEvent */}
+                    <ListEvent estAdmin={estAdmin} />
 
                     <div class="page-events-subtitle">Events passés</div> /* A gérer dans le backend */
                     <Tuile
