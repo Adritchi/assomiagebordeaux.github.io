@@ -27,6 +27,7 @@ const EditEvent = ({ event, onUpdate }) => {
             } else {
                 console.error('Erreur lors de la mise à jour de l\'événement');
             }
+            window.location.reload();
         } catch (error) {
             console.error(error);
         }

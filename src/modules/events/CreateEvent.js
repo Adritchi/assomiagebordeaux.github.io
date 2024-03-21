@@ -54,6 +54,7 @@ const CreerEvenement = () => {
                 // Gére l'échec de la création
                 console.error('Erreur lors de la création de l\'événement');
             }
+            window.location.reload();
         } catch (error) {
             console.error(error);
         }

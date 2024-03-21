@@ -12,7 +12,7 @@ app.use(express.static(path.join(__dirname, '../build')));
 app.use(express.json());
 
 // Route 
-app.use('/', loginRoutes);
+app.use('/admin', loginRoutes);
 app.use('/events', eventRoutes);
 
 // Route pour les autres requêtes, renvoie index.html

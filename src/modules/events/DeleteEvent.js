@@ -13,6 +13,7 @@ const DeleteEvent = ({ event, onDelete }) => {
             } else {
                 console.error('Erreur lors de la suppression de l\'événement');
             }
+            window.location.reload();
         } catch (error) {
             console.error(error);
         }

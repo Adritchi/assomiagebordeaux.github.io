@@ -15,7 +15,6 @@ const isIPBanned = (ip) => {
     return false;
 };
 
-// Ajouter cette route dans app.js
 router.get('/checkIPBanned', (req, res) => {
     const ip = req.ip;
     if (isIPBanned(ip)) {
