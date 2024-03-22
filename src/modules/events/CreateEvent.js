@@ -12,6 +12,7 @@ const CreerEvenement = () => {
         lien: '',
     });
     const [error, setError] = useState(false); // State pour gérer les erreurs de sélection d'image
+    const [errorDate, setErrorDate] = useState(false); // State pour gérer les erreurs de sélection d'image
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -28,6 +29,11 @@ const CreerEvenement = () => {
             if (nouvelEvenement.titre.trim() === '' || nouvelEvenement.lieu.trim() === '' || nouvelEvenement.date_debut.trim() === '' || nouvelEvenement.description.trim() === '' || nouvelEvenement.image.trim() === ''|| nouvelEvenement.lien.trim() === '') {
                 setError(true);
                 return; // Sortir de la fonction s'il y a des champs vides
+            }
+            if (nouvelEvenement.date_fin && nouvelEvenement.date_fin < nouvelEvenement.date_debut) {
+                setErrorDate(true);
+                console.error('La date de fin ne peut pas être antérieure à la date de début');
+                return;
             }
 
             // Si tous les champs requis sont remplis, continuez avec la logique de création de l'événement
@@ -53,6 +59,7 @@ const CreerEvenement = () => {
                     lien: '',
                 });
                 setError(false); // Réinitialise l'état de l'erreur d'image
+                setErrorDate(false); // Réinitialise l'état de l'erreur d'image lors de la sélection
                 window.location.reload();
             } else {
                 // Gère l'échec de la création
@@ -75,6 +82,7 @@ const CreerEvenement = () => {
                         [e.target.name]: e.target.value
                     }));
                     setError(false); // Réinitialise l'état de l'erreur d'image lors de la sélection
+                    setErrorDate(false); // Réinitialise l'état de l'erreur d'image lors de la sélection
                 }}
             />
             {/* Affichage du message d'erreur pour la sélection d'image */}
@@ -91,6 +99,11 @@ const CreerEvenement = () => {
             {error && (
                 <div style={{ color: 'red' }}>
                         <p>"Veuillez remplir tous les champs"</p>
+                </div>
+            )}
+            {errorDate && (
+                <div style={{ color: 'red' }}>
+                        <p>"Veuillez entrez des dates valides"</p>
                 </div>
             )}
         </div>
