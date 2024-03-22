@@ -48,7 +48,7 @@ const ListEvent = ({ estAdmin, statut }) => {
                             lien={event.lien}
                             image={require(`../../assets/images/${event.image}`)}
                             estAdmin={estAdmin} 
-                            status={new Date() > new Date(event.date_fin) ? 'over' : ''}
+                            status={new Date() > new Date(event.date_fin) && event.date_fin !== '' ? 'over' : ''}
                         />
                     );
                 })}

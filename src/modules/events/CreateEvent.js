@@ -11,7 +11,7 @@ const CreerEvenement = () => {
         description: '',
         lien: '',
     });
-    const [imageError, setImageError] = useState(false); // State pour gérer les erreurs de sélection d'image
+    const [error, setError] = useState(false); // State pour gérer les erreurs de sélection d'image
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -23,38 +23,11 @@ const CreerEvenement = () => {
 
     const handleCreateEvent = async () => {
         try {
-            // Vérifie si tous les champs requis sont remplis
-            const errors = {};
-            if (nouvelEvenement.titre.trim() === '') {
-                errors.titre = 'Le champ titre ne peut pas être vide';
-            }
-            if (nouvelEvenement.lieu.trim() === '') {
-                errors.lieu = 'Le champ lieu ne peut pas être vide';
-            }
-            if (nouvelEvenement.date_debut.trim() === '') {
-                errors.date_debut = 'Le champ date de début ne peut pas être vide';
-            }
-            if (nouvelEvenement.date_fin.trim() === '') {
-                errors.date_fin = 'Le champ date de fin ne peut pas être vide';
-            }
-            if (nouvelEvenement.description.trim() === '') {
-                errors.description = 'Le champ description ne peut pas être vide';
-            }
-            if (nouvelEvenement.lien.trim() === '') {
-                errors.lien = 'Le champ lien ne peut pas être vide';
-            }
-            if (nouvelEvenement.image.trim() === '') {
-                setImageError(true); // Définit l'erreur si aucune image n'est sélectionnée
-                return; // Arrête le traitement si une image n'est pas sélectionnée
-            }
+            setError(false); // Réinitialiser error à false avant de vérifier les champs vides
 
-            if (Object.keys(errors).length > 0 || imageError) {
-                // Met à jour l'état avec les erreurs
-                setNouvelEvenement(prevState => ({
-                    ...prevState,
-                    ...errors
-                }));
-                return;
+            if (nouvelEvenement.titre.trim() === '' || nouvelEvenement.lieu.trim() === '' || nouvelEvenement.date_debut.trim() === '' || nouvelEvenement.description.trim() === '' || nouvelEvenement.image.trim() === ''|| nouvelEvenement.lien.trim() === '') {
+                setError(true);
+                return; // Sortir de la fonction s'il y a des champs vides
             }
 
             // Si tous les champs requis sont remplis, continuez avec la logique de création de l'événement
@@ -79,7 +52,7 @@ const CreerEvenement = () => {
                     description: '',
                     lien: '',
                 });
-                setImageError(false); // Réinitialise l'état de l'erreur d'image
+                setError(false); // Réinitialise l'état de l'erreur d'image
                 window.location.reload();
             } else {
                 // Gère l'échec de la création
@@ -101,15 +74,10 @@ const CreerEvenement = () => {
                         ...prevState,
                         [e.target.name]: e.target.value
                     }));
-                    setImageError(false); // Réinitialise l'état de l'erreur d'image lors de la sélection
+                    setError(false); // Réinitialise l'état de l'erreur d'image lors de la sélection
                 }}
             />
             {/* Affichage du message d'erreur pour la sélection d'image */}
-            {imageError && (
-                <div style={{ color: 'red' }}>
-                    Veuillez sélectionner une image
-                </div>
-            )}
             {/* Champs de saisie pour chaque information de la tuile */}
             <input type="text" name="titre" placeholder="Titre" value={nouvelEvenement.titre} onChange={handleInputChange} />
             <input type="text" name="lieu" placeholder="Lieu" value={nouvelEvenement.lieu} onChange={handleInputChange} />
@@ -120,8 +88,15 @@ const CreerEvenement = () => {
 
             {/* Bouton pour créer l'événement */}
             <button onClick={handleCreateEvent}>Créer l'événement</button>
+            {error && (
+                <div style={{ color: 'red' }}>
+                        <p>"Veuillez remplir tous les champs"</p>
+                </div>
+            )}
         </div>
     );
 };
 
 export default CreerEvenement;
+
+
