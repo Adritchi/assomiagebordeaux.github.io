@@ -8,6 +8,10 @@ const os = require('os');
 
 const app = express();
 
+// Augmentation de la taille d'envoie à 10mo
+app.use(express.json({ limit: '10mb' })); 
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
 // -------------- CONNECTION ----------------
 // Système d'exploitation
 let password;
@@ -138,7 +142,7 @@ app.post('/event', (req, res) => {
     const newEvent = [
         req.body.titre || '',
         req.body.description || '',
-        req.body.image || '',
+        req.body.image || null,
         req.body.lien || '',
         req.body.date_debut || '',
         req.body.date_fin || null,
