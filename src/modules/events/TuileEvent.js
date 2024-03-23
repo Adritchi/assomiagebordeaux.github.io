@@ -1,34 +1,39 @@
 import React, { useState } from 'react';
 import '../../assets/design/commun/tuileEvent.css';
 import EditEvent from './EditEvent';
-import DeleteEvent from './DeleteEvent'; 
+import DeleteEvent from './DeleteEvent';
 
 export function TuileEvent(props) {
+    
+    // Etat local pour suivre si l'utilisateur est en train d'éditer l'event
     const [isEditing, setIsEditing] = useState(false);
 
+    // Gestion du clic sur le bouton "Modifier"
     const handleEditClick = () => {
         setIsEditing(true);
     };
 
+    // Gestion du clic sur le bouton "Annuler"
     const handleCancelClick = () => {
         setIsEditing(false);
     };
 
+    // Gestion de la suppression de l'event
     const handleDelete = (eventId) => {
         props.handleDelete(eventId);
     };
 
     return (
         <div className="module-tuileEvent module-tuileEvent-margin">
+            {/* Affichage du bouton de modification et de suppression si l'utilisateur est admin */}
             {props.estAdmin && (
                 <div className="module-tuileEvent-edit-button">
                     <button onClick={handleEditClick}>Modifier</button>
-                    {/* Ajouter le bouton de suppression si l'utilisateur est un admin */}
                     <DeleteEvent event={props} onDelete={handleDelete} />
                 </div>
             )}
 
-            {/* Gestion des images */}
+            {/* Gestion de l'affichage de l'image */}
             {props.status === "over" ? (
                 <div className="module-tuileEvent-illustration module-tuileEvent-illustration-over">
                     <img src={props.image} alt={props.titre} />
@@ -41,6 +46,7 @@ export function TuileEvent(props) {
 
             {isEditing ? (
                 <>
+                    {/* Affichage du formulaire de modification */}
                     <EditEvent event={props} />
                     <div>
                         <button onClick={handleCancelClick}>Annuler</button>
@@ -61,6 +67,7 @@ export function TuileEvent(props) {
                         {props.description}
                     </div>
                     <div className="module-tuileEvent-info-buttons">
+                        {/* Affichage du bouton "En savoir plus" si l'event n'est pas terminé */}
                         {props.status === "over" ? (
                             <div></div>
                         ) : (
