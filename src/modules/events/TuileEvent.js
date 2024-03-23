@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../../assets/design/commun/tuileEvent.css';
 import EditEvent from './EditEvent';
-import DeleteEvent from './DeleteEvent'; // Importer le composant DeleteEvent
+import DeleteEvent from './DeleteEvent'; 
 
 export function TuileEvent(props) {
     const [isEditing, setIsEditing] = useState(false);
@@ -42,7 +42,7 @@ export function TuileEvent(props) {
             {isEditing ? (
                 <>
                     <EditEvent event={props} />
-                    <div className="module-tuileEvent-edit-buttons">
+                    <div>
                         <button onClick={handleCancelClick}>Annuler</button>
                     </div>
                 </>

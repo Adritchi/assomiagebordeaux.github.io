@@ -39,7 +39,6 @@ const ListEvent = ({ estAdmin, statut }) => {
                     const date = dateFin ? `${dateDebut} - ${dateFin}` : `${dateDebut} - En cours`;
                     return (
                         <TuileEvent
-                            key={event.ID}
                             ID={event.ID}
                             titre={event.titre}
                             lieu={event.lieu}

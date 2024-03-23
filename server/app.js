@@ -1,18 +1,24 @@
 const express = require('express');
 const path = require('path');
 const mysql = require('mysql');
-const cors = require('cors');
 const os = require('os');
-// const eventRoutes = require('./event'); // Importer les routes de event.js
 
+//! A utiliser plus tard au besoin
+// const eventRoutes = require('./event'); 
 
 const app = express();
+//! A utiliser plus tard au besoin (pas forcément placé au bon endroit)
+// app.use('/events', eventRoutes);
 
-// Augmentation de la taille d'envoie à 10mo
-app.use(express.json({ limit: '10mb' })); 
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+// -------------- PARAMETRAGE ----------------
+
+// Middleware pour les requêtes entrantes au format JSON
+app.use(express.json({ limit: '10mb' })); // C'est pas obligatoire mais je ne connais pas la limite de base
+// Middleware pour les données de formulaire URL encodées (extended:true pour autoriser les objets et les tableaux)
+app.use(express.urlencoded({ extended: true, limit: '10mb' })); // Si l'image envoyé à +10Mo ça envera une erreur
 
 // -------------- CONNECTION ----------------
+
 // Système d'exploitation
 let password;
 if (os.platform() === 'win32') {
@@ -25,31 +31,40 @@ if (os.platform() === 'win32') {
     process.exit(1);
 }
 
-app.use(express.json());
 // Initialisation : Connexion Base de données
-app.use(cors());
-const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: password, 
-    database: 'siteamb'
+app.use(express.json());
+app.use((req, res, next) => {
+    // Autorise l'accès depuis n'importe quelle origine
+    res.header('Access-Control-Allow-Origin', '*');
+    // Autorise les méthodes HTTP spécifiques
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    // Autorise les en-têtes spécifiques
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    // Passe à la prochaine étape du middleware
+    next();
 });
 
-// app.use('/events', eventRoutes);
+const connection = mysql.createConnection({
+    host: 'localhost', 
+    user: 'root',
+    password: password, // variable en fonction de l'OS utilisé
+    database: 'siteamb' // Le nom de la base de donnée
+}); 
 
 // Connexion Base de données
 const port = 3000;
 connection.connect((err) => {
     if (err) {
-            console.error('Erreur de connexion à la base de données : ' + err.stack);
-            return;
-        }
-        console.log('Connecté à la base de données avec l"identifiant ' + connection.threadId);
-    }); 
+        console.error('Erreur de connexion à la base de données : ' + err.stack);
+        return;
+    }
+    console.log('Connecté à la base de données avec l"identifiant ' + connection.threadId);
+});
 
 // -------------- ADMIN ----------------
-adminConnected = false; 
-ip= "";
+
+adminConnected = false;
+ip = "";
 const bannedIPs = {}; // Stocke les IPs bannies et le temps jusqu'à la fin du bannissement
 
 // Fonction pour vérifier si l'IP est bannie
@@ -59,6 +74,7 @@ const isIPBanned = (ip) => {
     }
     return false;
 };
+
 // Ajouter cette route dans app.js
 app.get('/checkIPBanned', (req, res) => {
     const ip = req.ip;
@@ -98,19 +114,19 @@ app.post('/login', (req, res) => {
     });
 });
 
-    app.get('/checkLoginStatus', (req, res) => {
-        if(req.ip === ip){
-            return res.json({ adminConnected: adminConnected }); // Renvoie l'état actuel de adminConnected
-        }else {
-            return res.json({ adminConnected: false });;
-        }
-    });
-    app.post('/logout', (req, res) => {
-        ip="";
-        console.log(ip);
-        adminConnected = false; // Réinitialise la variable adminConnected à false lors de la déconnexion
-        res.sendStatus(200); // Envoie une réponse indiquant que la déconnexion a réussi
-    });
+app.get('/checkLoginStatus', (req, res) => {
+    if (req.ip === ip) {
+        return res.json({ adminConnected: adminConnected }); // Renvoie l'état actuel de adminConnected
+    } else {
+        return res.json({ adminConnected: false });;
+    }
+});
+app.post('/logout', (req, res) => {
+    ip = "";
+    console.log(ip);
+    adminConnected = false; // Réinitialise la variable adminConnected à false lors de la déconnexion
+    res.sendStatus(200); // Envoie une réponse indiquant que la déconnexion a réussi
+});
 
 // -------------- EVENTS ----------------
 
@@ -118,15 +134,16 @@ app.post('/login', (req, res) => {
 app.delete('/event/:id', (req, res) => {
     const eventId = req.params.id; // Récupère l'ID de l'événement à supprimer
 
-    const query = 'DELETE FROM evenement WHERE ID = ?'; // Requête SQL
+    const query = 'DELETE FROM evenement WHERE ID = ?'; 
 
+    // Exécution de la requête SQL avec les données reçus
     connection.query(query, eventId, (error, results) => {
         if (error) {
             console.error(error);
             res.status(500).send('Erreur lors de la suppression de l\'événement');
         } else {
+            // Vérifie si des lignes ont été affectées
             if (results.affectedRows > 0) {
-                // Vérifie si des lignes ont été affectées
                 res.status(200).send('Événement supprimé avec succès');
             } else {
                 res.status(404).send('Événement non trouvé');
@@ -137,19 +154,23 @@ app.delete('/event/:id', (req, res) => {
 
 // Route pour la création d'un événement (requête POST)
 app.post('/event', (req, res) => {
+    // Affichage dans la console des données reçues
     console.log('Requête POST reçue pour la création d\'un événement:', req.body);
 
+    // Création d'un nouvel événement à partir des données de la requête
     const newEvent = [
-        req.body.titre || '',
-        req.body.description || '',
-        req.body.image || null,
-        req.body.lien || '',
-        req.body.date_debut || '',
-        req.body.date_fin || null,
-        req.body.lieu || ''
+        req.body.titre || '', // Titre (par défaut vide)
+        req.body.description || '', // Description (par défaut vide)
+        req.body.image || null, // Image (par défaut null)
+        req.body.lien || '', // Lien (par défaut vide)
+        req.body.date_debut || '', // Date de début (par défaut vide)
+        req.body.date_fin || null, // Date de fin (par défaut null)
+        req.body.lieu || '' // Lieu (par défaut vide)
     ];
 
     const query = 'INSERT INTO evenement (titre, description, image, lien, date_debut, date_fin, lieu) VALUES (?, ?, ?, ?, ?, ?, ?)';
+    
+    // Exécution de la requête SQL avec les données reçus
     connection.query(query, newEvent, (error, results) => {
         if (error) {
             console.error(error);
@@ -216,11 +237,19 @@ app.put('/event/:id', (req, res) => {
     });
 });
 
+
+// -------------- BUILD ----------------
+
+// Middleware les fichiers statiques du dossier de build
 app.use(express.static(path.join(__dirname, '../build')));
+
+// Gestion de la route par défaut
 app.get('*', (req, res) => {
+    // Envoie du fichier index.html pour toutes les autres routes
     res.sendFile(path.join(__dirname, '../build', 'index.html'));
 });
 
+// Démarrage du serveur
 app.listen(port, () => {
-    console.log(`Server is running at http://localhost:`+ port);
+    console.log(`Server is running at http://localhost:` + port);
 });
