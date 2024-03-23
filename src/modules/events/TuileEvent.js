@@ -10,6 +10,10 @@ export function TuileEvent(props) {
         setIsEditing(true);
     };
 
+    const handleCancelClick = () => {
+        setIsEditing(false);
+    };
+
     const handleDelete = (eventId) => {
         props.handleDelete(eventId);
     };
@@ -36,7 +40,12 @@ export function TuileEvent(props) {
             )}
 
             {isEditing ? (
-                <EditEvent event={props} />
+                <>
+                    <EditEvent event={props} />
+                    <div className="module-tuileEvent-edit-buttons">
+                        <button onClick={handleCancelClick}>Annuler</button>
+                    </div>
+                </>
             ) : (
                 <div className="module-tuileEvent-infos">
                     <div className="module-tuileEvent-info-titre">
