@@ -13,7 +13,7 @@ const app = express();
 // -------------- PARAMETRAGE ----------------
 
 // Middleware pour les requêtes entrantes au format JSON
-app.use(express.json({ limit: '10mb' })); // C'est pas obligatoire mais je ne connais pas la limite de base
+app.use(express.json({ limit: '10mb' })); // C'est pas obligatoire
 // Middleware pour les données de formulaire URL encodées (extended:true pour autoriser les objets et les tableaux)
 app.use(express.urlencoded({ extended: true, limit: '10mb' })); // Si l'image envoyé à +10Mo ça envera une erreur
 
@@ -233,6 +233,180 @@ app.put('/event/:id', (req, res) => {
             res.status(500).send('Erreur lors de la mise à jour de l\'événement');
         } else {
             res.status(200).send('Événement mis à jour avec succès');
+        }
+    });
+});
+
+
+// -------------- PRODUCT ----------------
+
+// Route pour supprimer un produit (requête DELETE)
+app.delete('/product/:id', (req, res) => {
+    const productId = req.params.id; // Récupère l'ID du produit à supprimer
+
+    const query = 'DELETE FROM produit WHERE ID = ?'; 
+
+    // Exécution de la requête SQL avec les données reçus
+    connection.query(query, productId, (error, results) => {
+        if (error) {
+            console.error(error);
+            res.status(500).send('Erreur lors de la suppression du produit');
+        } else {
+            // Vérifie si des lignes ont été affectées
+            if (results.affectedRows > 0) {
+                res.status(200).send('Produit supprimé avec succès');
+            } else {
+                res.status(404).send('Produit non trouvé');
+            }
+        }
+    });
+});
+
+// Route pour la création d'un produit (requête POST)
+app.post('/product', (req, res) => {
+    // Affichage dans la console des données reçues
+    console.log('Requête POST reçue pour la création d\'un produit :', req.body);
+
+    // Création d'un nouveau produit à partir des données de la requête
+    const newProduct = [
+        req.body.nom || '', // Nom (par défaut vide)
+        req.body.prix || '', // Prix (par défaut vide)
+        req.body.image || null, // Image (par défaut null)
+        req.body.lien || '', // Lien (par défaut vide)
+        req.body.est_dispo || '', // Disponibilité du produit (par défaut null)
+    ];
+
+    const query = 'INSERT INTO evenement (nom, prix, image, lien, est_dispo) VALUES (?, ?, ?, ?, ?)';
+    
+    // Exécution de la requête SQL avec les données reçus
+    connection.query(query, newProduct, (error, results) => {
+        if (error) {
+            console.error(error);
+            res.status(500).send('Erreur lors de la création du produit');
+        } else {
+            res.status(201).send('Produit créé avec succès');
+        }
+    });
+});
+
+// Route pour récupérer tous les produits (requête GET)
+app.get('/product', (req, res) => {
+    const query = `SELECT * FROM produit`;
+
+    connection.query(query, (error, results) => {
+        if (error) {
+            console.error(error);
+            res.status(500).send('Erreur lors de la récupération des produits');
+        } else {
+            res.status(200).json(results);
+        }
+    });
+});
+
+// Route pour la modification d'un produit (requête PUT)
+app.put('/product/:id', (req, res) => {
+    const productId = req.params.id;
+    const updatedProduct = req.body;
+
+    // Champs à mettre à jour
+    const { nom, prix, image, lien, est_dispo } = updatedProduct;
+
+    let query = 'UPDATE produit SET nom = ?, prix = ?, image = ?, lien = ?, est_dispo = ? WHERE ID = ?';
+    let queryParams = [nom, prix, image, lien, est_dispo, eventId];
+
+    connection.query(query, queryParams, (error, results) => {
+        if (error) {
+            console.error(error);
+            res.status(500).send('Erreur lors de la mise à jour du produit');
+        } else {
+            res.status(200).send('Produit mis à jour avec succès');
+        }
+    });
+});
+
+// -------------- MEMORY ----------------
+
+// Route pour supprimer un souvenir (requête DELETE)
+app.delete('/memory/:id', (req, res) => {
+    const memoryId = req.params.id; // Récupère l'ID du souvenir à supprimer
+
+    const query = 'DELETE FROM memory WHERE ID = ?'; 
+
+    // Exécution de la requête SQL avec les données reçus
+    connection.query(query, memoryId, (error, results) => {
+        if (error) {
+            console.error(error);
+            res.status(500).send('Erreur lors de la suppression du souvenir');
+        } else {
+            // Vérifie si des lignes ont été affectées
+            if (results.affectedRows > 0) {
+                res.status(200).send('Souvenir supprimé avec succès');
+            } else {
+                res.status(404).send('Souvenir non trouvé');
+            }
+        }
+    });
+});
+
+// Route pour la création d'un souvenir (requête POST)
+app.post('/memory', (req, res) => {
+    // Affichage dans la console des données reçues
+    console.log('Requête POST reçue pour la création d\'un souvenir :', req.body);
+
+    // Création d'un nouveau souvenir à partir des données de la requête
+    const newMemory = [
+        req.body.titre || '', // Nom (par défaut vide)
+        req.body.description || '', // Prix (par défaut vide)
+        req.body.image || null, // Image (par défaut null)
+        req.body.lien || '', // Lien (par défaut vide)
+        req.body.date_debut || '', // Date de début (par défaut vide)
+        req.body.date_fin || '', // Date de fin (par défaut vide)
+    ];
+
+    const query = 'INSERT INTO memory (titre, description, image, lien, date_debut, date_fin) VALUES (?, ?, ?, ?, ?,?)';
+    
+    // Exécution de la requête SQL avec les données reçus
+    connection.query(query, newMemory, (error, results) => {
+        if (error) {
+            console.error(error);
+            res.status(500).send('Erreur lors de la création du souvenir');
+        } else {
+            res.status(201).send('Souvenir créé avec succès');
+        }
+    });
+});
+
+// Route pour récupérer tous les événements (requête GET)
+app.get('/memory', (req, res) => {
+    const query = `SELECT * FROM memory`;
+
+    connection.query(query, (error, results) => {
+        if (error) {
+            console.error(error);
+            res.status(500).send('Erreur lors de la récupération des souvenirs');
+        } else {
+            res.status(200).json(results);
+        }
+    });
+});
+
+// Route pour la modification d'un souvenir (requête PUT)
+app.put('/memory/:id', (req, res) => {
+    const memoryId = req.params.id;
+    const updatedMemory = req.body;
+
+    // Champs à mettre à jour
+    const { titre, description, image, lien, date_debut, date_fin } = updatedMemory;
+
+    let query = 'UPDATE memory SET titre = ?, description = ?, image = ?, lien = ?, date_debut = ?,  date_fin = ? WHERE ID = ?';
+    let queryParams = [titre, description, image, lien, date_debut, date_fin, memoryId];
+
+    connection.query(query, queryParams, (error, results) => {
+        if (error) {
+            console.error(error);
+            res.status(500).send('Erreur lors de la mise à jour du souvenir');
+        } else {
+            res.status(200).send('Souvenir mis à jour avec succès');
         }
     });
 });
