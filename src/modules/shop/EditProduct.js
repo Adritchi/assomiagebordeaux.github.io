@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 const EditProduct = ({ product }) => {
     const [updatedProduct, setUpdatedProduct] = useState(product);
     const [error, setError] = useState(false);
-    const [image, setImage] = useState();
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -23,13 +22,12 @@ const EditProduct = ({ product }) => {
             }));
         };
         reader.readAsDataURL(imageFile);
-        setImage(imageFile);
     };
 
     const handleEditSubmit = async () => {
         try {
             setError(false);
-            if (!image || updatedProduct.nom === '' || updatedProduct.lien === '' || updatedProduct.prix === '' || updatedEvent.estDispo === '') {
+            if (updatedProduct.nom === '' || updatedProduct.lien === '' || updatedProduct.prix === '' || updatedEvent.estDispo === '') {
                 setError(true);
                 return;
             }

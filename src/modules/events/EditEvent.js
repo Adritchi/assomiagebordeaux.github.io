@@ -4,7 +4,6 @@ const EditEvent = ({ event }) => {
     const [updatedEvent, setUpdatedEvent] = useState(event);
     const [error, setError] = useState(false);
     const [errorDate, setErrorDate] = useState(false);
-    const [image, setImage] = useState();
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -24,13 +23,12 @@ const EditEvent = ({ event }) => {
             }));
         };
         reader.readAsDataURL(imageFile);
-        setImage(imageFile);
     };
 
     const handleEditSubmit = async () => {
         try {
             setError(false);
-            if (!image || updatedEvent.titre === '' || updatedEvent.lieu === '' || updatedEvent.date_debut === '' || updatedEvent.description === '' || updatedEvent.lien === '') {
+            if (updatedEvent.titre === '' || updatedEvent.lieu === '' || updatedEvent.date_debut === '1970-01-01' || updatedEvent.description === '' || updatedEvent.lien === '') {
                 setError(true);
                 return;
             }

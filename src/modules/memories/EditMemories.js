@@ -4,7 +4,6 @@ const EditMemories = ({ memory }) => {
     const [updatedMemory, setUpdatedMemory] = useState(memory);
     const [error, setError] = useState(false);
     const [errorDate, setErrorDate] = useState(false);
-    const [image, setImage] = useState();
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -24,13 +23,12 @@ const EditMemories = ({ memory }) => {
             }));
         };
         reader.readAsDataURL(imageFile);
-        setImage(imageFile);
     };
 
     const handleEditSubmit = async () => {
         try {
             setError(false);
-            if (!image || updatedMemory.titre === '' || updatedMemory.date_debut === '' || updatedMemory.description === '' || updatedMemory.lien === '') {
+            if (updatedMemory.titre === '' || updatedMemory.date_debut === '' || updatedMemory.description === '' || updatedMemory.lien === '') {
                 setError(true);
                 return;
             }
