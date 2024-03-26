@@ -45,12 +45,12 @@ const CreateProduct = () => {
 
 
     // Gestion de la création d'event
-    const handleCreateEvent = async () => {
+    const handleCreateProduct = async () => {
         try {
             setError(false); // Réinitialisation des erreurs
 
             // Vérification de la saisie des champs obligatoires
-            if (!newProduct.image || newProduct.nom.trim() === '' || newProduct.lien.trim() === '' || newEvent.prix.trim() === '' || newEvent.estDispo.trim() === '') {
+            if (!newProduct.image || newProduct.nom.trim() === '' || newProduct.lien.trim() === '' || newProduct.prix.trim() === '' || newProduct.estDispo.trim() === '') {
                 setError(true);
                 return;
             }
@@ -94,7 +94,7 @@ const CreateProduct = () => {
             <input type="date" name="prix" placeholder="Prix" value={newProduct.prix} onChange={handleInputChange} />
             <input type="checkbox" name="estDispo" checked={newProduct.estDispo} onChange={handleInputChange} />            
             <input type="text" name="lien" placeholder="Lien" value={newProduct.lien} onChange={handleInputChange} />
-            <button onClick={handleCreateEvent}>Créer l'événement</button>
+            <button onClick={handleCreateProduct}>Créer l'événement</button>
 
             {/* Affichage des erreurs */}
             {error && (
