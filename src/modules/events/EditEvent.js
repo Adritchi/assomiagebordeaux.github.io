@@ -4,6 +4,7 @@ const EditEvent = ({ event }) => {
     const [updatedEvent, setUpdatedEvent] = useState(event);
     const [error, setError] = useState(false);
     const [errorDate, setErrorDate] = useState(false);
+    const [image, setImage] = useState();
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -23,18 +24,18 @@ const EditEvent = ({ event }) => {
             }));
         };
         reader.readAsDataURL(imageFile);
+        setImage(imageFile);
     };
 
     const handleEditSubmit = async () => {
         try {
             setError(false);
-            if (updatedEvent.titre.trim() === '' || updatedEvent.lieu.trim() === '' || updatedEvent.date_debut.trim() === '' || updatedEvent.description.trim() === '' || updatedEvent.lien.trim() === '') {
+            if (!image || updatedEvent.titre === '' || updatedEvent.lieu === '' || updatedEvent.date_debut === '' || updatedEvent.description === '' || updatedEvent.lien === '') {
                 setError(true);
                 return;
             }
             if (updatedEvent.date_fin && updatedEvent.date_fin < updatedEvent.date_debut) {
                 setErrorDate(true);
-                console.error('La date de fin ne peut pas être antérieure à la date de début');
                 return;
             }
             const response = await fetch(`http://localhost:3000/event/${event.ID}`, {
