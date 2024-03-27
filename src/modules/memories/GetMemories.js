@@ -80,7 +80,7 @@ const ListMemories = ({ estAdmin }) => {
                                 const memorySchoolYear = `${schoolYearStart}/${schoolYearEnd}`;
                                 if (memorySchoolYear === schoolYear) {
                                     const daysDifference = moment().diff(startMoment, 'days');
-                                    const estNouveau = daysDifference <= 30;
+                                    const estNouveau = daysDifference <= 14;
                                     return (
                                         <TuileMemories
                                             key={memory.ID}
