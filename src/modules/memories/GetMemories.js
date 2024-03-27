@@ -59,7 +59,7 @@ const ListMemories = ({ estAdmin }) => {
         memories.forEach(memory => {
             const startMoment = moment(memory.date_debut);
             const schoolYearStart = startMoment.month() >= 8 ? startMoment.year() : startMoment.year() - 1;
-            const schoolYearEnd = startMoment.month() >= 8 ? startMoment.year() +1: startMoment.year();
+            const schoolYearEnd = startMoment.month() >= 8 ? startMoment.year() + 1 : startMoment.year();
             const schoolYear = `${schoolYearStart}/${schoolYearEnd}`;
             schoolYears.add(schoolYear);
         });
@@ -76,9 +76,11 @@ const ListMemories = ({ estAdmin }) => {
                             {memories.map(memory => {
                                 const startMoment = moment(memory.date_debut);
                                 const schoolYearStart = startMoment.month() >= 8 ? startMoment.year() : startMoment.year() - 1;
-                                const schoolYearEnd = startMoment.month() >= 8 ? startMoment.year() +1: startMoment.year();
+                                const schoolYearEnd = startMoment.month() >= 8 ? startMoment.year() + 1 : startMoment.year();
                                 const memorySchoolYear = `${schoolYearStart}/${schoolYearEnd}`;
                                 if (memorySchoolYear === schoolYear) {
+                                    const daysDifference = moment().diff(startMoment, 'days');
+                                    const estNouveau = daysDifference <= 30;
                                     return (
                                         <TuileMemories
                                             key={memory.ID}
@@ -88,6 +90,7 @@ const ListMemories = ({ estAdmin }) => {
                                             lien={memory.lien}
                                             image={memory.image}
                                             estAdmin={estAdmin}
+                                            estNouveau={estNouveau}
                                         />
                                     );
                                 }

@@ -1,156 +1,55 @@
-@media screen and (min-width: 600px) {
-
-    .module-tuileMemories {
-        width: 300px;
-        height: auto;
-    }
-
-    .module-tuileMemories-image {
-        width: 300px;
-        height: 160px;
-    }
-
-    .module-tuileMemories-image:hover {
-        width: 300px;
-        height: 160px;
-    }
-
-    .module-tuileMemories-nouveau {
-        background-color: #E85D00;
-        color: white;
-        font-family: var(--page-title-font-family);
-        font-size: 0.9rem;
-        padding: 4px 10px 2px 10px;
-        width: fit-content;
-    }
-
-    .module-tuileMemories-titre {
-        display: flex; /* A modifer plus tard  */
-        /* flex-direction: row; */
-        justify-content: space-between;
-        margin-top: 10px;
-        font-family: var(--page-title-font-family);
-    }
-
-    .module-tuileMemories-dateMemories {
-        /* Rajoutez le CSS pour la date*/
-    }
-
-    .module-tuilesMemories-description {
-        margin-top: 8px;
-        font-family: var(--page-subtitle-font-family);
-        font-size: 0.8rem;
-        color: #999999;
-    }
-
-    .module-tuilesMemories-dateDispo {
-        margin-top: 8px;
-        font-family: var(--page-subtitle-font-family);
-        font-size: 0.8rem;
-        font-weight: bold;
-        color: #999999;
-    }
-
+.module-tuileMemories {
+    margin-left: 0px;
+    position: relative;
+    width: 100%;
+    max-width: 300px; /* Limite la largeur à 300px */
+    height: auto;
 }
 
-@media screen and (min-width: 341px) and (max-width: 599px) {
-
-    .module-tuileMemories {
-        width: 300px;
-        height: auto;
-    }
-
-    .module-tuileMemories-image {
-        width: 300px;
-        height: 160px;
-    }
-
-    .module-tuileMemories-image:hover {
-        width: 300px;
-        height: 160px;
-    }
-
-    .module-tuileMemories-nouveau {
-        background-color: #E85D00;
-        color: white;
-        font-family: var(--page-title-font-family);
-        font-size: 0.9rem;
-        padding: 4px 10px 2px 10px;
-        width: fit-content;
-    }
-
-    .module-tuileMemories-titres {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        margin-top: 10px;
-        font-family: var(--page-title-font-family);
-    }
-
-    .module-tuilesMemories-description {
-        margin-top: 8px;
-        font-family: var(--page-subtitle-font-family);
-        font-size: 0.8rem;
-        color: #999999;
-    }
-
-    .module-tuilesMemories-dateDispo {
-        margin-top: 8px;
-        font-family: var(--page-subtitle-font-family);
-        font-size: 0.8rem;
-        font-weight: bold;
-        color: #999999;
-    }
-
+.module-tuileMemories-image {
+    width: 100%;
+    height: 160px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
 }
 
-@media screen and (max-width: 340px) {
+.module-tuileMemories-image:hover {
+    width: 100%;
+    height: 160px;
+}
 
-    .module-tuileMemories {
-        width: 100%;
-        height: auto;
-    }
+.module-tuileMemories-nouveau {
+    background-color: #E85D00;
+    color: white;
+    font-family: var(--page-title-font-family);
+    font-size: 0.9rem;
+    padding: 4px 10px 2px 10px;
+    width: fit-content;
+}
 
-    .module-tuileMemories-image {
-        width: 100%;
-        height: 160px;
-    }
+.module-tuileMemories-titres {
+    margin-top: 10px;
+    font-family: var(--page-title-font-family);
+    display: flex;
+    justify-content: space-between; /* Espacement égal entre les éléments */
+}
 
-    .module-tuileMemories-image:hover {
-        width: 100%;
-        height: 160px;
-    }
+.module-tuileMemories-titre {
+    margin-right: 10px; /* Espacement entre le titre et la date */
+}
 
-    .module-tuileMemories-nouveau {
-        background-color: #E85D00;
-        color: white;
-        font-family: var(--page-title-font-family);
-        font-size: 0.9rem;
-        padding: 4px 10px 2px 10px;
-        width: fit-content;
-    }
+.module-tuileMemories-date {
+    font-family: var(--page-title-font-family); /* Optionnel : appliquez le style de la police */
+    text-align: right; /* Alignement du texte à droite */
+    white-space: nowrap; /* Empêche le retour à la ligne */
+    overflow: hidden; /* Cache le texte débordant */
+    text-overflow: ellipsis; /* Affiche "..." si le texte dépasse */
+}
 
-    .module-tuileMemories-titres {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        margin-top: 10px;
-        font-family: var(--page-title-font-family);
-    }
-
-    .module-tuilesMemories-description {
-        margin-top: 8px;
-        font-family: var(--page-subtitle-font-family);
-        font-size: 0.8rem;
-        color: #999999;
-    }
-
-    .module-tuilesMemories-dateMemories {
-        margin-top: 8px;
-        font-family: var(--page-subtitle-font-family);
-        font-size: 0.8rem;
-        font-weight: bold;
-        color: #999999;
-    }
-
+.module-tuilesMemories-description {
+    margin-top: 8px;
+    font-family: var(--page-subtitle-font-family);
+    font-size: 0.8rem;
+    color: #999999;
 }
