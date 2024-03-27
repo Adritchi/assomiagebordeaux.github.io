@@ -78,7 +78,7 @@ const CreateMemories = () => {
                 console.log('Événement créé avec succès');
                 // Réinitialisation des champs après la création réussie
                 setNewMemory({
-                    image: null,
+                    image: '',
                     titre: '',
                     date_debut: '',
                     date_fin: '',
@@ -107,7 +107,7 @@ const CreateMemories = () => {
             <input type="date" name="date_fin" placeholder="Date fin (Ex: 2022-12-15)" value={newMemory.date_fin} onChange={handleInputChange} />
             <input type="text" name="description" placeholder="Description" value={newMemory.description} onChange={handleInputChange} />
             <input type="text" name="lien" placeholder="Lien" value={newMemory.lien} onChange={handleInputChange} />
-            <button onClick={handleCreateMemory}>Créer l'événement</button>
+            <button onClick={handleCreateMemory}>Créer le souvenir</button>
 
             {/* Affichage des erreurs */}
             {error && (
