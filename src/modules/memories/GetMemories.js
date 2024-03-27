@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import TuileMemories from './TuileMemories';
-
-function formatDate(dateString) {
-    const options = { day: '2-digit', month: 'long', year: 'numeric' };
-    const date = new Date(dateString);
-    return date.toLocaleDateString('fr-FR', options);
-}
+import moment from 'moment';
 
 const ListMemories = ({ estAdmin }) => {
     const [memories, setMemories] = useState([]);
@@ -29,18 +24,43 @@ const ListMemories = ({ estAdmin }) => {
         fetchMemories();
     }, [estAdmin]); // Ecoute les changements de estAdmin
 
+    const formatDateRange = (startDate, endDate) => {
+        if (!startDate) {
+            return null;
+        }
+
+        const startMoment = moment(startDate);
+        const endMoment = moment(endDate);
+
+        const formattedStartDay = startMoment.format('D');
+        const formattedEndDay = endMoment.format('D');
+        const formattedStartMonth = startMoment.format('MMM');
+        const formattedEndMonth = endMoment.format('MMM');
+
+        if (startMoment.isSame(endMoment, 'month')) {
+            if(endDate==null){
+                return `${formattedStartDay} - en cours`;
+            }else{
+                return `${formattedStartDay} - ${formattedEndDay} ${formattedEndMonth}`;
+            }
+        } else {
+            if(endDate==null){
+                return `${formattedStartDay} ${formattedStartMonth} - en cours`;
+            }else{
+                return `${formattedStartDay} ${formattedStartMonth} - ${formattedEndDay} ${formattedEndMonth}`;
+            }
+        }
+    };
+
     return (
         <div>
             <div className="liste-tuiles">
                 {memories.map(memory => {
-                    const dateDebut = formatDate(memory.date_debut);
-                    const dateFin = memory.date_fin !== '0000-00-00' && memory.date_fin !== null ? formatDate(memory.date_fin) : null;
-                    const date = dateFin ? `${dateDebut} - ${dateFin}` : `${dateDebut} - En cours`;
                     return (
                         <TuileMemories
-                            ID={memory.ID}
+                            key={memory.ID}
                             titre={memory.titre}
-                            date={date}
+                            date={formatDateRange(memory.date_debut, memory.date_fin)}
                             description={memory.description}
                             lien={memory.lien}
                             image={memory.image}
