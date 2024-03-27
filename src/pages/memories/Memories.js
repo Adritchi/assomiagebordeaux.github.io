@@ -63,22 +63,9 @@ class Memories extends Component {
                             )}
                             {this.state.showCreateEventForm && <CreateMemories />}
                         </div>
-                        <div className="page-memories-content-one-title">2022/2023</div>
-                            <section className="page-memories-content-tuiles">
+                    
                                 <ListMemories estAdmin={estAdmin}/>
-                            </section>
-                        <div class="page-memories-content-title">2021/2022</div>
-                        <section class="page-memories-content-tuiles">
-                        </section>
-
-                        <div class="page-memories-content-title">2019/2020</div>
-                        <section class="page-memories-content-tuiles">
-                        </section>
-
-                        <div class="page-memories-content-title">2018/2019</div>
-                        <section class="page-memories-content-tuiles">
-                        </section>
-
+                       
                     </div>
                     <div id="page-memories-conditions" class="page-memories-conditions">
                         Toutes les photos sont stockées sur Google Photos de manière sécurisée.

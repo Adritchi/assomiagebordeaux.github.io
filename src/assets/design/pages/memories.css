@@ -179,3 +179,23 @@
     }
 
 }
+
+.year-container {
+    margin-bottom: 20px;
+}
+
+.tuiles-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tuiles-container > * {
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+@media screen and (max-width: 600px) {
+    .tuiles-container > * {
+        margin-right: 0;
+    }
+}
