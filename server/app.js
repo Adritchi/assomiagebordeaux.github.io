@@ -184,7 +184,7 @@ app.post('/event', (req, res) => {
 // Route pour récupérer tous les événements (requête GET)
 app.get('/event', (req, res) => {
     const currentDate = new Date().toISOString().split('T')[0]; // Date actuelle au format YYYY-MM-DD
-    const query = `SELECT * FROM evenement WHERE (date_fin IS NULL OR date_fin >= '${currentDate}') ORDER BY date_debut ASC`;
+    const query = `SELECT * FROM evenement WHERE (date_fin IS NULL OR date_fin >= '${currentDate}') ORDER BY date_debut DESC`;
 
     connection.query(query, (error, results) => {
         if (error) {
@@ -198,7 +198,7 @@ app.get('/event', (req, res) => {
 
 app.get('/eventPasse', (req, res) => {
     const currentDate = new Date().toISOString().split('T')[0]; // Date actuelle au format YYYY-MM-DD
-    const query = `SELECT * FROM evenement WHERE date_fin < '${currentDate}' ORDER BY date_debut ASC`;
+    const query = `SELECT * FROM evenement WHERE date_fin < '${currentDate}' ORDER BY date_debut DESC`;
 
     connection.query(query, (error, results) => {
         if (error) {
@@ -360,7 +360,7 @@ app.post('/memory', (req, res) => {
         req.body.image || null, // Image (par défaut null)
         req.body.lien || '', // Lien (par défaut vide)
         req.body.date_debut || '', // Date de début (par défaut vide)
-        req.body.date_fin || '', // Date de fin (par défaut vide)
+        req.body.date_fin || null // Date de fin (par défaut vide)
     ];
 
     const query = 'INSERT INTO memory (titre, description, image, lien, date_debut, date_fin) VALUES (?, ?, ?, ?, ?,?)';
@@ -378,7 +378,7 @@ app.post('/memory', (req, res) => {
 
 // Route pour récupérer tous les événements (requête GET)
 app.get('/memory', (req, res) => {
-    const query = `SELECT * FROM memory`;
+    const query = `SELECT * FROM memory ORDER BY date_debut DESC`;
 
     connection.query(query, (error, results) => {
         if (error) {
