@@ -67,6 +67,15 @@ adminConnected = false;
 ip = "";
 const bannedIPs = {}; // Stocke les IPs bannies et le temps jusqu'à la fin du bannissement
 
+const isAdminLoggedIn = (req, res, next) => {
+    // Vérifier si l'administrateur est connecté
+    if (!adminConnected || req.ip !== ip) {
+        return res.status(403).json({ status: "error", message: "Accès refusé. Connectez-vous en tant qu'administrateur." });
+    }
+    // L'utilisateur est connecté en tant qu'administrateur
+    next();
+};
+
 // Fonction pour vérifier si l'IP est bannie
 const isIPBanned = (ip) => {
     if (bannedIPs[ip] && bannedIPs[ip] > Date.now()) {
@@ -131,7 +140,7 @@ app.post('/logout', (req, res) => {
 // -------------- EVENTS ----------------
 
 // Route pour supprimer un événement (requête DELETE)
-app.delete('/event/:id', (req, res) => {
+app.delete('/event/:id', isAdminLoggedIn,(req, res) => {
     const eventId = req.params.id; // Récupère l'ID de l'événement à supprimer
 
     const query = 'DELETE FROM evenement WHERE ID = ?'; 
@@ -153,7 +162,7 @@ app.delete('/event/:id', (req, res) => {
 });
 
 // Route pour la création d'un événement (requête POST)
-app.post('/event', (req, res) => {
+app.post('/event', isAdminLoggedIn,(req, res) => {
     // Affichage dans la console des données reçues
     console.log('Requête POST reçue pour la création d\'un événement:', req.body);
 
@@ -211,7 +220,7 @@ app.get('/eventPasse', (req, res) => {
 });
 
 // Route pour la modification d'un événement (requête PUT)
-app.put('/event/:id', (req, res) => {
+app.put('/event/:id', isAdminLoggedIn,(req, res) => {
     const eventId = req.params.id;
     const updatedEvent = req.body;
 
@@ -241,7 +250,7 @@ app.put('/event/:id', (req, res) => {
 // -------------- PRODUCT ----------------
 
 // Route pour supprimer un produit (requête DELETE)
-app.delete('/product/:id', (req, res) => {
+app.delete('/product/:id', isAdminLoggedIn,(req, res) => {
     const productId = req.params.id; // Récupère l'ID du produit à supprimer
 
     const query = 'DELETE FROM produit WHERE ID = ?'; 
@@ -263,7 +272,7 @@ app.delete('/product/:id', (req, res) => {
 });
 
 // Route pour la création d'un produit (requête POST)
-app.post('/product', (req, res) => {
+app.post('/product', isAdminLoggedIn,(req, res) => {
     // Affichage dans la console des données reçues
     console.log('Requête POST reçue pour la création d\'un produit :', req.body);
 
@@ -305,7 +314,7 @@ app.get('/product', (req, res) => {
 });
 
 // Route pour la modification d'un produit (requête PUT)
-app.put('/product/:id', (req, res) => {
+app.put('/product/:id', isAdminLoggedIn,(req, res) => {
     const productId = req.params.id;
     const updatedProduct = req.body;
 
@@ -328,7 +337,7 @@ app.put('/product/:id', (req, res) => {
 // -------------- MEMORY ----------------
 
 // Route pour supprimer un souvenir (requête DELETE)
-app.delete('/memory/:id', (req, res) => {
+app.delete('/memory/:id', isAdminLoggedIn,(req, res) => {
     const memoryId = req.params.id; // Récupère l'ID du souvenir à supprimer
 
     const query = 'DELETE FROM memory WHERE ID = ?'; 
@@ -350,7 +359,7 @@ app.delete('/memory/:id', (req, res) => {
 });
 
 // Route pour la création d'un souvenir (requête POST)
-app.post('/memory', (req, res) => {
+app.post('/memory', isAdminLoggedIn,(req, res) => {
     // Affichage dans la console des données reçues
     console.log('Requête POST reçue pour la création d\'un souvenir :', req.body);
 
@@ -392,7 +401,7 @@ app.get('/memory', (req, res) => {
 });
 
 // Route pour la modification d'un souvenir (requête PUT)
-app.put('/memory/:id', (req, res) => {
+app.put('/memory/:id',isAdminLoggedIn, (req, res) => {
     const memoryId = req.params.id;
     const updatedMemory = req.body;
 
