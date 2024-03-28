@@ -36,12 +36,20 @@ const EditMemories = ({ memory }) => {
                 setErrorDate(true);
                 return;
             }
+            // Convertir la date de début en UTC avant de l'enregistrer
+            const dateDebutUTC = new Date(updatedMemory.date_debut).toISOString().slice(0, 19).replace('T', ' ');
+            // Convertir la date de fin en UTC avant de l'enregistrer (si elle est présente)
+            const dateFinUTC = updatedMemory.date_fin ? new Date(updatedMemory.date_fin).toISOString().slice(0, 19).replace('T', ' ') : null;
             const response = await fetch(`http://localhost:3000/memory/${memory.ID}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(updatedMemory),
+                body: JSON.stringify({
+                    ...updatedMemory,
+                    date_debut: dateDebutUTC,
+                    date_fin: dateFinUTC,
+                }),
             });
 
             if (response.ok) {

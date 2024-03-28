@@ -13,7 +13,6 @@ const ListMemories = ({ estAdmin }) => {
                 if (response.ok) {
                     const data = await response.json();
                     setMemories(data);
-                    console.log('Contenu de la base de données :', data);
                 } else {
                     console.error('Erreur lors de la récupération des souvenirs');
                 }
@@ -30,8 +29,8 @@ const ListMemories = ({ estAdmin }) => {
             return null;
         }
 
-        const startMoment = moment.utc(startDate);
-        const endMoment = moment.utc(endDate);
+        const startMoment = moment(startDate);
+        const endMoment = moment(endDate);
 
         const formattedStartDay = startMoment.format('DD');
         const formattedEndDay = endMoment.format('DD');
@@ -83,7 +82,7 @@ const ListMemories = ({ estAdmin }) => {
                                     const estNouveau = daysDifference <= 14;
                                     return (
                                         <TuileMemories
-                                            key={memory.ID}
+                                            ID={memory.ID}
                                             titre={memory.titre}
                                             date={formatDateRange(memory.date_debut, memory.date_fin)}
                                             description={memory.description}

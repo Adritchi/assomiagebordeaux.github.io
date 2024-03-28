@@ -64,13 +64,21 @@ const CreateMemories = () => {
                 return;
             }
 
+            // Convertir la date de début en UTC avant de l'enregistrer
+            const dateDebutUTC = new Date(newMemory.date_debut).toISOString().slice(0, 19).replace('T', ' ');
+            // Convertir la date de fin en UTC avant de l'enregistrer (si elle est présente)
+            const dateFinUTC = newMemory.date_fin ? new Date(newMemory.date_fin).toISOString().slice(0, 19).replace('T', ' ') : null;
             // Envoi d'une requête POST
             const response = await fetch('http://localhost:3000/memory', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json', // Indique à la requête que c'est du JSON
                 },
-                body: JSON.stringify(newMemory), // Converti l'objet newEvent en JSON
+                body: JSON.stringify({
+                    ...newMemory,
+                    date_debut: dateDebutUTC,
+                    date_fin: dateFinUTC,
+                }), // Converti l'objet newEvent en JSON
             });
 
             // Vérification de la réponse de la requête
