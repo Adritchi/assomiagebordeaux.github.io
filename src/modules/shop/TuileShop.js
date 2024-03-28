@@ -62,10 +62,10 @@ export function TuileShop(props) {
                         :
                         <div></div>
                     }
-                    {props.etatProduit === "Indisponible"
+                    {props.etatProduit === 0
                         ?
                         <div class="module-tuileShop-infosProduit-etatProduit indisponible">
-                            {props.etatProduit}
+                            {"Indisponible"}
                         </div>
                         :
                         <div></div>
