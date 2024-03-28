@@ -2,9 +2,6 @@ import React, {Component} from 'react';
 
 import MemoriesIllustration from '../../assets/images/memories.jpg';
 
-// WEI 2022
-import WEI20222023_1 from '../../assets/images/memories/2022-2023-wei/WEI2022_1.png';
-
 import ListMemories from '../../modules/memories/GetMemories';
 import CreateMemories from '../../modules/memories/CreateMemories';
 
@@ -63,9 +60,7 @@ class Memories extends Component {
                             )}
                             {this.state.showCreateEventForm && <CreateMemories />}
                         </div>
-                    
-                                <ListMemories estAdmin={estAdmin}/>
-                       
+                        <ListMemories estAdmin={estAdmin}/>
                     </div>
                     <div id="page-memories-conditions" class="page-memories-conditions">
                         Toutes les photos sont stockées sur Google Photos de manière sécurisée.

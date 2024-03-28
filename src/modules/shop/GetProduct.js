@@ -30,12 +30,12 @@ const ListProduct = ({ estAdmin }) => {
                     return (
                         <TuileShop
                             ID={product.ID}
-                            nom={product.nom}
+                            imageProduit={product.image}
+                            nomProduit={product.nom}
                             prix={product.prix}
+                            etatProduit={product.estDispo}
                             lien={product.lien}
-                            image={product.image}
-                            estDispo={product.estDispo}
-                            estAdmin={estAdmin} 
+                            estAdmin={estAdmin}
                         />
                     );
                 })}

@@ -1,15 +1,35 @@
 import React, { useState } from 'react';
 
 const EditProduct = ({ product }) => {
-    const [updatedProduct, setUpdatedProduct] = useState(product);
+    const [updatedProduct, setUpdatedProduct] = useState({
+        ...product, // Utiliser les valeurs initiales du produit
+    });
     const [error, setError] = useState(false);
+
+    const handleCheckboxChange = () => {
+        setUpdatedProduct(prevState => ({
+            ...prevState,
+            etatProduit: !prevState.etatProduit // Inverse l'état actuel
+        }));
+    };         
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setUpdatedProduct(prevState => ({
-            ...prevState,
-            [name]: value
-        }));
+
+        // Vérification si le champ est "prix" et si la valeur est numérique ou float
+        if (name === 'prix' && (!isNaN(value) || (value === '' || /^\d*\.?\d*$/.test(value)))) {
+            // Met à jour l'état updatedProduct en utilisant la fonction de mise à jour avec l'ancien état
+            setUpdatedProduct(prevState => ({
+                ...prevState,
+                [name]: value // Met à jour la valeur du champ spécifié par son nom
+            }));
+        } else if (name !== 'prix') {
+            // Si le champ n'est pas "prix", met à jour l'état directement sans vérification
+            setUpdatedProduct(prevState => ({
+                ...prevState,
+                [name]: value
+            }));
+        }
     };
 
     const handleImageChange = (e) => {
@@ -18,7 +38,7 @@ const EditProduct = ({ product }) => {
         reader.onload = () => {
             setUpdatedProduct(prevState => ({
                 ...prevState,
-                image: reader.result // Mettre à jour l'image avec le contenu base64
+                imageProduit: reader.result // Mettre à jour l'image avec le contenu base64
             }));
         };
         reader.readAsDataURL(imageFile);
@@ -27,18 +47,19 @@ const EditProduct = ({ product }) => {
     const handleEditSubmit = async () => {
         try {
             setError(false);
-            if (updatedProduct.nom === '' || updatedProduct.lien === '' || updatedProduct.prix === '' || updatedEvent.estDispo === '') {
+            if (updatedProduct.nomProduit === '' || updatedProduct.lien === '' || updatedProduct.prix === '') {
                 setError(true);
                 return;
             }
+            
             const response = await fetch(`http://localhost:3000/product/${product.ID}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(updatedProduct),
+                body: JSON.stringify(updatedProduct), // Utilisation de la version modifiée de l'objet
             });
-
+    
             if (response.ok) {
                 console.log('Événement mis à jour avec succès');
                 setError(false);
@@ -50,13 +71,14 @@ const EditProduct = ({ product }) => {
             console.error(error);
         }
     };
+    
 
     return (
         <div>
             <input type="file" accept="image/*" onChange={handleImageChange} />
-            <input type="text" name="nom" value={updatedProduct.nom} onChange={handleInputChange} />
+            <input type="text" name="nomProduit" value={updatedProduct.nomProduit} onChange={handleInputChange} />
             <input type="text" name="prix" value={updatedProduct.prix} onChange={handleInputChange} />
-            <input type="checkbox" name="estDispo" checked={updatedProduct.estDispo} onChange={handleInputChange} />            
+            <input type="checkbox" name="etatProduit" checked={updatedProduct.etatProduit} onChange={handleCheckboxChange} />            
             <input type="text" name="lien" value={updatedProduct.lien} onChange={handleInputChange} />
             <button onClick={handleEditSubmit}>Enregistrer les modifications</button>
             

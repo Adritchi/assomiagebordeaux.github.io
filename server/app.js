@@ -269,14 +269,15 @@ app.post('/product', (req, res) => {
 
     // Création d'un nouveau produit à partir des données de la requête
     const newProduct = [
-        req.body.nom || '', // Nom (par défaut vide)
-        req.body.prix || '', // Prix (par défaut vide)
-        req.body.image || null, // Image (par défaut null)
-        req.body.lien || '', // Lien (par défaut vide)
-        req.body.est_dispo || '', // Disponibilité du produit (par défaut null)
+        req.body.nomProduit || '',
+        req.body.prix || '',
+        req.body.imageProduit || null,
+        req.body.lien || '',
+        req.body.etatProduit ? 1 : 0, // Convertir en 1 si vrai, sinon en 0
     ];
+    
 
-    const query = 'INSERT INTO evenement (nom, prix, image, lien, est_dispo) VALUES (?, ?, ?, ?, ?)';
+    const query = 'INSERT INTO produit (nom, prix, image, lien, estDispo) VALUES (?, ?, ?, ?, ?)';
     
     // Exécution de la requête SQL avec les données reçus
     connection.query(query, newProduct, (error, results) => {
@@ -309,10 +310,10 @@ app.put('/product/:id', (req, res) => {
     const updatedProduct = req.body;
 
     // Champs à mettre à jour
-    const { nom, prix, image, lien, est_dispo } = updatedProduct;
+    const { nomProduit, prix, imageProduit, lien, etatProduit } = updatedProduct;
 
-    let query = 'UPDATE produit SET nom = ?, prix = ?, image = ?, lien = ?, est_dispo = ? WHERE ID = ?';
-    let queryParams = [nom, prix, image, lien, est_dispo, eventId];
+    let query = 'UPDATE produit SET nom = ?, prix = ?, image = ?, lien = ?, estDispo = ? WHERE ID = ?';
+    let queryParams = [nomProduit, prix, imageProduit, lien, etatProduit, productId];
 
     connection.query(query, queryParams, (error, results) => {
         if (error) {
