@@ -104,10 +104,14 @@ const CreateProduct = () => {
     return (
         <div>
             <input type="file" accept="image/*" onChange={handleImageChange} />
+            <br></br>
+            <br></br>
             <input type="text" name="nomProduit" placeholder="Nom" value={newProduct.nomProduit} onChange={handleInputChange} />
             <input type="text" name="prix" placeholder="Prix" value={newProduct.prix} onChange={handleInputChange} />
             <input type="checkbox" name="etatProduit" checked={newProduct.etatProduit} onChange={handleCheckboxChange} />
             <input type="text" name="lien" placeholder="Lien" value={newProduct.lien} onChange={handleInputChange} />
+            <br></br>
+            <br></br>
             <button onClick={handleCreateProduct}>Créer le produit</button>
 
             {/* Affichage des erreurs */}

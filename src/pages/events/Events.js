@@ -9,6 +9,7 @@ import EventsIllustration from '../../assets/images/events.jpg';
 
 // Import du fichier de style CSS spécifique à la page events
 import '../../assets/design/pages/events.css';
+import '../../assets/design/commun/tuileEvent.css';
 
 // Définition de la classe du composant Events
 class Events extends Component {
@@ -60,11 +61,15 @@ class Events extends Component {
                     <div>
                         {/* Affiche le bouton "Créer un événement" si l'utilisateur est admin */}
                         {estAdmin && (
-                            <button onClick={this.toggleCreateEventForm}>Créer un événement</button>
+                            <button className="module-tuileEvent-info-buttons-button2" onClick={this.toggleCreateEventForm}>Ajouter un événement</button>
                         )}
+                    </div>
+                    <br></br>
+                    <div>
                         {/* Affiche le formulaire si showCreateEventForm est true */}
                         {this.state.showCreateEventForm && <CreateEvent />}
                     </div>
+                    <br></br>
                     {/* Liste des events à venir */}
                     <ListEvent estAdmin={estAdmin} statut={'avant'}/>
                     <div class="page-events-subtitle">Events passés</div>

@@ -1,5 +1,6 @@
 
 import React from 'react';
+import DELETE from '../../assets/icons/delete.svg';
 
 // Récupère l'objet event en tant que prop
 const DeleteEvent = ({ event }) => {
@@ -25,9 +26,7 @@ const DeleteEvent = ({ event }) => {
 
     // Rendu avec un bouton qui appelle la fonction handleDelete au clic
     return (
-        <div>
-            <button onClick={handleDelete}>Supprimer</button>
-        </div>
+        <button onClick={handleDelete} alt="Supprimer"><img src={DELETE}></img></button>
     );
 };
 

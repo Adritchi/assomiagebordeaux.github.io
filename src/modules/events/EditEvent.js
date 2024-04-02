@@ -60,12 +60,16 @@ const EditEvent = ({ event }) => {
     return (
         <div>
             <input type="file" accept="image/*" onChange={handleImageChange} />
+            <br></br>
+            <br></br>
             <input type="text" name="titre" value={updatedEvent.titre} onChange={handleInputChange} />
             <input type="text" name="lieu" value={updatedEvent.lieu} onChange={handleInputChange} />
             <input type="date" name="date_debut" value={updatedEvent.date_debut} onChange={handleInputChange} />
             <input type="date" name="date_fin" value={updatedEvent.date_fin} onChange={handleInputChange} />
             <input type="text" name="description" value={updatedEvent.description} onChange={handleInputChange} />
             <input type="text" name="lien" value={updatedEvent.lien} onChange={handleInputChange} />
+            <br></br>
+            <br></br>
             <button onClick={handleEditSubmit}>Enregistrer les modifications</button>
             
             {/* Rendu conditionnel du label d'erreur */}

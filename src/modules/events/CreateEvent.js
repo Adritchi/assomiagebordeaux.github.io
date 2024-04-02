@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../../assets/design/commun/tuileEvent.css';
 
 const CreateEvent = () => {
     // Etat local pour gérer les données du nouvel événement
@@ -104,13 +105,17 @@ const CreateEvent = () => {
     return (
         <div>
             <input type="file" accept="image/*" onChange={handleImageChange} />
+            <br></br>
+            <br></br>
             <input type="text" name="titre" placeholder="Titre" value={newEvent.titre} onChange={handleInputChange} />
             <input type="text" name="lieu" placeholder="Lieu" value={newEvent.lieu} onChange={handleInputChange} />
             <input type="date" name="date_debut" placeholder="Date début (Ex: 2022-12-12)" value={newEvent.date_debut} onChange={handleInputChange} />
             <input type="date" name="date_fin" placeholder="Date fin (Ex: 2022-12-15)" value={newEvent.date_fin} onChange={handleInputChange} />
             <input type="text" name="description" placeholder="Description" value={newEvent.description} onChange={handleInputChange} />
             <input type="text" name="lien" placeholder="Lien" value={newEvent.lien} onChange={handleInputChange} />
-            <button onClick={handleCreateEvent}>Créer l'événement</button>
+            <br></br>
+            <br></br>
+            <button onClick={handleCreateEvent}>Ajouter l'événement</button>
 
             {/* Affichage des erreurs */}
             {error && (

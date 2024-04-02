@@ -68,11 +68,15 @@ const EditMemories = ({ memory }) => {
     return (
         <div>
             <input type="file" accept="image/*" onChange={handleImageChange} />
+            <br></br>
+            <br></br>
             <input type="text" name="titre" value={updatedMemory.titre} onChange={handleInputChange} />
             <input type="date" name="date_debut" value={updatedMemory.date_debut} onChange={handleInputChange} />
             <input type="date" name="date_fin" value={updatedMemory.date_fin} onChange={handleInputChange} />
             <input type="text" name="description" value={updatedMemory.description} onChange={handleInputChange} />
             <input type="text" name="lien" value={updatedMemory.lien} onChange={handleInputChange} />
+            <br></br>
+            <br></br>
             <button onClick={handleEditSubmit}>Enregistrer les modifications</button>
             
             {/* Rendu conditionnel du label d'erreur */}

@@ -3,6 +3,10 @@ import '../../assets/design/commun/tuileEvent.css';
 import EditEvent from './EditEvent';
 import DeleteEvent from './DeleteEvent';
 
+// Import des icônes nécessaires
+import EDIT from '../../assets/icons/edit.svg';
+import CANCEL from '../../assets/icons/cancel.svg';
+
 export function TuileEvent(props) {
     
     // Etat local pour suivre si l'utilisateur est en train d'éditer l'event
@@ -25,14 +29,6 @@ export function TuileEvent(props) {
 
     return (
         <div className="module-tuileEvent module-tuileEvent-margin">
-            {/* Affichage du bouton de modification et de suppression si l'utilisateur est admin */}
-            {props.estAdmin && (
-                <div className="module-tuileEvent-edit-button">
-                    <button onClick={handleEditClick}>Modifier</button>
-                    <DeleteEvent event={props} onDelete={handleDelete} />
-                </div>
-            )}
-
             {/* Gestion de l'affichage de l'image */}
             {props.status === "over" ? (
                 <div className="module-tuileEvent-illustration module-tuileEvent-illustration-over">
@@ -48,9 +44,8 @@ export function TuileEvent(props) {
                 <>
                     {/* Affichage du formulaire de modification */}
                     <EditEvent event={props} />
-                    <div>
-                        <button onClick={handleCancelClick}>Annuler</button>
-                    </div>
+                    <br></br>
+                    <button onClick={handleCancelClick} alt="Annuler"><img src={CANCEL}></img></button>
                 </>
             ) : (
                 <div className="module-tuileEvent-infos">
@@ -71,10 +66,18 @@ export function TuileEvent(props) {
                         {props.status === "over" ? (
                             <div></div>
                         ) : (
-                            <div className="module-tuileEvent-info-buttons-button1">
+                            <div>
                                 <a href={props.lien} className="module-tuileEvent-info-buttons-button2">
                                     En savoir plus
                                 </a>
+                            </div>
+                        )}
+                        <br></br>
+                        {/* Affichage du bouton de modification et de suppression si l'utilisateur est admin */}
+                        {props.estAdmin && (
+                            <div>
+                                <button onClick={handleEditClick} alt="Modifier"><img src={EDIT}></img></button>
+                                <DeleteEvent event={props} onDelete={handleDelete} />
                             </div>
                         )}
                     </div>

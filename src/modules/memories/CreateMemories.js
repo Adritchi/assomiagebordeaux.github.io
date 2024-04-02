@@ -110,11 +110,15 @@ const CreateMemories = () => {
     return (
         <div>
             <input type="file" accept="image/*" onChange={handleImageChange} />
+            <br></br>
+            <br></br>
             <input type="text" name="titre" placeholder="Titre" value={newMemory.titre} onChange={handleInputChange} />
             <input type="date" name="date_debut" placeholder="Date début (Ex: 2022-12-12)" value={newMemory.date_debut} onChange={handleInputChange} />
             <input type="date" name="date_fin" placeholder="Date fin (Ex: 2022-12-15)" value={newMemory.date_fin} onChange={handleInputChange} />
             <input type="text" name="description" placeholder="Description" value={newMemory.description} onChange={handleInputChange} />
             <input type="text" name="lien" placeholder="Lien" value={newMemory.lien} onChange={handleInputChange} />
+            <br></br>
+            <br></br>
             <button onClick={handleCreateMemory}>Créer le souvenir</button>
 
             {/* Affichage des erreurs */}

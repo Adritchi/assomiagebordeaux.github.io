@@ -199,3 +199,33 @@
         margin-right: 0;
     }
 }
+
+.module-tuileMemories-info-buttons-button2{
+    background-color: var(--orange-AMB);
+    display: inline-block;
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+    padding: 15px 27px 15px 27px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    font-family: var(--button-font-family);
+}
+
+.module-tuileMemories-info-buttons-button2:hover{
+    background-color: var(--button-bleuAMB-backgroundcolor-hover);
+    color: white;
+    transition-duration: 0.2s;
+    cursor: pointer;
+}
+
+.module-tuileMemories-info-buttons {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+}
+
+.module-tuileMemories-info-buttons-margin {
+    padding-left: 30px;
+}

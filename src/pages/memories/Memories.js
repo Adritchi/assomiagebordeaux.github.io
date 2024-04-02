@@ -56,8 +56,10 @@ class Memories extends Component {
                     <div class="page-memories-content-margin">
                         <div>
                             {estAdmin && (
-                                <button onClick={this.toggleCreateMemoryForm}>Créer un souvenir</button>
+                                <button className="" onClick={this.toggleCreateMemoryForm}>Ajouter un souvenir</button>
                             )}
+                            <br></br>
+                            <br></br>
                             {this.state.showCreateEventForm && <CreateMemories />}
                         </div>
                         <ListMemories estAdmin={estAdmin}/>

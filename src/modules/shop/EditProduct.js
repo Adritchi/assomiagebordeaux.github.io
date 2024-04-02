@@ -76,10 +76,14 @@ const EditProduct = ({ product }) => {
     return (
         <div>
             <input type="file" accept="image/*" onChange={handleImageChange} />
+            <br></br>
+            <br></br>
             <input type="text" name="nomProduit" value={updatedProduct.nomProduit} onChange={handleInputChange} />
             <input type="text" name="prix" value={updatedProduct.prix} onChange={handleInputChange} />
             <input type="checkbox" name="etatProduit" checked={updatedProduct.etatProduit} onChange={handleCheckboxChange} />            
             <input type="text" name="lien" value={updatedProduct.lien} onChange={handleInputChange} />
+            <br></br>
+            <br></br>
             <button onClick={handleEditSubmit}>Enregistrer les modifications</button>
             
             {/* Rendu conditionnel du label d'erreur */}

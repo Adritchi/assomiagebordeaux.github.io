@@ -50,12 +50,17 @@ class Shop extends Component {
                         <div class="page-shop-illustration-infos-subtitle">La panoplie complète du bon miagiste</div>
                     </div>
                 </div>
+                <br></br>
                 <div class="page-shop-content">
-                    {estAdmin && (
-                        <button onClick={this.toggleCreateProductForm}>Créer un produit</button>
-                    )}
-                        {this.state.showCreateProductForm && <CreateProduct />}
-                    <div class="page-shop-articles">
+                    <div class="page-memories-content-margin">
+                        <div>
+                            {estAdmin && (
+                                <button onClick={this.toggleCreateProductForm}>Ajouter un produit</button>
+                            )}                        
+                            <br></br>
+                            <br></br>
+                            {this.state.showCreateProductForm && <CreateProduct />}
+                        </div>
                         <ListProduct estAdmin={estAdmin}/>
                     </div>
                     <div id="page-shop-conditions" class="page-shop-conditions">

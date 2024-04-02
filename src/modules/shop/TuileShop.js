@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import '../../assets/design/commun/tuileShop.css';
 import DeleteProduct from './DeleteProduct';
 import EditProduct from './EditProduct';
+import EDIT from '../../assets/icons/edit.svg';
+import CANCEL from '../../assets/icons/cancel.svg';
 
 export function TuileShop(props) {
 
@@ -27,25 +29,30 @@ export function TuileShop(props) {
             <div class="module-tuileShop">
                 {props.estAdmin && (
                     <div className="module-tuileProduct-edit-button">
-                        <button onClick={handleEditClick}>Modifier</button>
+                        <button onClick={handleEditClick} alt="Modifier"><img src={EDIT}></img></button>
                         <DeleteProduct product={props} onDelete={handleDelete} />
                     </div>
                 )}
+                
                 {isEditing && (
                     <>
                     {/* Affichage du formulaire de modification */}
+                    <br></br>
                     <EditProduct product={props} />
+                    <br></br>
                     <div>
-                        <button onClick={handleCancelClick}>Annuler</button>
+                        <button onClick={handleCancelClick} alt="Annuler"><img src={CANCEL}></img></button>
                     </div>
                     </>
                 )}
+
                 {/* <Link to={props.lien} style={{ textDecoration: 'none' }}> */}
                 <a href={props.lien} target="_blank" rel="noopener noreferrer nofollow"
                    style={{textDecoration: 'none'}}>
                     <div class="module-tuileShop-imageProduit">
                         <img src={props.imageProduit} alt={props.title}/>
                     </div>
+
                 {!isEditing && (
                 <div class="module-tuileShop-infosProduit">
                     <div class="module-tuileShop-infosProduit-nom">

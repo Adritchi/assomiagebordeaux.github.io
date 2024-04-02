@@ -59,6 +59,11 @@
         color: white;
     }
 
+    .page-shop-content-margin {
+        padding: 4% 8% 6% 8%;
+        color: white;
+    }
+
     .page-shop-conditions {
         padding: 0 8% 1% 8%;
         color: rgb(182, 182, 182);
@@ -80,6 +85,12 @@
     .page-shop {
         min-height: calc(100vh - 206px);;
     }
+
+    .page-shop-content-margin {
+        padding: 35px 20px 50px 20px;
+        color: white;
+    }
+
 
     .page-shop-illustration {
         height: 25vh;
