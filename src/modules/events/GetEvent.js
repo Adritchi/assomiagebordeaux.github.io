@@ -7,17 +7,17 @@ function formatDate(dateString) {
     return date.toLocaleDateString('fr-FR', options);
 }
 
-const ListEvent = ({ estAdmin, statut }) => {
-    const [events, setEvents] = useState([]);
+const listeEvenement = ({ estAdmin, statut }) => {
+    const [evenements, setEvenements] = useState([]);
 
     useEffect(() => {
-        const fetchEvents = async () => {
-            const url = statut === 'passe' ? 'http://localhost:3000/eventPasse' : 'http://localhost:3000/event';
+        const recupererEvenements = async () => {
+            const url = statut === 'passe' ? 'http://localhost:3000/evenementPasse' : 'http://localhost:3000/evenement';
             try {
-                const response = await fetch(url);
-                if (response.ok) {
-                    const data = await response.json();
-                    setEvents(data);
+                const reponse = await fetch(url);
+                if (reponse.ok) {
+                    const data = await reponse.json();
+                    setEvenements(data);
                     console.log('Contenu de la base de données :', data);
                 } else {
                     console.error('Erreur lors de la récupération des événements');
@@ -27,13 +27,13 @@ const ListEvent = ({ estAdmin, statut }) => {
             }
         };
 
-        fetchEvents();
+        recupererEvenements();
     }, [estAdmin, statut]); // Ecoute les changements de estAdmin
 
     return (
         <div>
             <div className="liste-tuiles">
-                {events.map(event => {
+                {evenements.map(event => {
                     const dateDebut = formatDate(event.date_debut);
                     const dateFin = event.date_fin !== '0000-00-00' && event.date_fin !== null ? formatDate(event.date_fin) : null;
                     const date = dateFin ? `${dateDebut} - ${dateFin}` : `${dateDebut} - En cours`;
@@ -55,4 +55,4 @@ const ListEvent = ({ estAdmin, statut }) => {
     );
 };
 
-export default ListEvent;
+export default listeEvenement;

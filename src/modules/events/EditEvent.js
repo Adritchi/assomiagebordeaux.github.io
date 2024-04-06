@@ -1,53 +1,53 @@
 import React, { useState } from 'react';
 
-const EditEvent = ({ event }) => {
-    const [updatedEvent, setUpdatedEvent] = useState(event);
-    const [error, setError] = useState(false);
-    const [errorDate, setErrorDate] = useState(false);
+const editerEvenement = ({ evenement }) => {
+    const [evenementMiseAJour, setEvenementMiseAJour] = useState(evenement);
+    const [erreur, setErreur] = useState(false);
+    const [erreurDate, setErreurDate] = useState(false);
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setUpdatedEvent(prevState => ({
+    const gererChangementEntree = (element) => {
+        const { name, value } = element.target;
+        setEvenementMiseAJour(prevState => ({
             ...prevState,
             [name]: value
         }));
     };
 
-    const handleImageChange = (e) => {
-        const imageFile = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = () => {
-            setUpdatedEvent(prevState => ({
+    const gererChangementImage = (element) => {
+        const fichierImage = element.target.files[0];
+        const lecteur = new FileReader();
+        lecteur.onload = () => {
+            setEvenementMiseAJour(prevState => ({
                 ...prevState,
-                image: reader.result // Mettre à jour l'image avec le contenu base64
+                image: lecteur.result // Mettre à jour l'image avec le contenu base64
             }));
         };
-        reader.readAsDataURL(imageFile);
+        lecteur.readAsDataURL(fichierImage);
     };
 
-    const handleEditSubmit = async () => {
+    const gererEnvoiEdition = async () => {
         try {
-            setError(false);
-            if (updatedEvent.titre === '' || updatedEvent.lieu === '' || updatedEvent.date_debut === '1970-01-01' || updatedEvent.description === '' || updatedEvent.lien === '') {
-                setError(true);
+            setErreur(false);
+            if (evenementMiseAJour.titre === '' || evenementMiseAJour.lieu === '' || evenementMiseAJour.date_debut === '1970-01-01' || evenementMiseAJour.description === '' || evenementMiseAJour.lien === '') {
+                setErreur(true);
                 return;
             }
-            if (updatedEvent.date_fin && updatedEvent.date_fin < updatedEvent.date_debut) {
-                setErrorDate(true);
+            if (evenementMiseAJour.date_fin && evenementMiseAJour.date_fin < evenementMiseAJour.date_debut) {
+                setErreurDate(true);
                 return;
             }
-            const response = await fetch(`http://localhost:3000/event/${event.ID}`, {
+            const reponse = await fetch(`http://localhost:3000/evenement/${evenement.ID}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(updatedEvent),
+                body: JSON.stringify(evenementMiseAJour),
             });
 
-            if (response.ok) {
+            if (reponse.ok) {
                 console.log('Événement mis à jour avec succès');
-                setErrorDate(false);
-                setError(false);
+                setErreurDate(false);
+                setErreur(false);
                 window.location.reload();
             } else {
                 console.error('Erreur lors de la mise à jour de l\'événement');
@@ -59,26 +59,26 @@ const EditEvent = ({ event }) => {
 
     return (
         <div>
-            <input type="file" accept="image/*" onChange={handleImageChange} />
+            <input type="file" accept="image/*" onChange={gererChangementImage} />
             <br></br>
             <br></br>
-            <input type="text" name="titre" value={updatedEvent.titre} onChange={handleInputChange} />
-            <input type="text" name="lieu" value={updatedEvent.lieu} onChange={handleInputChange} />
-            <input type="date" name="date_debut" value={updatedEvent.date_debut} onChange={handleInputChange} />
-            <input type="date" name="date_fin" value={updatedEvent.date_fin} onChange={handleInputChange} />
-            <input type="text" name="description" value={updatedEvent.description} onChange={handleInputChange} />
-            <input type="text" name="lien" value={updatedEvent.lien} onChange={handleInputChange} />
+            <input type="text" name="titre" value={evenementMiseAJour.titre} onChange={gererChangementEntree} />
+            <input type="text" name="lieu" value={evenementMiseAJour.lieu} onChange={gererChangementEntree} />
+            <input type="date" name="date_debut" value={evenementMiseAJour.date_debut} onChange={gererChangementEntree} />
+            <input type="date" name="date_fin" value={evenementMiseAJour.date_fin} onChange={gererChangementEntree} />
+            <input type="text" name="description" value={evenementMiseAJour.description} onChange={gererChangementEntree} />
+            <input type="text" name="lien" value={evenementMiseAJour.lien} onChange={gererChangementEntree} />
             <br></br>
             <br></br>
-            <button onClick={handleEditSubmit}>Enregistrer les modifications</button>
+            <button onClick={gererEnvoiEdition}>Enregistrer les modifications</button>
             
             {/* Rendu conditionnel du label d'erreur */}
-            {error && (
+            {erreur && (
                 <div style={{ color: 'red' }}>
                     <p>Veuillez remplir tous les champs</p>
                 </div>
             )}
-            {errorDate && (
+            {erreurDate && (
                 <div style={{ color: 'red' }}>
                     <p>Veuillez entrer des dates valides</p>
                 </div>
@@ -87,4 +87,4 @@ const EditEvent = ({ event }) => {
     );
 };
 
-export default EditEvent;
+export default editerEvenement;

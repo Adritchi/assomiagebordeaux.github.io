@@ -9,21 +9,21 @@ import CANCEL from '../../assets/icons/cancel.svg';
 
 export function TuileEvent(props) {
     
-    // Etat local pour suivre si l'utilisateur est en train d'éditer l'event
-    const [isEditing, setIsEditing] = useState(false);
+    // Etat local pour suivre si l'utilisateur est en train d'éditer l'evenement
+    const [estEnEdition, setEstEnEdition] = useState(false);
 
     // Gestion du clic sur le bouton "Modifier"
-    const handleEditClick = () => {
-        setIsEditing(true);
+    const gererCliqueEdition = () => {
+        setEstEnEdition(true);
     };
 
     // Gestion du clic sur le bouton "Annuler"
-    const handleCancelClick = () => {
-        setIsEditing(false);
+    const gererCliqueAnnuler = () => {
+        setEstEnEdition(false);
     };
 
     // Gestion de la suppression de l'event
-    const handleDelete = (eventId) => {
+    const gererSuppression = (eventId) => {
         props.handleDelete(eventId);
     };
 
@@ -40,12 +40,12 @@ export function TuileEvent(props) {
                 </div>
             )}
 
-            {isEditing ? (
+            {estEnEdition ? (
                 <>
                     {/* Affichage du formulaire de modification */}
                     <EditEvent event={props} />
                     <br></br>
-                    <button onClick={handleCancelClick} alt="Annuler"><img src={CANCEL}></img></button>
+                    <button onClick={gererCliqueAnnuler} alt="Annuler"><img src={CANCEL}></img></button>
                 </>
             ) : (
                 <div className="module-tuileEvent-infos">
@@ -76,8 +76,8 @@ export function TuileEvent(props) {
                         {/* Affichage du bouton de modification et de suppression si l'utilisateur est admin */}
                         {props.estAdmin && (
                             <div>
-                                <button onClick={handleEditClick} alt="Modifier"><img src={EDIT}></img></button>
-                                <DeleteEvent event={props} onDelete={handleDelete} />
+                                <button onClick={gererCliqueEdition} alt="Modifier"><img src={EDIT}></img></button>
+                                <DeleteEvent event={props} onDelete={gererSuppression} />
                             </div>
                         )}
                     </div>

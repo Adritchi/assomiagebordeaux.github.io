@@ -3,17 +3,17 @@ import React from 'react';
 import DELETE from '../../assets/icons/delete.svg';
 
 // Récupère l'objet event en tant que prop
-const DeleteEvent = ({ event }) => {
-    // Fonction handleDelete pour gérer la suppression de l'événement
-    const handleDelete = async () => {
+const supprimerEvenement = ({ evenement }) => {
+    // Fonction pour gérer la suppression de l'événement
+    const gererSuppression = async () => {
         try {
             // Envoi d'une requête DELETE à l'API
-            const response = await fetch(`http://localhost:3000/event/${event.ID}`, {
+            const reponse = await fetch(`http://localhost:3000/evenement/${evenement.ID}`, {
                 method: 'DELETE', // Utilisation de la méthode DELETE
             });
 
             // Vérification de la réponse de la requête
-            if (response.ok) {
+            if (reponse.ok) {
                 console.log('Événement supprimé avec succès');
                 window.location.reload(); // Recharge la page
             } else {
@@ -24,10 +24,10 @@ const DeleteEvent = ({ event }) => {
         }
     };
 
-    // Rendu avec un bouton qui appelle la fonction handleDelete au clic
+    // Rendu avec un bouton qui appelle la fonction gererSuppression au clic
     return (
-        <button onClick={handleDelete} alt="Supprimer"><img src={DELETE}></img></button>
+        <button onClick={gererSuppression} alt="Supprimer"><img src={DELETE}></img></button>
     );
 };
 
-export default DeleteEvent;
+export default supprimerEvenement;
