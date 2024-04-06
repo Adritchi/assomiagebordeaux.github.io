@@ -22,9 +22,9 @@ const CreerProduit = () => {
     };
 
     // Gestion de changement pour les champs de saisie
-    const gererChangementEntree = (evenement) => {
+    const gererChangementEntree = (element) => {
         // Extraie le nom et la valeur de l'élément déclencheur de l'event
-        const { nom, valeur } = evenement.target;
+        const { nom, valeur } = element.target;
 
         // Vérification si le champ est "prix" et si la valeur est numérique ou float
         if (nom === 'prix' && (!isNaN(valeur) || (valeur === '' || /^\d*\.?\d*$/.test(valeur)))) {
@@ -43,9 +43,9 @@ const CreerProduit = () => {
     };
 
     // Gestion de changement pour le champ image (fichier)
-    const gererChangementImage = (evenement) => {
+    const gererChangementImage = (element) => {
         // Récupère le fichier sélectionné
-        const fichier = evenement.target.files[0];
+        const fichier = element.target.files[0];
         const lecteur = new FileReader();
 
         // Configure le lecteur pour lire le fichier

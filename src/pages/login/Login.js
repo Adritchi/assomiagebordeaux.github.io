@@ -27,7 +27,7 @@ function Login() {
   }, []);
 
   useEffect(() => {
-    const verifierIPBanni  = async () => {
+    const verifierIPBannie = async () => {
       try {
         const res = await axios.get(`http://localhost:3000/verifierBannissementIp`);
         setEstBanni(res.data.banned);
@@ -35,11 +35,11 @@ function Login() {
       } catch (err) {
       }
     };
-    verifierIPBanni ();
+    verifierIPBannie ();
   }, []);
 
-  const soumettreFormulaire = async (evenement) => {
-    evenement.preventDefault();
+  const soumettreFormulaire = async (element) => {
+    element.preventDefault();
     if (estBanni) {
       setMessageErreur('Vous êtes banni. Réessayez plus tard.');
       return;
@@ -84,11 +84,11 @@ function Login() {
             <form onSubmit={soumettreFormulaire}>
               <div className={'login-page-inputContainer'}>
                 <label htmlFor="id">Identifiant</label>
-                <input className={'login-page-inputBox'} placeholder='Entrez votre identifiant' onChange={evenement => setIdentifiant(evenement.target.value)} />
+                <input className={'login-page-inputBox'} placeholder='Entrez votre identifiant' onChange={element => setIdentifiant(element.target.value)} />
               </div>
               <div className={'login-page-inputContainer'}>
                 <label htmlFor="password">Mot de passe</label>
-                <input type="password" className={'login-page-inputBox'} placeholder='Entrez votre mot de passe' onChange={evenement => setMotDePasse(evenement.target.value)} />
+                <input type="password" className={'login-page-inputBox'} placeholder='Entrez votre mot de passe' onChange={element => setMotDePasse(element.target.value)} />
               </div>
               {messageErreur && <p className="error-message">{messageErreur}</p>}
               <button className={'login-page-inputButton'} disabled={tentativesRestantes === 0 || estBanni}>Connexion</button>

@@ -13,8 +13,8 @@ const EditionProduit = ({ produit }) => {
         }));
     };         
 
-    const gererChangementEntree = (evenement) => {
-        const { nom, valeur } = evenement.target;
+    const gererChangementEntree = (element) => {
+        const { nom, valeur } = element.target;
 
         // Vérification si le champ est "prix" et si la valeur est numérique ou float
         if (nom === 'prix' && (!isNaN(valeur) || (valeur === '' || /^\d*\.?\d*$/.test(valeur)))) {
@@ -32,8 +32,8 @@ const EditionProduit = ({ produit }) => {
         }
     };
 
-    const gererChangementImage  = (evenement) => {
-        const fichierImage = evenement.target.files[0];
+    const gererChangementImage  = (element) => {
+        const fichierImage = element.target.files[0];
         const lecteur = new FileReader();
         lecteur.onload = () => {
             setProduitModifie(prevState => ({
