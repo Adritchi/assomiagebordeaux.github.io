@@ -6,6 +6,7 @@ import DeleteEvent from './DeleteEvent';
 // Import des icônes nécessaires
 import EDIT from '../../assets/icons/edit.svg';
 import CANCEL from '../../assets/icons/cancel.svg';
+import DELETE from '../../assets/icons/delete.svg';
 
 export function TuileEvent(props) {
     
@@ -29,54 +30,31 @@ export function TuileEvent(props) {
 
     return (
         <div className="module-tuileEvent module-tuileEvent-margin">
-            {/* Gestion de l'affichage de l'image */}
-            {props.status === "over" ? (
-                <div className="module-tuileEvent-illustration module-tuileEvent-illustration-over">
-                    <img src={props.image} alt={props.titre} />
-                </div>
-            ) : (
-                <div className="module-tuileEvent-illustration">
-                    <img src={props.image} alt={props.titre} />
-                </div>
-            )}
-
+            <div className="module-tuileEvent-illustration">
+                <img src={props.image} alt={props.titre} />
+            </div>
             {isEditing ? (
                 <>
-                    {/* Affichage du formulaire de modification */}
                     <EditEvent event={props} />
-                    <br></br>
-                    <button onClick={handleCancelClick} alt="Annuler"><img src={CANCEL}></img></button>
+                    <button onClick={handleCancelClick} className="btn btn-outline-secondary me-2" alt="Annuler">
+                        <img src={CANCEL} alt='Annuler' />
+                    </button>
                 </>
             ) : (
-                <div className="module-tuileEvent-infos">
-                    <div className="module-tuileEvent-info-titre">
-                        {props.titre}
+                <div className="module-tuileEvent-infos d-flex justify-content-between align-items-start">
+                    <div>
+                        <div className="module-tuileEvent-info-titre">{props.titre}</div>
+                        <div className="module-tuileEvent-info-lieu">{props.lieu}</div>
+                        <div className="module-tuileEvent-info-date">{props.date}</div>
+                        <div className="module-tuileEvent-info-description">{props.description}</div>
                     </div>
-                    <div className="module-tuileEvent-info-lieu">
-                        {props.lieu}
-                    </div>
-                    <div className="module-tuileEvent-info-date">
-                        {props.date}
-                    </div>
-                    <div className="module-tuileEvent-info-description">
-                        {props.description}
-                    </div>
-                    <div className="module-tuileEvent-info-buttons">
-                        {/* Affichage du bouton "En savoir plus" si l'event n'est pas terminé */}
-                        {props.status === "over" ? (
-                            <div></div>
-                        ) : (
-                            <div>
-                                <a href={props.lien} className="module-tuileEvent-info-buttons-button2">
-                                    En savoir plus
-                                </a>
-                            </div>
-                        )}
-                        <br></br>
-                        {/* Affichage du bouton de modification et de suppression si l'utilisateur est admin */}
+                    <div className="d-flex align-items-start">
+                        <a href={props.lien} className="module-tuileEvent-info-buttons-button2">En savoir plus</a>
                         {props.estAdmin && (
-                            <div>
-                                <button onClick={handleEditClick} alt="Modifier"><img src={EDIT}></img></button>
+                            <div className="module-tuileEvent-action-buttons">
+                                <button onClick={handleEditClick} className="btn btn-outline-primary" alt="Modifier">
+                                    <img src={EDIT} alt="Edit icon" />
+                                </button>
                                 <DeleteEvent event={props} onDelete={handleDelete} />
                             </div>
                         )}

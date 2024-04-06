@@ -44,8 +44,9 @@
 
     .module-navbar-row-menu {
         display: flex;
-        flex-direction: row;
         align-items: center;
+        justify-content: flex-start;
+        width: 100%;
     }
 
     .module-navbar-row-menu-lien a {
@@ -68,6 +69,34 @@
         text-decoration: underline;
     }
 
+    .module-navbar-account-actions {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+    }
+
+    .navbar-logout-button {
+        background-color: #ffffff;
+        color: #000000;
+        border: none; 
+        border-radius: 20px; 
+        padding: 10px 20px; 
+        font-size: 14px; 
+        cursor: pointer;
+        transition: all 0.3s ease; 
+        margin-left: auto;
+    }
+
+    .navbar-logout-button:hover {
+        background-color: #e0e0e0; 
+        color: #000000; 
+        margin-left: auto;
+    }
+
+    .connected-label {
+        margin-right: 1rem;
+        font-style: italic;
+    }
 }
 
 @media screen and (max-width: 499px) {

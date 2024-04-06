@@ -5,6 +5,13 @@
         flex-direction: row;
         align-items: center;
         margin-bottom: 3%;
+        justify-content: space-between; 
+    }
+
+    .module-tuileEvent-action-buttons {
+        display: flex;
+        justify-content: flex-end; 
+        gap: 400px;
     }
 
     .module-tuileEvent-illustration {
@@ -29,8 +36,9 @@
 
     .module-tuileEvent-infos {
         display: flex;
+        justify-content: space-between;
         flex-direction: column;
-        align-items: baseline;
+        width: 100%;
     }
 
     .module-tuileEvent-info-titre {

@@ -54,9 +54,11 @@ class Navbar extends Component {
 
     render() {
         const { adminConnected } = this.state;
-        const connectLabel = adminConnected ? "Connecté" : null;
+        const connectLabel = adminConnected ? (
+            <span className="connected-label">Connecté</span>
+        ) : null;
         const logoutButton = adminConnected ? (
-            <button onClick={this.handleLogout}>Déconnexion</button>
+            <button className="navbar-logout-button" onClick={this.handleLogout}>Déconnexion</button>
         ) : null;
 
         const data = {
@@ -87,7 +89,7 @@ class Navbar extends Component {
                         <div className="module-navbar-row-menu-lien module-navbar-row-menu-lien-margin-left">
                             <Link to={data.linkFourth}>{data.nameFourth}</Link>
                         </div>
-                        <div className="module-navbar-row-menu-lien module-navbar-row-menu-lien-margin-left">
+                        <div className="module-navbar-row-menu-lien module-navbar-account-actions">
                             {connectLabel}
                             {logoutButton}
                         </div>

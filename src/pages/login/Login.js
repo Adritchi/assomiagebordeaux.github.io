@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../../assets/design/pages/login.css';
 import { useHistory } from 'react-router-dom';
+import logo from '../../assets/images/LogoAMB.png';
+import '../../assets/design/commun/tuileEvent.css';
 
 function Login() {
   const [id, setId] = useState('');
@@ -80,6 +82,10 @@ function Login() {
         </section>
       ) : (
         <div className={'login-page-mainContainer'}>
+          <div className={'login-page-logoTitleContainer'}>
+            <img src={logo} alt="Logo de l'association" className={'login-page-logo'} />
+            <h2 className={'login-page-title'}>Administrateur</h2>
+          </div>
           <div className={'login-page-inputContainer'}>
             <form onSubmit={handleSubmit}>
               <div className={'login-page-inputContainer'}>
@@ -91,7 +97,9 @@ function Login() {
                 <input type="password" className={'login-page-inputBox'} placeholder='Entrez votre mot de passe' onChange={e => setPassword(e.target.value)} />
               </div>
               {errorMessage && <p className="error-message">{errorMessage}</p>}
-              <button className={'login-page-inputButton'} disabled={attemptsLeft === 0 || isBanned}>Login</button>
+              <div className={'module-login-info-buttons'}>
+                <button className={'module-login-info-buttons-button2 '} disabled={attemptsLeft === 0 || isBanned}>Connexion</button>
+              </div>
             </form>
           </div>
         </div>

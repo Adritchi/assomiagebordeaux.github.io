@@ -9,6 +9,8 @@ import ReactDOM from 'react-dom';
 import {Redirect} from 'react-router-dom';
 import {Route, BrowserRouter as Router, Switch} from 'react-router-dom';
 
+// Import Bootstrap CSS
+import 'bootstrap/dist/css/bootstrap.min.css';
 // Liste des feuilles css necessaires
 import './assets/design/root.css';
 
