@@ -135,7 +135,7 @@ app.post('/deconnexion', (requete, resultat) => {
 // -------------- EVENTS ----------------
 
 // Route pour supprimer un événement (requete DELETE)
-app.delete('/evenement/:id', estAdminConnecte,(requete, resultat) => {
+app.delete('/evenement/:id', estAdminConnecte,(requete, reponse) => {
     const identifiantEvenement = requete.params.id; // Récupère l'ID de l'événement à supprimer
 
     const query = 'DELETE FROM evenement WHERE ID = ?'; 
@@ -144,20 +144,20 @@ app.delete('/evenement/:id', estAdminConnecte,(requete, resultat) => {
     connexion.query(query, identifiantEvenement, (erreur, resultat) => {
         if (erreur) {
             console.error(erreur);
-            resultat.status(500).send('erreur lors de la suppression de l\'événement');
+            reponse.status(500).send('erreur lors de la suppression de l\'événement');
         } else {
             // Vérifie si des lignes ont été affectées
             if (resultat.affectedRows > 0) {
-                resultat.status(200).send('Événement supprimé avec succès');
+                reponse.status(200).send('Événement supprimé avec succès');
             } else {
-                resultat.status(404).send('Événement non trouvé');
+                reponse.status(404).send('Événement non trouvé');
             }
         }
     });
 });
 
 // Route pour la création d'un événement (requete POST)
-app.post('/evenement', estAdminConnecte,(requete, resultat) => {
+app.post('/evenement', estAdminConnecte,(requete, reponse) => {
     // Affichage dans la console des données reçues
     console.log('requete POST reçue pour la création d\'un événement:', requete.body);
 
@@ -178,44 +178,44 @@ app.post('/evenement', estAdminConnecte,(requete, resultat) => {
     connexion.query(query, nouveauEvenement, (erreur, resultat) => {
         if (erreur) {
             console.error(erreur);
-            resultat.status(500).send('erreur lors de la création de l\'événement');
+            reponse.status(500).send('erreur lors de la création de l\'événement');
         } else {
-            resultat.status(201).send('Événement créé avec succès');
+            reponse.status(201).send('Événement créé avec succès');
         }
     });
 });
 
 // Route pour récupérer tous les événements (requete GET)
-app.get('/evenement', (requete, resultat) => {
+app.get('/evenement', (requete, reponse) => {
     const dateActuelle = new Date().toISOString().split('T')[0]; // Date actuelle au format YYYY-MM-DD
     const query = `SELECT * FROM evenement WHERE (date_fin IS NULL OR date_fin >= '${dateActuelle}') ORDER BY date_debut DESC`;
 
     connexion.query(query, (erreur, resultat) => {
         if (erreur) {
             console.error(erreur);
-            resultat.status(500).send('erreur lors de la récupération des événements');
+            reponse.status(500).send('erreur lors de la récupération des événements');
         } else {
-            resultat.status(200).json(resultat);
+            reponse.status(200).json(resultat);
         }
     });
 });
 
-app.get('/evenementPasse', (requete, resultat) => {
+app.get('/evenementPasse', (requete, reponse) => {
     const dateActuelle = new Date().toISOString().split('T')[0]; // Date actuelle au format YYYY-MM-DD
     const query = `SELECT * FROM evenement WHERE date_fin < '${dateActuelle}' ORDER BY date_debut DESC`;
 
     connexion.query(query, (erreur, resultat) => {
         if (erreur) {
             console.error(erreur);
-            resultat.status(500).send('erreur lors de la récupération des événements');
+            reponse.status(500).send('erreur lors de la récupération des événements');
         } else {
-            resultat.status(200).json(resultat);
+            reponse.status(200).json(resultat);
         }
     });
 });
 
 // Route pour la modification d'un événement (requete PUT)
-app.put('/evenement/:id', estAdminConnecte,(requete, resultat) => {
+app.put('/evenement/:id', estAdminConnecte,(requete, reponse) => {
     const identifiantEvenement = requete.params.id;
     const evenementMiseAJour = requete.body;
 
@@ -234,9 +234,9 @@ app.put('/evenement/:id', estAdminConnecte,(requete, resultat) => {
     connexion.query(query, queryParams, (erreur, resultat) => {
         if (erreur) {
             console.error(erreur);
-            resultat.status(500).send('erreur lors de la mise à jour de l\'événement');
+            reponse.status(500).send('erreur lors de la mise à jour de l\'événement');
         } else {
-            resultat.status(200).send('Événement mis à jour avec succès');
+            reponse.status(200).send('Événement mis à jour avec succès');
         }
     });
 });
@@ -246,7 +246,7 @@ app.put('/evenement/:id', estAdminConnecte,(requete, resultat) => {
 // -------------- PRODUCT ----------------
 
 // Route pour supprimer un produit (requete DELETE)
-app.delete('/produit/:id', estAdminConnecte,(requete, resultat) => {
+app.delete('/produit/:id', estAdminConnecte,(requete, reponse) => {
     const identifiantProduit = requete.params.id; // Récupère l'ID du produit à supprimer
 
     const query = 'DELETE FROM produit WHERE ID = ?'; 
@@ -255,20 +255,20 @@ app.delete('/produit/:id', estAdminConnecte,(requete, resultat) => {
     connexion.query(query, identifiantProduit, (erreur, resultat) => {
         if (erreur) {
             console.error(erreur);
-            resultat.status(500).send('erreur lors de la suppression du produit');
+            reponse.status(500).send('erreur lors de la suppression du produit');
         } else {
             // Vérifie si des lignes ont été affectées
             if (resultat.affectedRows > 0) {
-                resultat.status(200).send('Produit supprimé avec succès');
+                reponse.status(200).send('Produit supprimé avec succès');
             } else {
-                resultat.status(404).send('Produit non trouvé');
+                reponse.status(404).send('Produit non trouvé');
             }
         }
     });
 });
 
 // Route pour la création d'un produit (requete POST)
-app.post('/produit', estAdminConnecte,(requete, resultat) => {
+app.post('/produit', estAdminConnecte,(requete, reponse) => {
     // Affichage dans la console des données reçues
     console.log('requete POST reçue pour la création d\'un produit :', requete.body);
 
@@ -287,29 +287,29 @@ app.post('/produit', estAdminConnecte,(requete, resultat) => {
     connexion.query(query, nouveauProduit, (erreur, resultat) => {
         if (erreur) {
             console.error(erreur);
-            resultat.status(500).send('erreur lors de la création du produit');
+            reponse.status(500).send('erreur lors de la création du produit');
         } else {
-            resultat.status(201).send('Produit créé avec succès');
+            reponse.status(201).send('Produit créé avec succès');
         }
     });
 });
 
 // Route pour récupérer tous les produits (requete GET)
-app.get('/produit', (requete, resultat) => {
+app.get('/produit', (requete, reponse) => {
     const query = `SELECT * FROM produit`;
 
     connexion.query(query, (erreur, resultat) => {
         if (erreur) {
             console.error(erreur);
-            resultat.status(500).send('erreur lors de la récupération des produits');
+            reponse.status(500).send('erreur lors de la récupération des produits');
         } else {
-            resultat.status(200).json(resultat);
+            reponse.status(200).json(resultat);
         }
     });
 });
 
 // Route pour la modification d'un produit (requete PUT)
-app.put('/produit/:id', estAdminConnecte,(requete, resultat) => {
+app.put('/produit/:id', estAdminConnecte,(requete, reponse) => {
     const identifiantProduit = requete.params.id;
     const produitMiseAJour = requete.body;
 
@@ -322,9 +322,9 @@ app.put('/produit/:id', estAdminConnecte,(requete, resultat) => {
     connexion.query(query, queryParams, (erreur, resultat) => {
         if (erreur) {
             console.error(erreur);
-            resultat.status(500).send('erreur lors de la mise à jour du produit');
+            reponse.status(500).send('erreur lors de la mise à jour du produit');
         } else {
-            resultat.status(200).send('Produit mis à jour avec succès');
+            reponse.status(200).send('Produit mis à jour avec succès');
         }
     });
 });
@@ -332,7 +332,7 @@ app.put('/produit/:id', estAdminConnecte,(requete, resultat) => {
 // -------------- MEMORY ----------------
 
 // Route pour supprimer un souvenir (requete DELETE)
-app.delete('/souvenir/:id', estAdminConnecte,(requete, resultat) => {
+app.delete('/souvenir/:id', estAdminConnecte,(requete, reponse) => {
     const identifiantSouvenir = requete.params.id; // Récupère l'ID du souvenir à supprimer
 
     const query = 'DELETE FROM memory WHERE ID = ?'; 
@@ -341,20 +341,20 @@ app.delete('/souvenir/:id', estAdminConnecte,(requete, resultat) => {
     connexion.query(query, identifiantSouvenir, (erreur, resultat) => {
         if (erreur) {
             console.error(erreur);
-            resultat.status(500).send('erreur lors de la suppression du souvenir');
+            reponse.status(500).send('erreur lors de la suppression du souvenir');
         } else {
             // Vérifie si des lignes ont été affectées
             if (resultat.affectedRows > 0) {
-                resultat.status(200).send('Souvenir supprimé avec succès');
+                reponse.status(200).send('Souvenir supprimé avec succès');
             } else {
-                resultat.status(404).send('Souvenir non trouvé');
+                reponse.status(404).send('Souvenir non trouvé');
             }
         }
     });
 });
 
 // Route pour la création d'un souvenir (requete POST)
-app.post('/souvenir', estAdminConnecte,(requete, resultat) => {
+app.post('/souvenir', estAdminConnecte,(requete, reponse) => {
     // Affichage dans la console des données reçues
     console.log('requete POST reçue pour la création d\'un souvenir :', requete.body);
 
@@ -374,29 +374,29 @@ app.post('/souvenir', estAdminConnecte,(requete, resultat) => {
     connexion.query(query, nouveauSouvenir, (erreur, resultat) => {
         if (erreur) {
             console.error(erreur);
-            resultat.status(500).send('erreur lors de la création du souvenir');
+            reponse.status(500).send('erreur lors de la création du souvenir');
         } else {
-            resultat.status(201).send('Souvenir créé avec succès');
+            reponse.status(201).send('Souvenir créé avec succès');
         }
     });
 });
 
 // Route pour récupérer tous les événements (requete GET)
-app.get('/souvenir', (requete, resultat) => {
+app.get('/souvenir', (requete, reponse) => {
     const query = `SELECT * FROM memory ORDER BY date_debut DESC`;
 
     connexion.query(query, (erreur, resultat) => {
         if (erreur) {
             console.error(erreur);
-            resultat.status(500).send('erreur lors de la récupération des souvenirs');
+            reponse.status(500).send('erreur lors de la récupération des souvenirs');
         } else {
-            resultat.status(200).json(resultat);
+            reponse.status(200).json(resultat);
         }
     });
 });
 
 // Route pour la modification d'un souvenir (requete PUT)
-app.put('/souvenir/:id',estAdminConnecte, (requete, resultat) => {
+app.put('/souvenir/:id',estAdminConnecte, (requete, reponse) => {
     const identifiantSouvenir = requete.params.id;
     const souvenirMiseAJour = requete.body;
 
@@ -409,9 +409,9 @@ app.put('/souvenir/:id',estAdminConnecte, (requete, resultat) => {
     connexion.query(query, queryParams, (erreur, resultat) => {
         if (erreur) {
             console.error(erreur);
-            resultat.status(500).send('erreur lors de la mise à jour du souvenir');
+            reponse.status(500).send('erreur lors de la mise à jour du souvenir');
         } else {
-            resultat.status(200).send('Souvenir mis à jour avec succès');
+            reponse.status(200).send('Souvenir mis à jour avec succès');
         }
     });
 });
