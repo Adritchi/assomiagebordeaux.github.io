@@ -1,30 +1,25 @@
-const express = require('express');
-const path = require('path');
-const mysql = require('mysql');
-const os = require('os');
+const express = require('express'); // Importation du module Express pour la création d'une application web
+const path = require('path'); // Importation du module Path pour la gestion des chemins de fichiers
+const mysql = require('mysql'); // Importation du module MySQL pour la connexion à la base de données
+const os = require('os'); // Importation du module OS pour obtenir des informations sur le système d'exploitation
 
-//! A utiliser plus tard au besoin
-// const eventRoutes = require('./event'); 
-
-const app = express();
-//! A utiliser plus tard au besoin (pas forcément placé au bon endroit)
-// app.use('/events', eventRoutes);
+const app = express(); // Création d'une application Express
 
 // -------------- PARAMETRAGE ----------------
 
-// Middleware pour les requêtes entrantes au format JSON
+// Middleware pour les requetes entrantes au format JSON
 app.use(express.json({ limit: '10mb' })); // C'est pas obligatoire
 // Middleware pour les données de formulaire URL encodées (extended:true pour autoriser les objets et les tableaux)
 app.use(express.urlencoded({ extended: true, limit: '10mb' })); // Si l'image envoyé à +10Mo ça envera une erreur
 
 // -------------- CONNECTION ----------------
 
-// Système d'exploitation
-let password;
+// Définition du mot de passe en fonction du système d'exploitation
+let motDePasse;
 if (os.platform() === 'win32') {
-    password = ''; // Windows
+    motDePasse = ''; // Mot de passe vide pour Windows
 } else if (os.platform() === 'darwin') {
-    password = 'root'; // Mac
+    motDePasse = 'root'; // Mot de passe vide pour Mac
 } else {
     // Autre système d'exploitation
     console.error('Système d"exploitation non pris en charge');
@@ -33,390 +28,390 @@ if (os.platform() === 'win32') {
 
 // Initialisation : Connexion Base de données
 app.use(express.json());
-app.use((req, res, next) => {
+app.use((requete, resultat, next) => {
     // Autorise l'accès depuis n'importe quelle origine
-    res.header('Access-Control-Allow-Origin', '*');
+    resultat.header('Access-Control-Allow-Origin', '*');
     // Autorise les méthodes HTTP spécifiques
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    resultat.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
     // Autorise les en-têtes spécifiques
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    resultat.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     // Passe à la prochaine étape du middleware
     next();
 });
 
-const connection = mysql.createConnection({
+const connexion = mysql.createConnection({
     host: 'localhost', 
     user: 'root',
-    password: password, // variable en fonction de l'OS utilisé
+    password: motDePasse, // variable en fonction de l'OS utilisé
     database: 'siteamb' // Le nom de la base de donnée
 }); 
 
 // Connexion Base de données
 const port = 3000;
-connection.connect((err) => {
-    if (err) {
-        console.error('Erreur de connexion à la base de données : ' + err.stack);
+connexion.connect((erreur) => {
+    if (erreur) {
+        console.error('erreur de connexion à la base de données : ' + erreur.stack);
         return;
     }
-    console.log('Connecté à la base de données avec l"identifiant ' + connection.threadId);
+    console.log('Connecté à la base de données avec l"identifiant ' + connexion.threadId);
 });
 
 // -------------- ADMIN ----------------
 
-adminConnected = false;
+adminConnecte = false;
 ip = "";
-const bannedIPs = {}; // Stocke les IPs bannies et le temps jusqu'à la fin du bannissement
+const ipBannies = {}; // Stocke les IPs bannies et le temps jusqu'à la fin du bannissement
 
-const isAdminLoggedIn = (req, res, next) => {
+const estAdminConnecte = (requete, resultat, next) => {
     // Vérifier si l'administrateur est connecté
-    if (!adminConnected || req.ip !== ip) {
-        return res.status(403).json({ status: "error", message: "Accès refusé. Connectez-vous en tant qu'administrateur." });
+    if (!adminConnecte || requete.ip !== ip) {
+        return resultat.status(403).json({ status: "erreur", message: "Accès refusé. Connectez-vous en tant qu'administrateur." });
     }
     // L'utilisateur est connecté en tant qu'administrateur
     next();
 };
 
 // Fonction pour vérifier si l'IP est bannie
-const isIPBanned = (ip) => {
-    if (bannedIPs[ip] && bannedIPs[ip] > Date.now()) {
+const ipEstBannie = (ip) => {
+    if (ipBannies[ip] && ipBannies[ip] > Date.now()) {
         return true;
     }
     return false;
 };
 
 // Ajouter cette route dans app.js
-app.get('/checkIPBanned', (req, res) => {
-    const ip = req.ip;
-    if (isIPBanned(ip)) {
-        return res.status(200).json({ banned: true });
+app.get('/verifierBannissementIp', (requete, resultat) => {
+    const ip = requete.ip;
+    if (ipEstBannie(ip)) {
+        return resultat.status(200).json({ banned: true });
     } else {
-        return res.status(200).json({ banned: false });
+        return resultat.status(200).json({ banned: false });
     }
 });
 
-app.get('/banIP', (req, res) => {
-    bannedIPs[req.ip] = Date.now() + 3600000;
-    console.log(bannedIPs);
+app.get('/bannissementIP', (requete, resultat) => {
+    ipBannies[requete.ip] = Date.now() + 3600000;
+    console.log(ipBannies);
     return;
 });
 
-app.post('/login', (req, res) => {
+app.post('/connexion', (requete, resultat) => {
     // Vérifier si l'IP est bannie
-    if (isIPBanned(req.ip)) {
-        return res.status(403).json({ status: "error", message: "Vous êtes banni. Réessayez plus tard." });
+    if (ipEstBannie(requete.ip)) {
+        return resultat.status(403).json({ status: "erreur", message: "Vous êtes banni. Réessayez plus tard." });
     }
 
     const sql = "SELECT * FROM Utilisateur WHERE identifiant = ? AND password = ?";
-    const values = [
-        req.body.id,
-        req.body.password
+    const valeurs = [
+        requete.body.id,
+        requete.body.password
     ]
-    connection.query(sql, values, (err, data) => {
-        if (err) return res.status(500).json({ status: "error", message: "Erreur interne du serveur" });
+    connexion.query(sql, valeurs, (erreur, data) => {
+        if (erreur) return resultat.status(500).json({ status: "erreur", message: "erreur interne du serveur" });
         if (data.length > 0) {
-            ip = req.ip;
-            adminConnected = true;
-            return res.status(200).json({ status: "success", message: "Connexion réussie" });
+            ip = requete.ip;
+            adminConnecte = true;
+            return resultat.status(200).json({ status: "success", message: "Connexion réussie" });
         } else {
-            return res.status(401).json({ status: "error", message: "Identifiant ou mot de passe incorrect" });
+            return resultat.status(401).json({ status: "erreur", message: "Identifiant ou mot de passe incorrect" });
         }
     });
 });
 
-app.get('/checkLoginStatus', (req, res) => {
-    if (req.ip === ip) {
-        return res.json({ adminConnected: adminConnected }); // Renvoie l'état actuel de adminConnected
+app.get('/estAdminConnecte', (requete, resultat) => {
+    if (requete.ip === ip) {
+        return resultat.json({ adminConnecte: adminConnecte }); // Renvoie l'état actuel de adminConnecte
     } else {
-        return res.json({ adminConnected: false });;
+        return resultat.json({ adminConnecte: false });;
     }
 });
-app.post('/logout', (req, res) => {
+app.post('/deconnexion', (requete, resultat) => {
     ip = "";
     console.log(ip);
-    adminConnected = false; // Réinitialise la variable adminConnected à false lors de la déconnexion
-    res.sendStatus(200); // Envoie une réponse indiquant que la déconnexion a réussi
+    adminConnecte = false; // Réinitialise la variable adminConnecte à false lors de la déconnexion
+    resultat.sendStatus(200); // Envoie une réponse indiquant que la déconnexion a réussi
 });
 
 // -------------- EVENTS ----------------
 
-// Route pour supprimer un événement (requête DELETE)
-app.delete('/event/:id', isAdminLoggedIn,(req, res) => {
-    const eventId = req.params.id; // Récupère l'ID de l'événement à supprimer
+// Route pour supprimer un événement (requete DELETE)
+app.delete('/evenement/:id', estAdminConnecte,(requete, resultat) => {
+    const identifiantEvenement = requete.params.id; // Récupère l'ID de l'événement à supprimer
 
     const query = 'DELETE FROM evenement WHERE ID = ?'; 
 
-    // Exécution de la requête SQL avec les données reçus
-    connection.query(query, eventId, (error, results) => {
-        if (error) {
-            console.error(error);
-            res.status(500).send('Erreur lors de la suppression de l\'événement');
+    // Exécution de la requete SQL avec les données reçus
+    connexion.query(query, identifiantEvenement, (erreur, resultat) => {
+        if (erreur) {
+            console.error(erreur);
+            resultat.status(500).send('erreur lors de la suppression de l\'événement');
         } else {
             // Vérifie si des lignes ont été affectées
-            if (results.affectedRows > 0) {
-                res.status(200).send('Événement supprimé avec succès');
+            if (resultat.affectedRows > 0) {
+                resultat.status(200).send('Événement supprimé avec succès');
             } else {
-                res.status(404).send('Événement non trouvé');
+                resultat.status(404).send('Événement non trouvé');
             }
         }
     });
 });
 
-// Route pour la création d'un événement (requête POST)
-app.post('/event', isAdminLoggedIn,(req, res) => {
+// Route pour la création d'un événement (requete POST)
+app.post('/evenement', estAdminConnecte,(requete, resultat) => {
     // Affichage dans la console des données reçues
-    console.log('Requête POST reçue pour la création d\'un événement:', req.body);
+    console.log('requete POST reçue pour la création d\'un événement:', requete.body);
 
-    // Création d'un nouvel événement à partir des données de la requête
-    const newEvent = [
-        req.body.titre || '', // Titre (par défaut vide)
-        req.body.description || '', // Description (par défaut vide)
-        req.body.image || null, // Image (par défaut null)
-        req.body.lien || '', // Lien (par défaut vide)
-        req.body.date_debut || '', // Date de début (par défaut vide)
-        req.body.date_fin || null, // Date de fin (par défaut null)
-        req.body.lieu || '' // Lieu (par défaut vide)
+    // Création d'un nouvel événement à partir des données de la requete
+    const nouveauEvenement = [
+        requete.body.titre || '', // Titre (par défaut vide)
+        requete.body.description || '', // Description (par défaut vide)
+        requete.body.image || null, // Image (par défaut null)
+        requete.body.lien || '', // Lien (par défaut vide)
+        requete.body.date_debut || '', // Date de début (par défaut vide)
+        requete.body.date_fin || null, // Date de fin (par défaut null)
+        requete.body.lieu || '' // Lieu (par défaut vide)
     ];
 
     const query = 'INSERT INTO evenement (titre, description, image, lien, date_debut, date_fin, lieu) VALUES (?, ?, ?, ?, ?, ?, ?)';
     
-    // Exécution de la requête SQL avec les données reçus
-    connection.query(query, newEvent, (error, results) => {
-        if (error) {
-            console.error(error);
-            res.status(500).send('Erreur lors de la création de l\'événement');
+    // Exécution de la requete SQL avec les données reçues
+    connexion.query(query, nouveauEvenement, (erreur, resultat) => {
+        if (erreur) {
+            console.error(erreur);
+            resultat.status(500).send('erreur lors de la création de l\'événement');
         } else {
-            res.status(201).send('Événement créé avec succès');
+            resultat.status(201).send('Événement créé avec succès');
         }
     });
 });
 
-// Route pour récupérer tous les événements (requête GET)
-app.get('/event', (req, res) => {
-    const currentDate = new Date().toISOString().split('T')[0]; // Date actuelle au format YYYY-MM-DD
-    const query = `SELECT * FROM evenement WHERE (date_fin IS NULL OR date_fin >= '${currentDate}') ORDER BY date_debut DESC`;
+// Route pour récupérer tous les événements (requete GET)
+app.get('/evenement', (requete, resultat) => {
+    const dateActuelle = new Date().toISOString().split('T')[0]; // Date actuelle au format YYYY-MM-DD
+    const query = `SELECT * FROM evenement WHERE (date_fin IS NULL OR date_fin >= '${dateActuelle}') ORDER BY date_debut DESC`;
 
-    connection.query(query, (error, results) => {
-        if (error) {
-            console.error(error);
-            res.status(500).send('Erreur lors de la récupération des événements');
+    connexion.query(query, (erreur, resultat) => {
+        if (erreur) {
+            console.error(erreur);
+            resultat.status(500).send('erreur lors de la récupération des événements');
         } else {
-            res.status(200).json(results);
+            resultat.status(200).json(resultat);
         }
     });
 });
 
-app.get('/eventPasse', (req, res) => {
-    const currentDate = new Date().toISOString().split('T')[0]; // Date actuelle au format YYYY-MM-DD
-    const query = `SELECT * FROM evenement WHERE date_fin < '${currentDate}' ORDER BY date_debut DESC`;
+app.get('/evenementPasse', (requete, resultat) => {
+    const dateActuelle = new Date().toISOString().split('T')[0]; // Date actuelle au format YYYY-MM-DD
+    const query = `SELECT * FROM evenement WHERE date_fin < '${dateActuelle}' ORDER BY date_debut DESC`;
 
-    connection.query(query, (error, results) => {
-        if (error) {
-            console.error(error);
-            res.status(500).send('Erreur lors de la récupération des événements');
+    connexion.query(query, (erreur, resultat) => {
+        if (erreur) {
+            console.error(erreur);
+            resultat.status(500).send('erreur lors de la récupération des événements');
         } else {
-            res.status(200).json(results);
+            resultat.status(200).json(resultat);
         }
     });
 });
 
-// Route pour la modification d'un événement (requête PUT)
-app.put('/event/:id', isAdminLoggedIn,(req, res) => {
-    const eventId = req.params.id;
-    const updatedEvent = req.body;
+// Route pour la modification d'un événement (requete PUT)
+app.put('/evenement/:id', estAdminConnecte,(requete, resultat) => {
+    const identifiantEvenement = requete.params.id;
+    const evenementMiseAJour = requete.body;
 
     // Champs à mettre à jour
-    const { titre, lieu, date_debut, date_fin, description, lien, image } = updatedEvent;
+    const { titre, lieu, date_debut, date_fin, description, lien, image } = evenementMiseAJour;
 
     let query = 'UPDATE evenement SET titre = ?, lieu = ?, date_debut = ?, description = ?, lien = ?, image = ? WHERE ID = ?';
-    let queryParams = [titre, lieu, date_debut, description, lien, image, eventId];
+    let queryParams = [titre, lieu, date_debut, description, lien, image, identifiantEvenement];
 
-    // Vérifie si date_fin est fourni dans updatedEvent
+    // Vérifie si date_fin est fourni dans evenementMiseAJour
     if (date_fin !== undefined) {
         query = 'UPDATE evenement SET titre = ?, lieu = ?, date_debut = ?, date_fin = ?, description = ?, lien = ?, image = ? WHERE ID = ?';
-        queryParams = [titre, lieu, date_debut, date_fin, description, lien, image, eventId];
+        queryParams = [titre, lieu, date_debut, date_fin, description, lien, image, identifiantEvenement];
     }
 
-    connection.query(query, queryParams, (error, results) => {
-        if (error) {
-            console.error(error);
-            res.status(500).send('Erreur lors de la mise à jour de l\'événement');
+    connexion.query(query, queryParams, (erreur, resultat) => {
+        if (erreur) {
+            console.error(erreur);
+            resultat.status(500).send('erreur lors de la mise à jour de l\'événement');
         } else {
-            res.status(200).send('Événement mis à jour avec succès');
+            resultat.status(200).send('Événement mis à jour avec succès');
         }
     });
 });
+
 
 
 // -------------- PRODUCT ----------------
 
-// Route pour supprimer un produit (requête DELETE)
-app.delete('/product/:id', isAdminLoggedIn,(req, res) => {
-    const productId = req.params.id; // Récupère l'ID du produit à supprimer
+// Route pour supprimer un produit (requete DELETE)
+app.delete('/produit/:id', estAdminConnecte,(requete, resultat) => {
+    const identifiantProduit = requete.params.id; // Récupère l'ID du produit à supprimer
 
     const query = 'DELETE FROM produit WHERE ID = ?'; 
 
-    // Exécution de la requête SQL avec les données reçus
-    connection.query(query, productId, (error, results) => {
-        if (error) {
-            console.error(error);
-            res.status(500).send('Erreur lors de la suppression du produit');
+    // Exécution de la requete SQL avec les données reçues
+    connexion.query(query, identifiantProduit, (erreur, resultat) => {
+        if (erreur) {
+            console.error(erreur);
+            resultat.status(500).send('erreur lors de la suppression du produit');
         } else {
             // Vérifie si des lignes ont été affectées
-            if (results.affectedRows > 0) {
-                res.status(200).send('Produit supprimé avec succès');
+            if (resultat.affectedRows > 0) {
+                resultat.status(200).send('Produit supprimé avec succès');
             } else {
-                res.status(404).send('Produit non trouvé');
+                resultat.status(404).send('Produit non trouvé');
             }
         }
     });
 });
 
-// Route pour la création d'un produit (requête POST)
-app.post('/product', isAdminLoggedIn,(req, res) => {
+// Route pour la création d'un produit (requete POST)
+app.post('/produit', estAdminConnecte,(requete, resultat) => {
     // Affichage dans la console des données reçues
-    console.log('Requête POST reçue pour la création d\'un produit :', req.body);
+    console.log('requete POST reçue pour la création d\'un produit :', requete.body);
 
-    // Création d'un nouveau produit à partir des données de la requête
-    const newProduct = [
-        req.body.nomProduit || '',
-        req.body.prix || '',
-        req.body.imageProduit || null,
-        req.body.lien || '',
-        req.body.etatProduit ? 1 : 0, // Convertir en 1 si vrai, sinon en 0
+    // Création d'un nouveau produit à partir des données de la requete
+    const nouveauProduit = [
+        requete.body.nomProduit || '',
+        requete.body.prix || '',
+        requete.body.imageProduit || null,
+        requete.body.lien || '',
+        requete.body.etatProduit ? 1 : 0, // Convertir en 1 si vrai, sinon en 0
     ];
-    
 
     const query = 'INSERT INTO produit (nom, prix, image, lien, estDispo) VALUES (?, ?, ?, ?, ?)';
     
-    // Exécution de la requête SQL avec les données reçus
-    connection.query(query, newProduct, (error, results) => {
-        if (error) {
-            console.error(error);
-            res.status(500).send('Erreur lors de la création du produit');
+    // Exécution de la requete SQL avec les données reçues
+    connexion.query(query, nouveauProduit, (erreur, resultat) => {
+        if (erreur) {
+            console.error(erreur);
+            resultat.status(500).send('erreur lors de la création du produit');
         } else {
-            res.status(201).send('Produit créé avec succès');
+            resultat.status(201).send('Produit créé avec succès');
         }
     });
 });
 
-// Route pour récupérer tous les produits (requête GET)
-app.get('/product', (req, res) => {
+// Route pour récupérer tous les produits (requete GET)
+app.get('/produit', (requete, resultat) => {
     const query = `SELECT * FROM produit`;
 
-    connection.query(query, (error, results) => {
-        if (error) {
-            console.error(error);
-            res.status(500).send('Erreur lors de la récupération des produits');
+    connexion.query(query, (erreur, resultat) => {
+        if (erreur) {
+            console.error(erreur);
+            resultat.status(500).send('erreur lors de la récupération des produits');
         } else {
-            res.status(200).json(results);
+            resultat.status(200).json(resultat);
         }
     });
 });
 
-// Route pour la modification d'un produit (requête PUT)
-app.put('/product/:id', isAdminLoggedIn,(req, res) => {
-    const productId = req.params.id;
-    const updatedProduct = req.body;
+// Route pour la modification d'un produit (requete PUT)
+app.put('/produit/:id', estAdminConnecte,(requete, resultat) => {
+    const identifiantProduit = requete.params.id;
+    const produitMiseAJour = requete.body;
 
     // Champs à mettre à jour
-    const { nomProduit, prix, imageProduit, lien, etatProduit } = updatedProduct;
+    const { nomProduit, prix, imageProduit, lien, etatProduit } = produitMiseAJour;
 
     let query = 'UPDATE produit SET nom = ?, prix = ?, image = ?, lien = ?, estDispo = ? WHERE ID = ?';
-    let queryParams = [nomProduit, prix, imageProduit, lien, etatProduit, productId];
+    let queryParams = [nomProduit, prix, imageProduit, lien, etatProduit, identifiantProduit];
 
-    connection.query(query, queryParams, (error, results) => {
-        if (error) {
-            console.error(error);
-            res.status(500).send('Erreur lors de la mise à jour du produit');
+    connexion.query(query, queryParams, (erreur, resultat) => {
+        if (erreur) {
+            console.error(erreur);
+            resultat.status(500).send('erreur lors de la mise à jour du produit');
         } else {
-            res.status(200).send('Produit mis à jour avec succès');
+            resultat.status(200).send('Produit mis à jour avec succès');
         }
     });
 });
 
 // -------------- MEMORY ----------------
 
-// Route pour supprimer un souvenir (requête DELETE)
-app.delete('/memory/:id', isAdminLoggedIn,(req, res) => {
-    const memoryId = req.params.id; // Récupère l'ID du souvenir à supprimer
+// Route pour supprimer un souvenir (requete DELETE)
+app.delete('/souvenir/:id', estAdminConnecte,(requete, resultat) => {
+    const identifiantSouvenir = requete.params.id; // Récupère l'ID du souvenir à supprimer
 
     const query = 'DELETE FROM memory WHERE ID = ?'; 
 
-    // Exécution de la requête SQL avec les données reçus
-    connection.query(query, memoryId, (error, results) => {
-        if (error) {
-            console.error(error);
-            res.status(500).send('Erreur lors de la suppression du souvenir');
+    // Exécution de la requete SQL avec les données reçues
+    connexion.query(query, identifiantSouvenir, (erreur, resultat) => {
+        if (erreur) {
+            console.error(erreur);
+            resultat.status(500).send('erreur lors de la suppression du souvenir');
         } else {
             // Vérifie si des lignes ont été affectées
-            if (results.affectedRows > 0) {
-                res.status(200).send('Souvenir supprimé avec succès');
+            if (resultat.affectedRows > 0) {
+                resultat.status(200).send('Souvenir supprimé avec succès');
             } else {
-                res.status(404).send('Souvenir non trouvé');
+                resultat.status(404).send('Souvenir non trouvé');
             }
         }
     });
 });
 
-// Route pour la création d'un souvenir (requête POST)
-app.post('/memory', isAdminLoggedIn,(req, res) => {
+// Route pour la création d'un souvenir (requete POST)
+app.post('/souvenir', estAdminConnecte,(requete, resultat) => {
     // Affichage dans la console des données reçues
-    console.log('Requête POST reçue pour la création d\'un souvenir :', req.body);
+    console.log('requete POST reçue pour la création d\'un souvenir :', requete.body);
 
-    // Création d'un nouveau souvenir à partir des données de la requête
-    const newMemory = [
-        req.body.titre || '', // Nom (par défaut vide)
-        req.body.description || '', // Prix (par défaut vide)
-        req.body.image || null, // Image (par défaut null)
-        req.body.lien || '', // Lien (par défaut vide)
-        req.body.date_debut || '', // Date de début (par défaut vide)
-        req.body.date_fin || null // Date de fin (par défaut vide)
+    // Création d'un nouveau souvenir à partir des données de la requete
+    const nouveauSouvenir = [
+        requete.body.titre || '', // Nom (par défaut vide)
+        requete.body.description || '', // Prix (par défaut vide)
+        requete.body.image || null, // Image (par défaut null)
+        requete.body.lien || '', // Lien (par défaut vide)
+        requete.body.date_debut || '', // Date de début (par défaut vide)
+        requete.body.date_fin || null // Date de fin (par défaut vide)
     ];
 
-    const query = 'INSERT INTO memory (titre, description, image, lien, date_debut, date_fin) VALUES (?, ?, ?, ?, ?,?)';
+    const query = 'INSERT INTO memory (titre, description, image, lien, date_debut, date_fin) VALUES (?, ?, ?, ?, ?, ?)';
     
-    // Exécution de la requête SQL avec les données reçus
-    connection.query(query, newMemory, (error, results) => {
-        if (error) {
-            console.error(error);
-            res.status(500).send('Erreur lors de la création du souvenir');
+    // Exécution de la requete SQL avec les données reçues
+    connexion.query(query, nouveauSouvenir, (erreur, resultat) => {
+        if (erreur) {
+            console.error(erreur);
+            resultat.status(500).send('erreur lors de la création du souvenir');
         } else {
-            res.status(201).send('Souvenir créé avec succès');
+            resultat.status(201).send('Souvenir créé avec succès');
         }
     });
 });
 
-// Route pour récupérer tous les événements (requête GET)
-app.get('/memory', (req, res) => {
+// Route pour récupérer tous les événements (requete GET)
+app.get('/souvenir', (requete, resultat) => {
     const query = `SELECT * FROM memory ORDER BY date_debut DESC`;
 
-    connection.query(query, (error, results) => {
-        if (error) {
-            console.error(error);
-            res.status(500).send('Erreur lors de la récupération des souvenirs');
+    connexion.query(query, (erreur, resultat) => {
+        if (erreur) {
+            console.error(erreur);
+            resultat.status(500).send('erreur lors de la récupération des souvenirs');
         } else {
-            res.status(200).json(results);
+            resultat.status(200).json(resultat);
         }
     });
 });
 
-// Route pour la modification d'un souvenir (requête PUT)
-app.put('/memory/:id',isAdminLoggedIn, (req, res) => {
-    const memoryId = req.params.id;
-    const updatedMemory = req.body;
+// Route pour la modification d'un souvenir (requete PUT)
+app.put('/souvenir/:id',estAdminConnecte, (requete, resultat) => {
+    const identifiantSouvenir = requete.params.id;
+    const souvenirMiseAJour = requete.body;
 
     // Champs à mettre à jour
-    const { titre, description, image, lien, date_debut, date_fin } = updatedMemory;
+    const { titre, description, image, lien, date_debut, date_fin } = souvenirMiseAJour;
 
     let query = 'UPDATE memory SET titre = ?, description = ?, image = ?, lien = ?, date_debut = ?,  date_fin = ? WHERE ID = ?';
-    let queryParams = [titre, description, image, lien, date_debut, date_fin, memoryId];
+    let queryParams = [titre, description, image, lien, date_debut, date_fin, identifiantSouvenir];
 
-    connection.query(query, queryParams, (error, results) => {
-        if (error) {
-            console.error(error);
-            res.status(500).send('Erreur lors de la mise à jour du souvenir');
+    connexion.query(query, queryParams, (erreur, resultat) => {
+        if (erreur) {
+            console.error(erreur);
+            resultat.status(500).send('erreur lors de la mise à jour du souvenir');
         } else {
-            res.status(200).send('Souvenir mis à jour avec succès');
+            resultat.status(200).send('Souvenir mis à jour avec succès');
         }
     });
 });
@@ -428,9 +423,9 @@ app.put('/memory/:id',isAdminLoggedIn, (req, res) => {
 app.use(express.static(path.join(__dirname, '../build')));
 
 // Gestion de la route par défaut
-app.get('*', (req, res) => {
-    // Envoie du fichier index.html pour toutes les autres routes
-    res.sendFile(path.join(__dirname, '../build', 'index.html'));
+app.get('*', (requete, resultat) => {
+    // Envoie du fichier index.html pour toutes les autresultat routes
+    resultat.sendFile(path.join(__dirname, '../build', 'index.html'));
 });
 
 // Démarrage du serveur
