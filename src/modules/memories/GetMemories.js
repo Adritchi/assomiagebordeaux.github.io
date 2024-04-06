@@ -41,13 +41,13 @@ const ListMemories = ({ estAdmin }) => {
             if (endDate == null) {
                 return `${formattedStartDay} - en cours`;
             } else {
-                return `${formattedStartDay} - ${formattedEndDay} ${formattedEndMonth}`;
+                return `${formattedStartDay} - ${formattedEndDay} ${formattedEndMonth}.`;
             }
         } else {
             if (endDate == null) {
                 return `${formattedStartDay} ${formattedStartMonth} - en cours`;
             } else {
-                return `${formattedStartDay} ${formattedStartMonth} - ${formattedEndDay} ${formattedEndMonth}`;
+                return `${formattedStartDay} ${formattedStartMonth}. - ${formattedEndDay} ${formattedEndMonth}.`;
             }
         }
     };
