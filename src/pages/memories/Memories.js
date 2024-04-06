@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 
 import IllustrationSouvenirs from '../../assets/images/memories.jpg';
 
-import ListeSouvenirs from '../../modules/memories/GetMemories';
-import CreerSouvenirs from '../../modules/memories/CreateMemories';
+import ListeSouvenirs from '../../modules/memories/ListeSouvenirs';
+import CreerSouvenirs from '../../modules/memories/CreerSouvenir';
 
 import '../../assets/design/pages/memories.css'
 

@@ -45,7 +45,7 @@ function Login() {
       return;
     }
     try {
-      const res = await axios.post('http://localhost:3000/login', { identifiant, motDePasse });
+      const res = await axios.post('http://localhost:3000/connexion', { identifiant, motDePasse });
       setStatutConnexion(res.data.status);
       setMessageErreur('');
     } catch (err) {
@@ -53,7 +53,7 @@ function Login() {
       setTentativesRestantes(prevTentatives  => prevTentatives  - 1); // Diminue le nombre de tentatives restantes
       setMessageErreur(`Identifiant ou mot de passe incorrect. Il vous reste ${tentativesRestantes - 1} tentatives.`);
       if (tentativesRestantes - 1 === 0) {
-        const res = await axios.get('http://localhost:3000/banIP');
+        const res = await axios.get('http://localhost:3000/bannissementIP');
         setEstBanni(true);
       }
     }

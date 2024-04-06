@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 
 import IllustrationBoutique  from '../../assets/images/shop.jpg';
 
-import CreerProduit from '../../modules/shop/CreateProduct';
-import ListeProduit  from '../../modules/shop/GetProduct';
+import CreerProduit from '../../modules/shop/CreerProduit';
+import ListeProduit  from '../../modules/shop/ListeProduit';
 
 import '../../assets/design/pages/shop.css';
 

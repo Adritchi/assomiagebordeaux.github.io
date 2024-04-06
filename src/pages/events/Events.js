@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 // Import des composants nécessaires
-import CreerEvenement from '../../modules/events/CreateEvent';
-import ListeEvenement from '../../modules/events/GetEvent';
+import CreerEvenement from '../../modules/events/CreerEvenement';
+import ListeEvenement from '../../modules/events/ListeEvenements';
 
 // Import de l'image pour l'illustration
 import EventsIllustration from '../../assets/images/events.jpg';
