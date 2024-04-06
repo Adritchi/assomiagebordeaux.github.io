@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../../assets/design/commun/tuileEvent.css';
-import EditEvent from './EditerEvenement';
-import DeleteEvent from './SupprimerEvenement';
+import EditerEvenement from './EditerEvenement';
+import SupprimerEvenement from './SupprimerEvenement';
 
 // Import des icônes nécessaires
 import EDIT from '../../assets/icons/edit.svg';
@@ -43,7 +43,7 @@ export function TuileEvent(props) {
             {estEnEdition ? (
                 <>
                     {/* Affichage du formulaire de modification */}
-                    <EditEvent event={props} />
+                    <EditerEvenement event={props} />
                     <br></br>
                     <button onClick={gererCliqueAnnuler} alt="Annuler"><img src={CANCEL}></img></button>
                 </>
@@ -77,7 +77,7 @@ export function TuileEvent(props) {
                         {props.estAdmin && (
                             <div>
                                 <button onClick={gererCliqueEdition} alt="Modifier"><img src={EDIT}></img></button>
-                                <DeleteEvent event={props} onDelete={gererSuppression} />
+                                <SupprimerEvenement event={props} onDelete={gererSuppression} />
                             </div>
                         )}
                     </div>

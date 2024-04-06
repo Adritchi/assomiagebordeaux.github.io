@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import '../../assets/design/commun/tuileMemories.css';
-import DeleteMemories from './SupprimerSouvenir';
+import SupprimerSouvenir from './SupprimerSouvenir';
 import EditionSouvenir from './EditionSouvenir';
 import EDIT from '../../assets/icons/edit.svg';
 import CANCEL from '../../assets/icons/cancel.svg';
@@ -54,7 +54,7 @@ export function TuileMemories(props) {
                     {props.estAdmin && (
                         <div>
                             <button onClick={gererCliqueEdition} alt="Modifier"><img src={EDIT}></img></button>
-                            <DeleteMemories memory={props} onDelete={gererSuppression} />
+                            <SupprimerSouvenir memory={props} onDelete={gererSuppression} />
                         </div>
                     )}
                 </div>

@@ -141,13 +141,13 @@ app.delete('/evenement/:id', estAdminConnecte,(requete, resultat) => {
     const query = 'DELETE FROM evenement WHERE ID = ?'; 
 
     // Exécution de la requete SQL avec les données reçus
-    connexion.query(query, identifiantEvenement, (erreur, resultat) => {
+    connexion.query(query, identifiantEvenement, (erreur, res) => {
         if (erreur) {
             console.error(erreur);
             resultat.status(500).send('erreur lors de la suppression de l\'événement');
         } else {
             // Vérifie si des lignes ont été affectées
-            if (resultat.affectedRows > 0) {
+            if (res.affectedRows > 0) {
                 resultat.status(200).send('Événement supprimé avec succès');
             } else {
                 resultat.status(404).send('Événement non trouvé');
@@ -175,7 +175,7 @@ app.post('/evenement', estAdminConnecte,(requete, resultat) => {
     const query = 'INSERT INTO evenement (titre, description, image, lien, date_debut, date_fin, lieu) VALUES (?, ?, ?, ?, ?, ?, ?)';
     
     // Exécution de la requete SQL avec les données reçues
-    connexion.query(query, nouveauEvenement, (erreur, resultat) => {
+    connexion.query(query, nouveauEvenement, (erreur, res) => {
         if (erreur) {
             console.error(erreur);
             resultat.status(500).send('erreur lors de la création de l\'événement');
@@ -190,7 +190,7 @@ app.get('/evenement', (requete, resultat) => {
     const dateActuelle = new Date().toISOString().split('T')[0]; // Date actuelle au format YYYY-MM-DD
     const query = `SELECT * FROM evenement WHERE (date_fin IS NULL OR date_fin >= '${dateActuelle}') ORDER BY date_debut DESC`;
 
-    connexion.query(query, (erreur, resultat) => {
+    connexion.query(query, (erreur, res) => {
         if (erreur) {
             console.error(erreur);
             resultat.status(500).send('erreur lors de la récupération des événements');
@@ -204,7 +204,7 @@ app.get('/evenementPasse', (requete, resultat) => {
     const dateActuelle = new Date().toISOString().split('T')[0]; // Date actuelle au format YYYY-MM-DD
     const query = `SELECT * FROM evenement WHERE date_fin < '${dateActuelle}' ORDER BY date_debut DESC`;
 
-    connexion.query(query, (erreur, resultat) => {
+    connexion.query(query, (erreur, res) => {
         if (erreur) {
             console.error(erreur);
             resultat.status(500).send('erreur lors de la récupération des événements');
@@ -231,7 +231,7 @@ app.put('/evenement/:id', estAdminConnecte,(requete, resultat) => {
         queryParams = [titre, lieu, date_debut, date_fin, description, lien, image, identifiantEvenement];
     }
 
-    connexion.query(query, queryParams, (erreur, resultat) => {
+    connexion.query(query, queryParams, (erreur, res) => {
         if (erreur) {
             console.error(erreur);
             resultat.status(500).send('erreur lors de la mise à jour de l\'événement');
@@ -252,13 +252,13 @@ app.delete('/produit/:id', estAdminConnecte,(requete, resultat) => {
     const query = 'DELETE FROM produit WHERE ID = ?'; 
 
     // Exécution de la requete SQL avec les données reçues
-    connexion.query(query, identifiantProduit, (erreur, resultat) => {
+    connexion.query(query, identifiantProduit, (erreur, res) => {
         if (erreur) {
             console.error(erreur);
             resultat.status(500).send('erreur lors de la suppression du produit');
         } else {
             // Vérifie si des lignes ont été affectées
-            if (resultat.affectedRows > 0) {
+            if (res.affectedRows > 0) {
                 resultat.status(200).send('Produit supprimé avec succès');
             } else {
                 resultat.status(404).send('Produit non trouvé');
@@ -284,7 +284,7 @@ app.post('/produit', estAdminConnecte,(requete, resultat) => {
     const query = 'INSERT INTO produit (nom, prix, image, lien, estDispo) VALUES (?, ?, ?, ?, ?)';
     
     // Exécution de la requete SQL avec les données reçues
-    connexion.query(query, nouveauProduit, (erreur, resultat) => {
+    connexion.query(query, nouveauProduit, (erreur, res) => {
         if (erreur) {
             console.error(erreur);
             resultat.status(500).send('erreur lors de la création du produit');
@@ -298,7 +298,7 @@ app.post('/produit', estAdminConnecte,(requete, resultat) => {
 app.get('/produit', (requete, resultat) => {
     const query = `SELECT * FROM produit`;
 
-    connexion.query(query, (erreur, resultat) => {
+    connexion.query(query, (erreur, res) => {
         if (erreur) {
             console.error(erreur);
             resultat.status(500).send('erreur lors de la récupération des produits');
@@ -319,7 +319,7 @@ app.put('/produit/:id', estAdminConnecte,(requete, resultat) => {
     let query = 'UPDATE produit SET nom = ?, prix = ?, image = ?, lien = ?, estDispo = ? WHERE ID = ?';
     let queryParams = [nomProduit, prix, imageProduit, lien, etatProduit, identifiantProduit];
 
-    connexion.query(query, queryParams, (erreur, resultat) => {
+    connexion.query(query, queryParams, (erreur, res) => {
         if (erreur) {
             console.error(erreur);
             resultat.status(500).send('erreur lors de la mise à jour du produit');
@@ -338,13 +338,13 @@ app.delete('/souvenir/:id', estAdminConnecte,(requete, resultat) => {
     const query = 'DELETE FROM memory WHERE ID = ?'; 
 
     // Exécution de la requete SQL avec les données reçues
-    connexion.query(query, identifiantSouvenir, (erreur, resultat) => {
+    connexion.query(query, identifiantSouvenir, (erreur, res) => {
         if (erreur) {
             console.error(erreur);
             resultat.status(500).send('erreur lors de la suppression du souvenir');
         } else {
             // Vérifie si des lignes ont été affectées
-            if (resultat.affectedRows > 0) {
+            if (res.affectedRows > 0) {
                 resultat.status(200).send('Souvenir supprimé avec succès');
             } else {
                 resultat.status(404).send('Souvenir non trouvé');
@@ -371,7 +371,7 @@ app.post('/souvenir', estAdminConnecte,(requete, resultat) => {
     const query = 'INSERT INTO memory (titre, description, image, lien, date_debut, date_fin) VALUES (?, ?, ?, ?, ?, ?)';
     
     // Exécution de la requete SQL avec les données reçues
-    connexion.query(query, nouveauSouvenir, (erreur, resultat) => {
+    connexion.query(query, nouveauSouvenir, (erreur, res) => {
         if (erreur) {
             console.error(erreur);
             resultat.status(500).send('erreur lors de la création du souvenir');
@@ -385,7 +385,7 @@ app.post('/souvenir', estAdminConnecte,(requete, resultat) => {
 app.get('/souvenir', (requete, resultat) => {
     const query = `SELECT * FROM memory ORDER BY date_debut DESC`;
 
-    connexion.query(query, (erreur, resultat) => {
+    connexion.query(query, (erreur, res) => {
         if (erreur) {
             console.error(erreur);
             resultat.status(500).send('erreur lors de la récupération des souvenirs');
@@ -406,7 +406,7 @@ app.put('/souvenir/:id',estAdminConnecte, (requete, resultat) => {
     let query = 'UPDATE memory SET titre = ?, description = ?, image = ?, lien = ?, date_debut = ?,  date_fin = ? WHERE ID = ?';
     let queryParams = [titre, description, image, lien, date_debut, date_fin, identifiantSouvenir];
 
-    connexion.query(query, queryParams, (erreur, resultat) => {
+    connexion.query(query, queryParams, (erreur, res) => {
         if (erreur) {
             console.error(erreur);
             resultat.status(500).send('erreur lors de la mise à jour du souvenir');
@@ -424,7 +424,7 @@ app.use(express.static(path.join(__dirname, '../build')));
 
 // Gestion de la route par défaut
 app.get('*', (requete, resultat) => {
-    // Envoie du fichier index.html pour toutes les autresultat routes
+    // Envoie du fichier index.html pour toutes les autres routes
     resultat.sendFile(path.join(__dirname, '../build', 'index.html'));
 });
 
