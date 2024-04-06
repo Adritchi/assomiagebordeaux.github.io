@@ -2,21 +2,21 @@ import React, { useState, useEffect } from 'react';
 import TuileShop from './TuileShop';
 
 const ListProduct = ({ estAdmin }) => {
-    const [products, setProducts] = useState([]);
+    const [produits, setProduits] = useState([]);
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await fetch('http://localhost:3000/product');
-                if (response.ok) {
-                    const data = await response.json();
-                    setProducts(data);
+                const reponse = await fetch('http://localhost:3000/produit');
+                if (reponse.ok) {
+                    const data = await reponse.json();
+                    setProduits(data);
                     console.log('Contenu de la base de données :', data);
                 } else {
                     console.error('Erreur lors de la récupération des produits');
                 }
-            } catch (error) {
-                console.error(error);
+            } catch (erreur) {
+                console.error(erreur);
             }
         };
 
@@ -26,15 +26,15 @@ const ListProduct = ({ estAdmin }) => {
     return (
         <div>
             <div className="liste-tuiles">
-                {products.map(product => {
+                {produits.map(produit => {
                     return (
                         <TuileShop
-                            ID={product.ID}
-                            imageProduit={product.image}
-                            nomProduit={product.nom}
-                            prix={product.prix}
-                            etatProduit={product.estDispo}
-                            lien={product.lien}
+                            ID={produit.ID}
+                            imageProduit={produit.image}
+                            nomProduit={produit.nom}
+                            prix={produit.prix}
+                            etatProduit={produit.estDispo}
+                            lien={produit.lien}
                             estAdmin={estAdmin}
                         />
                     );

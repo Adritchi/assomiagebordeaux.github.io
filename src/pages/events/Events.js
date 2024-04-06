@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 // Import des composants nécessaires
-import CreateEvent from '../../modules/events/CreateEvent';
-import ListEvent from '../../modules/events/GetEvent';
+import CreerEvenement from '../../modules/events/CreateEvent';
+import ListeEvenement from '../../modules/events/GetEvent';
 
 // Import de l'image pour l'illustration
 import EventsIllustration from '../../assets/images/events.jpg';
@@ -17,31 +17,31 @@ class Events extends Component {
     // Initialisation de l'état local
     state = {
         estAdmin: false, 
-        showCreateEventForm: false, 
+        afficherFormulaireCreerEvenement: false, 
     };
 
     componentDidMount() {
-        this.checkLoginStatus(); // Vérifie immédiatement l'état de connexion
+        this.verifierStatutConnexion(); // Vérifie immédiatement l'état de connexion
     }
 
     // Vérifie le statut de connexion
-    checkLoginStatus = async () => {
+    verifierStatutConnexion = async () => {
         try {
             // Requête pour vérifier le statut de connexion côté serveur
-            const response = await fetch('/checkLoginStatus');
-            const data = await response.json();
+            const reponse = await fetch('/estAdminConnecte');
+            const data = await reponse.json();
             // Met à jour l'état estAdmin avec le résultat de la requête
-            this.setState({ estAdmin: data.adminConnected });
-        } catch (error) {
+            this.setState({ estAdmin: data.adminConnecte });
+        } catch (erreur) {
             // En cas d'erreur, laisse estAdmin sur false
             this.setState({ estAdmin: false });
         }
     };
 
     // Bascule l'affichage du formulaire de création d'événement
-    toggleCreateEventForm = () => {
+    basculerAffichageFormulaireCreerEvenement = () => {
         this.setState((prevState) => ({
-            showCreateEventForm: !prevState.showCreateEventForm,
+            afficherFormulaireCreerEvenement: !prevState.afficherFormulaireCreerEvenement,
         }));
     };
 
@@ -61,20 +61,20 @@ class Events extends Component {
                     <div>
                         {/* Affiche le bouton "Créer un événement" si l'utilisateur est admin */}
                         {estAdmin && (
-                            <button className="module-tuileEvent-info-buttons-button2" onClick={this.toggleCreateEventForm}>Ajouter un événement</button>
+                            <button className="module-tuileEvent-info-buttons-button2" onClick={this.basculerAffichageFormulaireCreerEvenement }>Ajouter un événement</button>
                         )}
                     </div>
                     <br></br>
                     <div>
-                        {/* Affiche le formulaire si showCreateEventForm est true */}
-                        {this.state.showCreateEventForm && <CreateEvent />}
+                        {/* Affiche le formulaire si afficherFormulaireCreerEvenement est true */}
+                        {this.state.afficherFormulaireCreerEvenement && <CreerEvenement />}
                     </div>
                     <br></br>
                     {/* Liste des events à venir */}
-                    <ListEvent estAdmin={estAdmin} statut={'avant'}/>
+                    <ListeEvenement estAdmin={estAdmin} statut={'avant'}/>
                     <div class="page-events-subtitle">Events passés</div>
                     {/* Liste des events passés */}
-                    <ListEvent estAdmin={estAdmin} statut={'passe'}/>
+                    <ListeEvenement estAdmin={estAdmin} statut={'passe'}/>
                 </div>
             </div>
         );

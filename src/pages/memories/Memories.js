@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 
-import MemoriesIllustration from '../../assets/images/memories.jpg';
+import IllustrationSouvenirs from '../../assets/images/memories.jpg';
 
-import ListMemories from '../../modules/memories/GetMemories';
-import CreateMemories from '../../modules/memories/CreateMemories';
+import ListeSouvenirs from '../../modules/memories/GetMemories';
+import CreerSouvenirs from '../../modules/memories/CreateMemories';
 
 import '../../assets/design/pages/memories.css'
 
@@ -12,31 +12,31 @@ class Memories extends Component {
     // Initialisation de l'état local
     state = {
         estAdmin: false, 
-        showCreateMemoryForm: false, 
+        afficherFormulaireCreerSouvenir: false, 
     };
 
     componentDidMount() {
-        this.checkLoginStatus(); // Vérifie immédiatement l'état de connexion
+        this.verifierStatutConnexion(); // Vérifie immédiatement l'état de connexion
     }
 
     // Vérifie le statut de connexion
-    checkLoginStatus = async () => {
+    verifierStatutConnexion = async () => {
         try {
             // Requête pour vérifier le statut de connexion côté serveur
-            const response = await fetch('/checkLoginStatus');
-            const data = await response.json();
+            const reponse = await fetch('/estAdminConnecte');
+            const data = await reponse.json();
             // Met à jour l'état estAdmin avec le résultat de la requête
-            this.setState({ estAdmin: data.adminConnected });
-        } catch (error) {
+            this.setState({ estAdmin: data.adminConnecte });
+        } catch (erreur) {
             // En cas d'erreur, laisse estAdmin sur false
             this.setState({ estAdmin: false });
         }
     };
 
     // Bascule l'affichage du formulaire de création d'événement
-    toggleCreateMemoryForm = () => {
+    basculerAffichageFormulaireCreerSouvenir  = () => {
         this.setState((prevState) => ({
-            showCreateEventForm: !prevState.showCreateMemoryForm,
+            afficherFormulaireCreerSouvenir: !prevState.afficherFormulaireCreerSouvenir,
         }));
     };
 
@@ -45,7 +45,7 @@ class Memories extends Component {
         const { estAdmin } = this.state;
         return (
             <div class="page-memories">
-                <div style={{backgroundImage: "url(" + MemoriesIllustration + ")"}} class="page-memories-illustration">
+                <div style={{backgroundImage: "url(" + IllustrationSouvenirs + ")"}} class="page-memories-illustration">
                     <div class="page-memories-illustration-infos">
                         <div class="page-memories-illustration-infos-titre">Memories</div>
                         <div class="page-memories-illustration-infos-subtitle">Les souvenirs miagistes d'une décennie
@@ -56,13 +56,13 @@ class Memories extends Component {
                     <div class="page-memories-content-margin">
                         <div>
                             {estAdmin && (
-                                <button className="" onClick={this.toggleCreateMemoryForm}>Ajouter un souvenir</button>
+                                <button className="" onClick={this.basculerAffichageFormulaireCreerSouvenir }>Ajouter un souvenir</button>
                             )}
                             <br></br>
                             <br></br>
-                            {this.state.showCreateEventForm && <CreateMemories />}
+                            {this.state.afficherFormulaireCreerSouvenir && <CreerSouvenirs />}
                         </div>
-                        <ListMemories estAdmin={estAdmin}/>
+                        <ListeSouvenirs estAdmin={estAdmin}/>
                     </div>
                     <div id="page-memories-conditions" class="page-memories-conditions">
                         Toutes les photos sont stockées sur Google Photos de manière sécurisée.

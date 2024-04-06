@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 const CreateProduct = () => {
     // Etat local pour gérer les données du nouvel événement
-    const [newProduct, setNewProduct] = useState({
+    const [nouveauProduit, setNouveauProduit] = useState({
         imageProduit: null,
         nomProduit: '',
         prix: '',
@@ -11,91 +11,91 @@ const CreateProduct = () => {
     });
 
     // Etat local pour gérer les erreurs de formulaire
-    const [error, setError] = useState(false);
+    const [erreur, setErreur] = useState(false);
 
     // Gestion de changement pour la case à cocher
-    const handleCheckboxChange = () => {
-        setNewProduct(prevState => ({
+    const gererChangementCheckbox = () => {
+        setNouveauProduit(prevState => ({
             ...prevState,
             etatProduit: !prevState.etatProduit // Inverse l'état actuel
         }));
     };
 
     // Gestion de changement pour les champs de saisie
-    const handleInputChange = (e) => {
+    const gererChangementEntree = (evenement) => {
         // Extraie le nom et la valeur de l'élément déclencheur de l'event
-        const { name, value } = e.target;
+        const { nom, valeur } = evenement.target;
 
         // Vérification si le champ est "prix" et si la valeur est numérique ou float
-        if (name === 'prix' && (!isNaN(value) || (value === '' || /^\d*\.?\d*$/.test(value)))) {
-            // Met à jour l'état newProduct en utilisant la fonction de mise à jour avec l'ancien état
-            setNewProduct(prevState => ({
+        if (nom === 'prix' && (!isNaN(valeur) || (valeur === '' || /^\d*\.?\d*$/.test(valeur)))) {
+            // Met à jour l'état nouveauProduit en utilisant la fonction de mise à jour avec l'ancien état
+            setNouveauProduit(prevState => ({
                 ...prevState, // Garde les valeurs précédentes des champs inchangées
-                [name]: value // Met à jour la valeur du champ spécifié par son nom
+                [nom]: valeur // Met à jour la valeur du champ spécifié par son nom
             }));
-        } else if (name !== 'prix') {
+        } else if (nom !== 'prix') {
             // Si le champ n'est pas "prix", met à jour l'état directement sans vérification
-            setNewProduct(prevState => ({
+            setNouveauProduit(prevState => ({
                 ...prevState,
-                [name]: value
+                [nom]: valeur
             }));
         }
     };
 
     // Gestion de changement pour le champ image (fichier)
-    const handleImageChange = (e) => {
+    const gererChangementImage = (evenement) => {
         // Récupère le fichier sélectionné
-        const file = e.target.files[0];
-        const reader = new FileReader();
+        const fichier = evenement.target.files[0];
+        const lecteur = new FileReader();
 
         // Configure le lecteur pour lire le fichier
-        reader.onloadend = () => {
-            // Met à jour l'état newEvent pour inclure l'image sous forme de base64
-            setNewProduct(prevState => ({
+        lecteur.onloadend = () => {
+            // Met à jour l'état pour inclure l'image sous forme de base64
+            setNouveauProduit(prevState => ({
                 ...prevState,
-                imageProduit: reader.result // Stock l'image en base64
+                imageProduit: lecteur.result // Stock l'image en base64
             }));
         };
 
         // Lit le contenu du fichier en tant que données URL
-        reader.readAsDataURL(file);
+        lecteur.readAsDataURL(fichier);
     };
 
     // Gestion de la création de produit
-    const handleCreateProduct = async () => {
+    const creerProduit = async () => {
         try {
-            setError(false);
+            setErreur(false);
             // Vérification de la saisie des champs obligatoires
-            if (!newProduct.imageProduit || newProduct.nomProduit.trim() === '' || newProduct.lien.trim() === '' || newProduct.prix.trim() === '') {
-                setError(true);
+            if (!nouveauProduit.imageProduit || nouveauProduit.nomProduit.trim() === '' || nouveauProduit.lien.trim() === '' || nouveauProduit.prix.trim() === '') {
+                setErreur(true);
                 return;
             }
             
-            // Envoi d'une requête POST avec la version modifiée de l'objet newProduct
-            const response = await fetch('http://localhost:3000/product', {
+            // Envoi d'une requête POST avec la version modifiée de l'objet nouveauProduit
+            const reponse = await fetch('http://localhost:3000/produit', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json', // Indique à la requête que c'est du JSON
                 },
-                body: JSON.stringify(newProduct), // Converti l'objet newProduct en JSON
+                body: JSON.stringify(nouveauProduit), // Converti l'objet nouveauProduit en JSON
             });
             // Vérification de la réponse de la requête
-            if (response.ok) {
+            if (reponse.ok) {
                 // Réinitialisation des champs après la création réussie
-                setNewProduct({
+                setNouveauProduit({
                     imageProduit: null,
                     nomProduit: '',
                     prix: '',
                     etatProduit: '',
                     lien: '',
                 });
-                setError(false); // Réinitialisation des erreurs
+                setErreur(false); // Réinitialisation des erreurs
                 window.location.reload(); // Recharge la page
             } else {
-                console.error('Erreur lors de la création de l\'événement');
+                console.error('Erreur lors de la création du produit');
             }
-        } catch (error) {
-            console.error(error);
+        } catch (erreur) {
+            console.error(erreur);
         }
     };
     
@@ -103,19 +103,19 @@ const CreateProduct = () => {
     // Rendu avec les champs de saisie et le bouton de création de produit
     return (
         <div>
-            <input type="file" accept="image/*" onChange={handleImageChange} />
+            <input type="file" accept="image/*" onChange={gererChangementImage} />
             <br></br>
             <br></br>
-            <input type="text" name="nomProduit" placeholder="Nom" value={newProduct.nomProduit} onChange={handleInputChange} />
-            <input type="text" name="prix" placeholder="Prix" value={newProduct.prix} onChange={handleInputChange} />
-            <input type="checkbox" name="etatProduit" checked={newProduct.etatProduit} onChange={handleCheckboxChange} />
-            <input type="text" name="lien" placeholder="Lien" value={newProduct.lien} onChange={handleInputChange} />
+            <input type="text" name="nomProduit" placeholder="Nom" value={nouveauProduit.nomProduit} onChange={gererChangementEntree} />
+            <input type="text" name="prix" placeholder="Prix" value={nouveauProduit.prix} onChange={gererChangementEntree} />
+            <input type="checkbox" name="etatProduit" checked={nouveauProduit.etatProduit} onChange={gererChangementCheckbox} />
+            <input type="text" name="lien" placeholder="Lien" value={nouveauProduit.lien} onChange={gererChangementEntree} />
             <br></br>
             <br></br>
-            <button onClick={handleCreateProduct}>Créer le produit</button>
+            <button onClick={creerProduit}>Créer le produit</button>
 
             {/* Affichage des erreurs */}
-            {error && (
+            {erreur && (
                 <div style={{ color: 'red' }}>
                     <p>Veuillez remplir tous les champs</p>
                 </div>

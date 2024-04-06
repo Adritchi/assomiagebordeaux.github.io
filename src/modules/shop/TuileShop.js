@@ -9,39 +9,39 @@ import CANCEL from '../../assets/icons/cancel.svg';
 export function TuileShop(props) {
 
     // Etat local pour suivre si l'utilisateur est en train d'éditer l'event
-    const [isEditing, setIsEditing] = useState(false);
+    const [estEnEdition, setEstEnEdition] = useState(false);
 
     // Gestion du clic sur le bouton "Modifier"
-    const handleEditClick = () => {
-        setIsEditing(true);
+    const gererCliqueEdition = () => {
+        setEstEnEdition(true);
     };
 
     // Gestion du clic sur le bouton "Annuler"
-    const handleCancelClick = () => {
-        setIsEditing(false);
+    const gererCliqueAnnuler = () => {
+        setEstEnEdition(false);
     };
 
     // Gestion de la suppression de l'event
-    const handleDelete = (productId) => {
-        props.handleDelete(productId);
+    const gererSuppression = (productId) => {
+        props.gererSuppression(productId);
     };
         return (
             <div class="module-tuileShop">
                 {props.estAdmin && (
                     <div className="module-tuileProduct-edit-button">
-                        <button onClick={handleEditClick} alt="Modifier"><img src={EDIT}></img></button>
-                        <DeleteProduct product={props} onDelete={handleDelete} />
+                        <button onClick={gererCliqueEdition} alt="Modifier"><img src={EDIT}></img></button>
+                        <DeleteProduct produit={props} onDelete={gererSuppression} />
                     </div>
                 )}
                 
-                {isEditing && (
+                {estEnEdition && (
                     <>
                     {/* Affichage du formulaire de modification */}
                     <br></br>
-                    <EditProduct product={props} />
+                    <EditProduct produit={props} />
                     <br></br>
                     <div>
-                        <button onClick={handleCancelClick} alt="Annuler"><img src={CANCEL}></img></button>
+                        <button onClick={gererCliqueAnnuler} alt="Annuler"><img src={CANCEL}></img></button>
                     </div>
                     </>
                 )}
@@ -53,7 +53,7 @@ export function TuileShop(props) {
                         <img src={props.imageProduit} alt={props.title}/>
                     </div>
 
-                {!isEditing && (
+                {!estEnEdition && (
                 <div class="module-tuileShop-infosProduit">
                     <div class="module-tuileShop-infosProduit-nom">
                         {props.nomProduit}

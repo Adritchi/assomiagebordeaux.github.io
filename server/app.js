@@ -58,8 +58,8 @@ connexion.connect((erreur) => {
 
 // -------------- ADMIN ----------------
 
-adminConnecte = false;
-ip = "";
+let adminConnecte = false;
+let ip = "";
 const ipBannies = {}; // Stocke les IPs bannies et le temps jusqu'à la fin du bannissement
 
 const estAdminConnecte = (requete, resultat, next) => {
