@@ -1,28 +1,28 @@
 import React, { useState } from 'react';
 
 import '../../assets/design/commun/tuileMemories.css';
-import DeleteMemories from './DeleteMemories';
-import EditMemories from './EditMemories';
+import DeleteMemories from './SupprimerSouvenir';
+import EditionSouvenir from './EditionSouvenir';
 import EDIT from '../../assets/icons/edit.svg';
 import CANCEL from '../../assets/icons/cancel.svg';
 
 export function TuileMemories(props) {
-    // Etat local pour suivre si l'utilisateur est en train d'éditer l'event
-    const [isEditing, setIsEditing] = useState(false);
+    // Etat local pour suivre si l'utilisateur est en train d'éditer le souvenir
+    const [estEnEdition, setEstEnEdition] = useState(false);
 
     // Gestion du clic sur le bouton "Modifier"
-    const handleEditClick = () => {
-        setIsEditing(true);
+    const gererCliqueEdition = () => {
+        setEstEnEdition(true);
     };
 
     // Gestion du clic sur le bouton "Annuler"
-    const handleCancelClick = () => {
-        setIsEditing(false);
+    const gererCliqueAnnuler = () => {
+        setEstEnEdition(false);
     };
 
-    // Gestion de la suppression de l'event
-    const handleDelete = (memoryId) => {
-        props.handleDelete(memoryId);
+    // Gestion de la suppression du souvenir
+    const gererSuppression = (identifiantSouvenir) => {
+        props.gererSuppression(identifiantSouvenir);
     };
     return (
         <div className="module-tuileMemories" style={{ marginLeft: '0px', position: 'relative' }}>
@@ -31,14 +31,14 @@ export function TuileMemories(props) {
                     {props.estNouveau && <div className="module-tuileMemories-nouveau">Nouveau</div>}
                 </div>
             </a>
-            {isEditing ? (
+            {estEnEdition ? (
                 <>
                     {/* Affichage du formulaire de modification */}
                     <br></br>
-                    <EditMemories memory={props} />
+                    <EditionSouvenir memory={props} />
                     <br></br>
                     <div>
-                        <button onClick={handleCancelClick} alt="Annuler"><img src={CANCEL}></img></button>
+                        <button onClick={gererCliqueAnnuler} alt="Annuler"><img src={CANCEL}></img></button>
                     </div>
                 </>
             ) : (
@@ -53,8 +53,8 @@ export function TuileMemories(props) {
                     <br></br>
                     {props.estAdmin && (
                         <div>
-                            <button onClick={handleEditClick} alt="Modifier"><img src={EDIT}></img></button>
-                            <DeleteMemories memory={props} onDelete={handleDelete} />
+                            <button onClick={gererCliqueEdition} alt="Modifier"><img src={EDIT}></img></button>
+                            <DeleteMemories memory={props} onDelete={gererSuppression} />
                         </div>
                     )}
                 </div>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../../assets/design/commun/tuileEvent.css';
-import EditEvent from './EditEvent';
-import DeleteEvent from './DeleteEvent';
+import EditEvent from './EditerEvenement';
+import DeleteEvent from './SupprimerEvenement';
 
 // Import des icônes nécessaires
 import EDIT from '../../assets/icons/edit.svg';
@@ -23,8 +23,8 @@ export function TuileEvent(props) {
     };
 
     // Gestion de la suppression de l'event
-    const gererSuppression = (eventId) => {
-        props.handleDelete(eventId);
+    const gererSuppression = (identifiantEvenement) => {
+        props.gererSuppression(identifiantEvenement);
     };
 
     return (

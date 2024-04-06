@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import TuileShop from './TuileShop';
 
-const ListProduct = ({ estAdmin }) => {
+const ListeProduit = ({ estAdmin }) => {
     const [produits, setProduits] = useState([]);
 
     useEffect(() => {
@@ -44,4 +44,4 @@ const ListProduct = ({ estAdmin }) => {
     );
 };
 
-export default ListProduct;
+export default ListeProduit;

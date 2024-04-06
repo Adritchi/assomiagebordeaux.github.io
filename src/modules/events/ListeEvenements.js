@@ -7,7 +7,7 @@ function formatDate(dateString) {
     return date.toLocaleDateString('fr-FR', options);
 }
 
-const listeEvenement = ({ estAdmin, statut }) => {
+const ListeEvenements = ({ estAdmin, statut }) => {
     const [evenements, setEvenements] = useState([]);
 
     useEffect(() => {
@@ -33,21 +33,21 @@ const listeEvenement = ({ estAdmin, statut }) => {
     return (
         <div>
             <div className="liste-tuiles">
-                {evenements.map(event => {
-                    const dateDebut = formatDate(event.date_debut);
-                    const dateFin = event.date_fin !== '0000-00-00' && event.date_fin !== null ? formatDate(event.date_fin) : null;
+                {evenements.map(evenement => {
+                    const dateDebut = formatDate(evenement.date_debut);
+                    const dateFin = evenement.date_fin !== '0000-00-00' && evenement.date_fin !== null ? formatDate(evenement.date_fin) : null;
                     const date = dateFin ? `${dateDebut} - ${dateFin}` : `${dateDebut} - En cours`;
                     return (
                         <TuileEvent
-                            ID={event.ID}
-                            titre={event.titre}
-                            lieu={event.lieu}
+                            ID={evenement.ID}
+                            titre={evenement.titre}
+                            lieu={evenement.lieu}
                             date={date}
-                            description={event.description}
-                            lien={event.lien}
-                            image={event.image}
+                            description={evenement.description}
+                            lien={evenement.lien}
+                            image={evenement.image}
                             estAdmin={estAdmin} 
-                            status={new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'numeric', year: 'numeric' }) > new Date(event.date_fin).toLocaleDateString('fr-FR', { day: 'numeric', month: 'numeric', year: 'numeric' }) && event.date_fin !== null ? 'over' : ''}                        />
+                            status={new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'numeric', year: 'numeric' }) > new Date(evenement.date_fin).toLocaleDateString('fr-FR', { day: 'numeric', month: 'numeric', year: 'numeric' }) && evenement.date_fin !== null ? 'over' : ''}                        />
                     );
                 })}
             </div>  
@@ -55,4 +55,4 @@ const listeEvenement = ({ estAdmin, statut }) => {
     );
 };
 
-export default listeEvenement;
+export default ListeEvenements;

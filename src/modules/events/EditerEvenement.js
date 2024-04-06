@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const editerEvenement = ({ evenement }) => {
+const EditerEvenement = ({ evenement }) => {
     const [evenementMiseAJour, setEvenementMiseAJour] = useState(evenement);
     const [erreur, setErreur] = useState(false);
     const [erreurDate, setErreurDate] = useState(false);
@@ -87,4 +87,4 @@ const editerEvenement = ({ evenement }) => {
     );
 };
 
-export default editerEvenement;
+export default EditerEvenement;

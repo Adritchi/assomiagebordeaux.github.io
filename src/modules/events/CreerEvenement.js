@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../../assets/design/commun/tuileEvent.css';
 
-const creerEvenement = () => {
+const CreerEvenement = () => {
     // Etat local pour gérer les données du nouvel événement
     const [nouveauEvenement, setNouveauEvenement] = useState({
         image: null,
@@ -132,4 +132,4 @@ const creerEvenement = () => {
     );
 };
 
-export default creerEvenement;
+export default CreerEvenement;

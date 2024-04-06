@@ -1,14 +1,14 @@
 
 import React from 'react';
-import Suppression from '../../assets/icons/delete.svg';
+import DELETE from '../../assets/icons/delete.svg';
 
 // Récupère l'objet event en tant que prop
-const DeleteProduct = ({ produit }) => {
-    // Fonction gererSuppression pour gérer la suppression de l'événement
+const SupprimerEvenement = ({ evenement }) => {
+    // Fonction pour gérer la suppression de l'événement
     const gererSuppression = async () => {
         try {
             // Envoi d'une requête DELETE à l'API
-            const reponse = await fetch(`http://localhost:3000/produit/${produit.ID}`, {
+            const reponse = await fetch(`http://localhost:3000/evenement/${evenement.ID}`, {
                 method: 'DELETE', // Utilisation de la méthode DELETE
             });
 
@@ -19,17 +19,15 @@ const DeleteProduct = ({ produit }) => {
             } else {
                 console.error('Erreur lors de la suppression de l\'événement');
             }
-        } catch (erreur) {
-            console.error(erreur);
+        } catch (error) {
+            console.error(error);
         }
     };
 
     // Rendu avec un bouton qui appelle la fonction gererSuppression au clic
     return (
-        <div>
-            <button onClick={gererSuppression} alt="Supprimer"><img src={Suppression}></img></button>
-        </div>
+        <button onClick={gererSuppression} alt="Supprimer"><img src={DELETE}></img></button>
     );
 };
 
-export default DeleteProduct;
+export default SupprimerEvenement;

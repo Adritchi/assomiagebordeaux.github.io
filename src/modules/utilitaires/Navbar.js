@@ -23,8 +23,8 @@ class Navbar extends Component {
     };
 
     componentDidMount() {
-        this.checkLoginStatus(); // Vérifie immédiatement l'état de connexion au chargement du composant
-        this.interval = setInterval(this.checkLoginStatus, 5000); // Vérifie l'état de connexion toutes les 5 secondes
+        this.estAdminConnecte(); // Vérifie immédiatement l'état de connexion au chargement du composant
+        this.interval = setInterval(this.estAdminConnecte, 5000); // Vérifie l'état de connexion toutes les 5 secondes
     }
     
     componentWillUnmount() {
@@ -32,19 +32,19 @@ class Navbar extends Component {
     }
     
 
-    checkLoginStatus = async () => {
+    estAdminConnecte = async () => {
         try {
-            const response = await fetch('/checkLoginStatus');
-            const data = await response.json();
-            this.setState({ adminConnected: data.adminConnected });
+            const reponse = await fetch('/estAdminConnecte');
+            const donnees = await reponse.json();
+            this.setState({ adminConnected: donnees.adminConnected });
         } catch (error) {
             console.error('Erreur lors de la vérification de l\'état de connexion :', error);
         }
     };
 
-    handleLogout = async () => {
+    gererDeconnexion = async () => {
         try {
-            await fetch('/logout', { method: 'POST' }); // Une route pour déconnecter l'utilisateur
+            await fetch('/deconnexion', { method: 'POST' }); // Une route pour déconnecter l'utilisateur
             this.setState({ adminConnected: false });
             window.location.reload();
         } catch (error) {
@@ -53,10 +53,10 @@ class Navbar extends Component {
     };
 
     render() {
-        const { adminConnected } = this.state;
-        const connectLabel = adminConnected ? "Connecté" : null;
-        const logoutButton = adminConnected ? (
-            <button onClick={this.handleLogout}>Déconnexion</button>
+        const { adminConnecte } = this.state;
+        const messageConnecte = adminConnecte ? "Connecté" : null;
+        const bouttonDeconnexion = adminConnecte ? (
+            <button onClick={this.gererDeconnexion}>Déconnexion</button>
         ) : null;
 
         const data = {
@@ -88,8 +88,8 @@ class Navbar extends Component {
                             <Link to={data.linkFourth}>{data.nameFourth}</Link>
                         </div>
                         <div className="module-navbar-row-menu-lien module-navbar-row-menu-lien-margin-left">
-                            {connectLabel}
-                            {logoutButton}
+                            {messageConnecte}
+                            {bouttonDeconnexion}
                         </div>
                     </div>
                 </div>

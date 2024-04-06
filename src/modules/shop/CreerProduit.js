@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const CreateProduct = () => {
+const CreerProduit = () => {
     // Etat local pour gérer les données du nouvel événement
     const [nouveauProduit, setNouveauProduit] = useState({
         imageProduit: null,
@@ -124,4 +124,4 @@ const CreateProduct = () => {
     );
 };
 
-export default CreateProduct;
+export default CreerProduit;
