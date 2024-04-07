@@ -278,7 +278,7 @@ app.post('/produit', estAdminConnecte,(requete, reponse) => {
         requete.body.prix || '',
         requete.body.image || null,
         requete.body.lien || '',
-        requete.body.estDispo ? 1 : 0, // Convertir en 1 si vrai, sinon en 0
+        requete.body.estDispo ? 1 : 0, // Convertir en 1 si vrai,  sinon en 0
     ];
 
     const query = 'INSERT INTO produit (nom, prix, image, lien, estDispo) VALUES (?, ?, ?, ?, ?)';
