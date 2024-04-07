@@ -274,11 +274,11 @@ app.post('/produit', estAdminConnecte,(requete, reponse) => {
 
     // Création d'un nouveau produit à partir des données de la requete
     const nouveauProduit = [
-        requete.body.nomProduit || '',
+        requete.body.nom || '',
         requete.body.prix || '',
-        requete.body.imageProduit || null,
+        requete.body.image || null,
         requete.body.lien || '',
-        requete.body.etatProduit ? 1 : 0, // Convertir en 1 si vrai, sinon en 0
+        requete.body.estAdmin ? 1 : 0, // Convertir en 1 si vrai, sinon en 0
     ];
 
     const query = 'INSERT INTO produit (nom, prix, image, lien, estDispo) VALUES (?, ?, ?, ?, ?)';
