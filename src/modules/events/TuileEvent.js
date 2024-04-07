@@ -43,7 +43,7 @@ export function TuileEvent(props) {
             {estEnEdition ? (
                 <>
                     {/* Affichage du formulaire de modification */}
-                    <EditerEvenement event={props} />
+                    <EditerEvenement evenement={props} />
                     <br></br>
                     <button onClick={gererCliqueAnnuler} alt="Annuler"><img src={CANCEL}></img></button>
                 </>
@@ -77,7 +77,7 @@ export function TuileEvent(props) {
                         {props.estAdmin && (
                             <div>
                                 <button onClick={gererCliqueEdition} alt="Modifier"><img src={EDIT}></img></button>
-                                <SupprimerEvenement event={props} onDelete={gererSuppression} />
+                                <SupprimerEvenement evenement={props} onDelete={gererSuppression} />
                             </div>
                         )}
                     </div>

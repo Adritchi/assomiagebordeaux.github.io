@@ -35,7 +35,7 @@ export function TuileMemories(props) {
                 <>
                     {/* Affichage du formulaire de modification */}
                     <br></br>
-                    <EditionSouvenir memory={props} />
+                    <EditionSouvenir souvenir={props} />
                     <br></br>
                     <div>
                         <button onClick={gererCliqueAnnuler} alt="Annuler"><img src={CANCEL}></img></button>
@@ -54,7 +54,7 @@ export function TuileMemories(props) {
                     {props.estAdmin && (
                         <div>
                             <button onClick={gererCliqueEdition} alt="Modifier"><img src={EDIT}></img></button>
-                            <SupprimerSouvenir memory={props} onDelete={gererSuppression} />
+                            <SupprimerSouvenir souvenir={props} onDelete={gererSuppression} />
                         </div>
                     )}
                 </div>
