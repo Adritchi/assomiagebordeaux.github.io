@@ -14,20 +14,20 @@ const EditionProduit = ({ produit }) => {
     };         
 
     const gererChangementEntree = (element) => {
-        const { nom, valeur } = element.target;
+        const { name, valeur: value } = element.target;
 
         // Vérification si le champ est "prix" et si la valeur est numérique ou float
-        if (nom === 'prix' && (!isNaN(valeur) || (valeur === '' || /^\d*\.?\d*$/.test(valeur)))) {
+        if (name === 'prix' && (!isNaN(value) || (value === '' || /^\d*\.?\d*$/.test(value)))) {
             // Met à jour l'état produitModifie en utilisant la fonction de mise à jour avec l'ancien état
             setProduitModifie(prevState => ({
                 ...prevState,
-                [nom]: valeur // Met à jour la valeur du champ spécifié par son nom
+                [name]: value // Met à jour la valeur du champ spécifié par son nom
             }));
-        } else if (nom !== 'prix') {
+        } else if (name !== 'prix') {
             // Si le champ n'est pas "prix", met à jour l'état directement sans vérification
             setProduitModifie(prevState => ({
                 ...prevState,
-                [nom]: valeur
+                [name]: value
             }));
         }
     };

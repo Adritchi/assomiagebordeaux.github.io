@@ -24,20 +24,20 @@ const CreerProduit = () => {
     // Gestion de changement pour les champs de saisie
     const gererChangementEntree = (element) => {
         // Extraie le nom et la valeur de l'élément déclencheur de l'event
-        const { nom, valeur } = element.target;
+        const { name, value } = element.target;
 
         // Vérification si le champ est "prix" et si la valeur est numérique ou float
-        if (nom === 'prix' && (!isNaN(valeur) || (valeur === '' || /^\d*\.?\d*$/.test(valeur)))) {
+        if (name === 'prix' && (!isNaN(value) || (value === '' || /^\d*\.?\d*$/.test(value)))) {
             // Met à jour l'état nouveauProduit en utilisant la fonction de mise à jour avec l'ancien état
             setNouveauProduit(prevState => ({
                 ...prevState, // Garde les valeurs précédentes des champs inchangées
-                [nom]: valeur // Met à jour la valeur du champ spécifié par son nom
+                [name]: value // Met à jour la valeur du champ spécifié par son nom
             }));
-        } else if (nom !== 'prix') {
+        } else if (name !== 'prix') {
             // Si le champ n'est pas "prix", met à jour l'état directement sans vérification
             setNouveauProduit(prevState => ({
                 ...prevState,
-                [nom]: valeur
+                [name]: value
             }));
         }
     };
@@ -66,7 +66,7 @@ const CreerProduit = () => {
         try {
             setErreur(false);
             // Vérification de la saisie des champs obligatoires
-            if (!nouveauProduit.image || nouveauProduit.nom.trim() === '' || nouveauProduit.lien.trim() === '' || nouveauProduit.prix.trim() === '') {
+            if (!nouveauProduit.image || nouveauProduit.nom === '' || nouveauProduit.lien === '' || nouveauProduit.prix === '') {
                 setErreur(true);
                 return;
             }
