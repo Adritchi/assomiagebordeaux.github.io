@@ -37,9 +37,9 @@ const EditerSouvenir = ({ souvenir }) => {
                 return;
             }
             // Convertir la date de début en UTC avant de l'enregistrer
-            const dateDebutUTC = new Date(souvenirMiseAJour.date_debut).toISOString().slice(0, 19).replace('T', ' ');
+            const dateDebutUTC = souvenirMiseAJour.date_debut ? new Date(souvenirMiseAJour.date_debut).toISOString().slice(0, 19).replace('T', ' ') : new Date().toISOString().slice(0, 19).replace('T', ' ');
             // Convertir la date de fin en UTC avant de l'enregistrer (si elle est présente)
-            const dateFinUTC = souvenirMiseAJour.date_fin ? new Date(souvenirMiseAJour.date_fin).toISOString().slice(0, 19).replace('T', ' ') : null;
+            const dateFinUTC = souvenirMiseAJour.date_fin ? new Date(souvenirMiseAJour.date_fin).toISOString().slice(0, 19).replace('T', ' ') : new Date().toISOString().slice(0, 19).replace('T', ' ');
             const reponse = await fetch(`http://localhost:3000/souvenir/${souvenir.ID}`, {
                 method: 'PUT',
                 headers: {
