@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import '../../assets/design/commun/tuileShop.css';
 import SuppressionProduit from './SuppressionProduit';
-import EditionProduit from './EditionProduit';
+import EditerProduit from './EditerProduit';
 import EDIT from '../../assets/icons/edit.svg';
 import CANCEL from '../../assets/icons/cancel.svg';
 
@@ -38,7 +38,7 @@ export function TuileShop(props) {
                     <>
                     {/* Affichage du formulaire de modification */}
                     <br></br>
-                    <EditionProduit produit={props} />
+                    <EditerProduit produit={props} />
                     <br></br>
                     <div>
                         <button onClick={gererCliqueAnnuler} alt="Annuler"><img src={CANCEL}></img></button>

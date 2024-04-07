@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const EditionProduit = ({ produit }) => {
+const EditerProduit = ({ produit }) => {
     const [produitModifie, setProduitModifie] = useState({
         ...produit, // Utiliser les valeurs initiales du produit
     });
@@ -96,4 +96,4 @@ const EditionProduit = ({ produit }) => {
     );
 };
 
-export default EditionProduit;
+export default EditerProduit;

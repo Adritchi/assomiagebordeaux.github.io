@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import '../../assets/design/commun/tuileMemories.css';
 import SupprimerSouvenir from './SupprimerSouvenir';
-import EditionSouvenir from './EditionSouvenir';
+import EditerSouvenir from './EditerSouvenir';
 import EDIT from '../../assets/icons/edit.svg';
 import CANCEL from '../../assets/icons/cancel.svg';
 
@@ -35,7 +35,7 @@ export function TuileMemories(props) {
                 <>
                     {/* Affichage du formulaire de modification */}
                     <br></br>
-                    <EditionSouvenir souvenir={props} />
+                    <EditerSouvenir souvenir={props} />
                     <br></br>
                     <div>
                         <button onClick={gererCliqueAnnuler} alt="Annuler"><img src={CANCEL}></img></button>

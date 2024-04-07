@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const EditionSouvenir = ({ souvenir }) => {
+const EditerSouvenir = ({ souvenir }) => {
     const [souvenirMiseAJour, setSouvenirMiseAJour] = useState(souvenir);
     const [erreur, setErreur] = useState(false);
     const [erreurDate, setErreurDate] = useState(false);
@@ -28,7 +28,7 @@ const EditionSouvenir = ({ souvenir }) => {
     const gererEnvoiEdition = async () => {
         try {
             setErreur(false);
-            if (souvenirMiseAJour.titre === '' || souvenirMiseAJour.date_debut === '' || souvenirMiseAJour.description === '' || souvenirMiseAJour.lien === '') {
+            if (souvenirMiseAJour.titre === '' || souvenirMiseAJour.date_debut === '1970-01-01' || souvenirMiseAJour.description === '' || souvenirMiseAJour.lien === '') {
                 setErreur(true);
                 return;
             }
@@ -94,4 +94,4 @@ const EditionSouvenir = ({ souvenir }) => {
     );
 };
 
-export default EditionSouvenir;
+export default EditerSouvenir;
