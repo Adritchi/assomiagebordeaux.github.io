@@ -103,8 +103,8 @@ app.post('/connexion', (requete, resultat) => {
 
     const sql = "SELECT * FROM Utilisateur WHERE identifiant = ? AND password = ?";
     const valeurs = [
-        requete.body.id,
-        requete.body.password
+        requete.body.identifiant,
+        requete.body.motDePasse
     ]
     connexion.query(sql, valeurs, (erreur, data) => {
         if (erreur) return resultat.status(500).json({ status: "erreur", message: "erreur interne du serveur" });
