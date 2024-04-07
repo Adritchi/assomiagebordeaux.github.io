@@ -14,7 +14,7 @@ const EditionProduit = ({ produit }) => {
     };         
 
     const gererChangementEntree = (element) => {
-        const { name, valeur: value } = element.target;
+        const { name, value } = element.target;
 
         // Vérification si le champ est "prix" et si la valeur est numérique ou float
         if (name === 'prix' && (!isNaN(value) || (value === '' || /^\d*\.?\d*$/.test(value)))) {
