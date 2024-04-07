@@ -50,18 +50,18 @@ export function TuileShop(props) {
                 <a href={props.lien} target="_blank" rel="noopener noreferrer nofollow"
                    style={{textDecoration: 'none'}}>
                     <div class="module-tuileShop-imageProduit">
-                        <img src={props.imageProduit} alt={props.title}/>
+                        <img src={props.image} alt={props.title}/>
                     </div>
 
                 {!estEnEdition && (
                 <div class="module-tuileShop-infosProduit">
                     <div class="module-tuileShop-infosProduit-nom">
-                        {props.nomProduit}
+                        {props.nom}
                     </div>
                     <div className="module-tuileShop-infosProduit-prix">
                         {parseFloat(props.prix).toFixed(2)} €
                     </div>
-                    {props.etatProduit === 1
+                    {props.estDispo === 1
                         ?
                         <div class="module-tuileShop-infosProduit-etatProduit disponible">
                             {"En stock"}
@@ -69,7 +69,7 @@ export function TuileShop(props) {
                         :
                         <div></div>
                     }
-                    {props.etatProduit === 0
+                    {props.estDispo === 0
                         ?
                         <div class="module-tuileShop-infosProduit-etatProduit indisponible">
                             {"Indisponible"}

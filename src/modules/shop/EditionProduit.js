@@ -6,7 +6,7 @@ const EditionProduit = ({ produit }) => {
     });
     const [erreur, setErreur] = useState(false);
 
-    const handleCheckboxChange = () => {
+    const gererChangementCheckbox  = () => {
         setProduitModifie(prevState => ({
             ...prevState,
             etatProduit: !prevState.etatProduit // Inverse l'état actuel
@@ -38,7 +38,7 @@ const EditionProduit = ({ produit }) => {
         lecteur.onload = () => {
             setProduitModifie(prevState => ({
                 ...prevState,
-                imageProduit: lecteur.result // Mettre à jour l'image avec le contenu base64
+                image: lecteur.result // Mettre à jour l'image avec le contenu base64
             }));
         };
         lecteur.readAsDataURL(fichierImage);
@@ -47,7 +47,7 @@ const EditionProduit = ({ produit }) => {
     const gererEnvoiEdition = async () => {
         try {
             setErreur(false);
-            if (produitModifie.nomProduit === '' || produitModifie.lien === '' || produitModifie.prix === '') {
+            if (produitModifie.nom === '' || produitModifie.lien === '' || produitModifie.prix === '') {
                 setErreur(true);
                 return;
             }
@@ -78,9 +78,9 @@ const EditionProduit = ({ produit }) => {
             <input type="file" accept="image/*" onChange={gererChangementImage } />
             <br></br>
             <br></br>
-            <input type="text" name="nomProduit" value={produitModifie.nomProduit} onChange={gererChangementEntree} />
+            <input type="text" name="nom" value={produitModifie.nom} onChange={gererChangementEntree} />
             <input type="text" name="prix" value={produitModifie.prix} onChange={gererChangementEntree} />
-            <input type="checkbox" name="etatProduit" checked={produitModifie.etatProduit} onChange={handleCheckboxChange} />            
+            <input type="checkbox" name="etatProduit" checked={produitModifie.etatProduit} onChange={gererChangementCheckbox } />            
             <input type="text" name="lien" value={produitModifie.lien} onChange={gererChangementEntree} />
             <br></br>
             <br></br>

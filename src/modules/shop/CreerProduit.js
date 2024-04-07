@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 const CreerProduit = () => {
     // Etat local pour gérer les données du nouvel événement
     const [nouveauProduit, setNouveauProduit] = useState({
-        imageProduit: null,
-        nomProduit: '',
+        image: null,
+        nom: '',
         prix: '',
         lien: '',
-        etatProduit: false, // Initialisé comme un booléen
+        estDispo: false, // Initialisé comme un booléen
     });
 
     // Etat local pour gérer les erreurs de formulaire
@@ -17,7 +17,7 @@ const CreerProduit = () => {
     const gererChangementCheckbox = () => {
         setNouveauProduit(prevState => ({
             ...prevState,
-            etatProduit: !prevState.etatProduit // Inverse l'état actuel
+            estDispo: !prevState.estDispo // Inverse l'état actuel
         }));
     };
 
@@ -53,7 +53,7 @@ const CreerProduit = () => {
             // Met à jour l'état pour inclure l'image sous forme de base64
             setNouveauProduit(prevState => ({
                 ...prevState,
-                imageProduit: lecteur.result // Stock l'image en base64
+                image: lecteur.result // Stock l'image en base64
             }));
         };
 
@@ -66,7 +66,7 @@ const CreerProduit = () => {
         try {
             setErreur(false);
             // Vérification de la saisie des champs obligatoires
-            if (!nouveauProduit.imageProduit || nouveauProduit.nomProduit.trim() === '' || nouveauProduit.lien.trim() === '' || nouveauProduit.prix.trim() === '') {
+            if (!nouveauProduit.image || nouveauProduit.nom.trim() === '' || nouveauProduit.lien.trim() === '' || nouveauProduit.prix.trim() === '') {
                 setErreur(true);
                 return;
             }
@@ -83,10 +83,10 @@ const CreerProduit = () => {
             if (reponse.ok) {
                 // Réinitialisation des champs après la création réussie
                 setNouveauProduit({
-                    imageProduit: null,
-                    nomProduit: '',
+                    image: null,
+                    nom: '',
                     prix: '',
-                    etatProduit: '',
+                    estDispo: '',
                     lien: '',
                 });
                 setErreur(false); // Réinitialisation des erreurs
@@ -106,9 +106,9 @@ const CreerProduit = () => {
             <input type="file" accept="image/*" onChange={gererChangementImage} />
             <br></br>
             <br></br>
-            <input type="text" name="nomProduit" placeholder="Nom" value={nouveauProduit.nomProduit} onChange={gererChangementEntree} />
+            <input type="text" name="nom" placeholder="Nom" value={nouveauProduit.nom} onChange={gererChangementEntree} />
             <input type="text" name="prix" placeholder="Prix" value={nouveauProduit.prix} onChange={gererChangementEntree} />
-            <input type="checkbox" name="etatProduit" checked={nouveauProduit.etatProduit} onChange={gererChangementCheckbox} />
+            <input type="checkbox" name="estDispo" checked={nouveauProduit.estDispo} onChange={gererChangementCheckbox} />
             <input type="text" name="lien" placeholder="Lien" value={nouveauProduit.lien} onChange={gererChangementEntree} />
             <br></br>
             <br></br>

@@ -30,10 +30,10 @@ const ListeProduit = ({ estAdmin }) => {
                     return (
                         <TuileShop
                             ID={produit.ID}
-                            imageProduit={produit.image}
-                            nomProduit={produit.nom}
+                            image={produit.image}
+                            nom={produit.nom}
                             prix={produit.prix}
-                            etatProduit={produit.estDispo}
+                            estDispo={produit.estDispo}
                             lien={produit.lien}
                             estAdmin={estAdmin}
                         />
