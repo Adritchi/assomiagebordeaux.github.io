@@ -274,11 +274,11 @@ app.post('/produit', estAdminConnecte,(requete, reponse) => {
 
     // Création d'un nouveau produit à partir des données de la requete
     const nouveauProduit = [
-        requete.body.nomProduit || '',
+        requete.body.nom || '',
         requete.body.prix || '',
-        requete.body.imageProduit || null,
+        requete.body.image || null,
         requete.body.lien || '',
-        requete.body.etatProduit ? 1 : 0, // Convertir en 1 si vrai, sinon en 0
+        requete.body.estDispo ? 1 : 0, // Convertir en 1 si vrai, sinon en 0
     ];
 
     const query = 'INSERT INTO produit (nom, prix, image, lien, estDispo) VALUES (?, ?, ?, ?, ?)';
@@ -314,10 +314,10 @@ app.put('/produit/:id', estAdminConnecte,(requete, reponse) => {
     const produitMiseAJour = requete.body;
 
     // Champs à mettre à jour
-    const { nomProduit, prix, imageProduit, lien, etatProduit } = produitMiseAJour;
+    const { nom, prix, image, lien, estDispo } = produitMiseAJour;
 
     let query = 'UPDATE produit SET nom = ?, prix = ?, image = ?, lien = ?, estDispo = ? WHERE ID = ?';
-    let queryParams = [nomProduit, prix, imageProduit, lien, etatProduit, identifiantProduit];
+    let queryParams = [nom, prix, image, lien, estDispo, identifiantProduit];
 
     connexion.query(query, queryParams, (erreur, resultat) => {
         if (erreur) {
