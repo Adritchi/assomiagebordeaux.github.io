@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+// Import Bootstrap CSS
+import 'bootstrap/dist/css/bootstrap.min.css';
+import CANCEL from '../../assets/icons/cancel.svg';
+import '../../assets/design/commun/tuileMemories.css';
 
 const CreateMemories = () => {
     // Etat local pour gérer les données du nouvel événement
@@ -10,6 +14,9 @@ const CreateMemories = () => {
         description: '',
         lien: '',
     });
+
+    // Etat de succès
+    const [success, setSuccess] = useState(false);
 
     // Etat local pour gérer les erreurs de formulaire
     const [error, setError] = useState(false);
@@ -45,6 +52,10 @@ const CreateMemories = () => {
         reader.readAsDataURL(file);
     };
 
+    // Gestion du clic sur le bouton "Annuler"
+    const handleCancelClick = () => {
+        setNewMemory(false);
+    };
 
     // Gestion de la création d'event
     const handleCreateMemory = async () => {
@@ -83,7 +94,6 @@ const CreateMemories = () => {
 
             // Vérification de la réponse de la requête
             if (response.ok) {
-                console.log('Événement créé avec succès');
                 // Réinitialisation des champs après la création réussie
                 setNewMemory({
                     image: '',
@@ -93,11 +103,15 @@ const CreateMemories = () => {
                     description: '',
                     lien: '',
                 });
-
-                setError(false); // Réinitialisation des erreurs
-                setErrorDate(false); // Réinitialisation des erreurs de date
-                window.location.reload(); // Recharge la page
                 
+                // Définir un délai avant de recharger la page
+                setTimeout(() => {
+                    window.location.reload();
+                }, 3000); // Attente de 3 secondes
+
+                setSuccess(true); // Success
+                setError(false); // Réinitialisation des erreurs
+                setErrorDate(false); // Réinitialisation des erreurs de date                
             } else {
                 console.error('Erreur lors de la création du souvenir ');
             }
@@ -108,28 +122,57 @@ const CreateMemories = () => {
 
     // Rendu avec les champs de saisie et le bouton de création d'événement
     return (
-        <div>
-            <input type="file" accept="image/*" onChange={handleImageChange} />
-            <br></br>
-            <br></br>
-            <input type="text" name="titre" placeholder="Titre" value={newMemory.titre} onChange={handleInputChange} />
-            <input type="date" name="date_debut" placeholder="Date début (Ex: 2022-12-12)" value={newMemory.date_debut} onChange={handleInputChange} />
-            <input type="date" name="date_fin" placeholder="Date fin (Ex: 2022-12-15)" value={newMemory.date_fin} onChange={handleInputChange} />
-            <input type="text" name="description" placeholder="Description" value={newMemory.description} onChange={handleInputChange} />
-            <input type="text" name="lien" placeholder="Lien" value={newMemory.lien} onChange={handleInputChange} />
-            <br></br>
-            <br></br>
-            <button onClick={handleCreateMemory}>Créer le souvenir</button>
-
-            {/* Affichage des erreurs */}
+        <div className="container my-3">
+            <div className="card">
+                <div className="card-body">
+                    <h5 className="card-title">Ajouter un souvenir</h5>
+                    <form>
+                        <div className="mb-3">
+                            <label htmlFor="image" className="form-label">Image</label>
+                            <input className="form-control" type="file" id="image" accept="image/*" onChange={handleImageChange} />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="titre" className="form-label">Titre</label>
+                            <input className="form-control" type="text" id="titre" name="titre" placeholder="Titre" value={newMemory.titre} onChange={handleInputChange} />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="date_debut" className="form-label">Date de début</label>
+                            <input className="form-control" type="date" id="date_debut" name="date_debut" value={newMemory.date_debut} onChange={handleInputChange} />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="date_fin" className="form-label">Date de fin</label>
+                            <input className="form-control" type="date" id="date_fin" name="date_fin" value={newMemory.date_fin} onChange={handleInputChange} />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="description" className="form-label">Description</label>
+                            <textarea className="form-control" id="description" name="description" rows="3" placeholder="Description" value={newMemory.description} onChange={handleInputChange}></textarea>
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="lien" className="form-label">Lien</label>
+                            <input className="form-control" type="url" id="lien" name="lien" placeholder="Lien" value={newMemory.lien} onChange={handleInputChange} />
+                        </div>
+                        <div className="d-grid gap-2">
+                            <button type="button" onClick={handleCancelClick}>
+                                <img src={CANCEL} alt="Annuler" />
+                            </button>
+                            <button className="module-tuileMemories-info-buttons-button2" type="button" onClick={handleCreateMemory}>Ajouter le souvenir</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            {success && (
+                <div className="alert alert-success" role="alert">
+                    Le souvenir a été créé avec succès !
+                </div>
+            )}
             {error && (
-                <div style={{ color: 'red' }}>
-                    <p>Veuillez remplir tous les champs</p>
+                <div className="alert alert-danger" role="alert">
+                    Veuillez remplir tous les champs.
                 </div>
             )}
             {errorDate && (
-                <div style={{ color: 'red' }}>
-                    <p>Veuillez entrer des dates valides</p>
+                <div className="alert alert-danger" role="alert">
+                    Veuillez entrer des dates valides.
                 </div>
             )}
         </div>

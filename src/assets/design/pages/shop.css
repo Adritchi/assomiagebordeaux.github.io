@@ -10,7 +10,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-position: left;
+        background-position: center;
     }
 
     .page-shop-illustration-infos {
@@ -50,17 +50,13 @@
     }
 
     .page-shop-articles {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: stretch;
-        padding: 6% 8% 6% 8%;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
         color: white;
     }
 
     .page-shop-content-margin {
-        padding: 4% 8% 6% 8%;
+        padding: 4% 6% 6% 8%;
         color: white;
     }
 

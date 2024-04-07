@@ -24,7 +24,6 @@ const CreateEvent = () => {
     const [error, setError] = useState(false);
     const [errorDate, setErrorDate] = useState(false);
 
-
     // Gestion de changement pour les champs de saisie
     const handleInputChange = (e) => {
         // Extraie le nom et la valeur de l'élément déclencheur de l'event
@@ -152,10 +151,10 @@ const CreateEvent = () => {
                             <input className="form-control" type="url" id="lien" name="lien" placeholder="Lien" value={newEvent.lien} onChange={handleInputChange} />
                         </div>
                         <div className="d-grid gap-2">
+                            <button className="module-tuileEvent-info-buttons-button2" type="button" onClick={handleCreateEvent}>Ajouter l'événement</button>
                             <button type="button" onClick={handleCancelClick}>
                                 <img src={CANCEL} alt="Annuler" />
                             </button>
-                            <button className="module-tuileEvent-info-buttons-button2" type="button" onClick={handleCreateEvent}>Ajouter l'événement</button>
                         </div>
                     </form>
                 </div>

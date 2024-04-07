@@ -7,6 +7,7 @@ const EditEvent = ({ event }) => {
     const [updatedEvent, setUpdatedEvent] = useState(event);
     const [error, setError] = useState(false);
     const [errorDate, setErrorDate] = useState(false);
+    const [updatedSuccess, setUpdatedSuccess] = useState(false);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -48,11 +49,16 @@ const EditEvent = ({ event }) => {
             });
 
             if (response.ok) {
-                console.log('Événement mis à jour avec succès');
+                // Définir un délai avant de recharger la page
+                setTimeout(() => {
+                    window.location.reload();
+                }, 3000); // Attente de 3 secondes
+                
+                setUpdatedSuccess(true); // Success
                 setErrorDate(false);
                 setError(false);
-                window.location.reload();
             } else {
+                setError(true);
                 console.error('Erreur lors de la mise à jour de l\'événement');
             }
         } catch (error) {
@@ -97,7 +103,11 @@ const EditEvent = ({ event }) => {
                     <button className="module-tuileEvent-info-buttons-button2" type="button" onClick={handleEditSubmit}>Enregistrer les modifications</button>
                 </div>
             </form>
-
+            {updatedSuccess && (
+                <div className="alert alert-success" role="alert">
+                    L'événement a été modifié avec succès !
+                </div>
+            )}
             {error && <div className="alert alert-danger">Veuillez remplir tous les champs.</div>}
             {errorDate && <div className="alert alert-danger">Veuillez entrer des dates valides.</div>}
         </div>

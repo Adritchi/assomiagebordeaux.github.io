@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 // Import Bootstrap CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DELETE from '../../assets/icons/delete.svg';

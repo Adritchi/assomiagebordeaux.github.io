@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 
+// Import Bootstrap CSS
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../../assets/design/commun/tuileShop.css';
+
 const EditProduct = ({ product }) => {
     const [updatedProduct, setUpdatedProduct] = useState({
         ...product, // Utiliser les valeurs initiales du produit
     });
     const [error, setError] = useState(false);
+    const [updatedSuccess, setUpdatedSuccess] = useState(false);
 
     const handleCheckboxChange = () => {
         setUpdatedProduct(prevState => ({
@@ -61,10 +66,15 @@ const EditProduct = ({ product }) => {
             });
     
             if (response.ok) {
-                console.log('Événement mis à jour avec succès');
+                // Définir un délai avant de recharger la page
+                setTimeout(() => {
+                    window.location.reload();
+                }, 3000); // Attente de 3 secondes
+                
+                setUpdatedSuccess(true); // Success
                 setError(false);
-                window.location.reload();
             } else {
+                setError(true);
                 console.error('Erreur lors de la mise à jour du produit');
             }
         } catch (error) {
@@ -74,24 +84,41 @@ const EditProduct = ({ product }) => {
     
 
     return (
-        <div>
-            <input type="file" accept="image/*" onChange={handleImageChange} />
-            <br></br>
-            <br></br>
-            <input type="text" name="nomProduit" value={updatedProduct.nomProduit} onChange={handleInputChange} />
-            <input type="text" name="prix" value={updatedProduct.prix} onChange={handleInputChange} />
-            <input type="checkbox" name="etatProduit" checked={updatedProduct.etatProduit} onChange={handleCheckboxChange} />            
-            <input type="text" name="lien" value={updatedProduct.lien} onChange={handleInputChange} />
-            <br></br>
-            <br></br>
-            <button onClick={handleEditSubmit}>Enregistrer les modifications</button>
-            
-            {/* Rendu conditionnel du label d'erreur */}
-            {error && (
-                <div style={{ color: 'red' }}>
-                    <p>Veuillez remplir tous les champs</p>
+        <div className="container my-4">
+            <form>
+                <div className="mb-3">
+                    <label htmlFor="image" className="form-label label-shop">Image</label>
+                    <input className="form-control" type="file" accept="image/*" onChange={handleImageChange} />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="nomProduit" className="form-label label-shop">Nom</label>
+                    <input className="form-control" type="text" name="nomProduit" value={updatedProduct.nomProduit} onChange={handleInputChange} />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="prix" className="form-label label-shop">Prix</label>
+                    <input className="form-control" type="text" name="prix" value={updatedProduct.prix} onChange={handleInputChange} />
+                </div>
+                <div className="row g-3">
+                    <div className="mb-3">
+                        <label htmlFor="lien" className="form-label label-shop">Lien</label>
+                        <input className="form-control" type="text" name="lien" value={updatedProduct.lien} onChange={handleInputChange} />
+                    </div>
+                </div>
+                <div className="col">
+                    <label htmlFor="etatProduit" className="form-label label-shop">Disponible</label>
+                    <input type="checkbox" name="etatProduit" checked={updatedProduct.etatProduit} onChange={handleCheckboxChange} />
+                </div>
+                <div className="d-grid gap-2">
+                    <button className="module-tuileEvent-info-buttons-button2" type="button" onClick={handleEditSubmit}>Enregistrer les modifications</button>
+                </div>
+            </form>
+            {updatedSuccess && (
+                <div className="alert alert-success" role="alert">
+                    Le produit a été modifié avec succès !
                 </div>
             )}
+            {/* Rendu conditionnel du label d'erreur */}
+            {error && <div className="alert alert-danger">Veuillez remplir tous les champs.</div>}
         </div>
     );
 };

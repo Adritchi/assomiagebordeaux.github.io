@@ -1,11 +1,15 @@
 import React, {Component} from 'react';
 
+// Import de l'image pour l'illustration
 import MemoriesIllustration from '../../assets/images/memories.jpg';
 
+// Import des composants nécessaires
 import ListMemories from '../../modules/memories/GetMemories';
 import CreateMemories from '../../modules/memories/CreateMemories';
 
+// Import du fichier de style CSS spécifique à la page memories
 import '../../assets/design/pages/memories.css'
+import '../../assets/design/commun/tuileMemories.css';
 
 class Memories extends Component {
 
@@ -52,11 +56,12 @@ class Memories extends Component {
                         </div>
                     </div>
                 </div>
+                {/* Contenu principal de la page */}
                 <div class="page-memories-content">
                     <div class="page-memories-content-margin">
                         <div>
                             {estAdmin && (
-                                <button className="" onClick={this.toggleCreateMemoryForm}>Ajouter un souvenir</button>
+                                <button className="module-tuileMemories-info-buttons-button2" onClick={this.toggleCreateMemoryForm}>Ajouter un souvenir</button>
                             )}
                             <br></br>
                             <br></br>

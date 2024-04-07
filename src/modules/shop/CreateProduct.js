@@ -1,4 +1,9 @@
 import React, { useState } from 'react';
+// Import Bootstrap CSS
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import CANCEL from '../../assets/icons/cancel.svg';
+import '../../assets/design/commun/tuileShop.css';
 
 const CreateProduct = () => {
     // Etat local pour gérer les données du nouvel événement
@@ -9,6 +14,9 @@ const CreateProduct = () => {
         lien: '',
         etatProduit: false, // Initialisé comme un booléen
     });
+
+    // Etat de succès
+    const [success, setSuccess] = useState(false);
 
     // Etat local pour gérer les erreurs de formulaire
     const [error, setError] = useState(false);
@@ -61,6 +69,11 @@ const CreateProduct = () => {
         reader.readAsDataURL(file);
     };
 
+    // Gestion du clic sur le bouton "Annuler"
+    const handleCancelClick = () => {
+        setNewProduct(false);
+    };
+
     // Gestion de la création de produit
     const handleCreateProduct = async () => {
         try {
@@ -89,8 +102,14 @@ const CreateProduct = () => {
                     etatProduit: '',
                     lien: '',
                 });
+
+                // Définir un délai avant de recharger la page
+                setTimeout(() => {
+                    window.location.reload();
+                }, 3000); // Attente de 3 secondes
+                
+                setSuccess(true); // Success
                 setError(false); // Réinitialisation des erreurs
-                window.location.reload(); // Recharge la page
             } else {
                 console.error('Erreur lors de la création de l\'événement');
             }
@@ -102,22 +121,49 @@ const CreateProduct = () => {
 
     // Rendu avec les champs de saisie et le bouton de création de produit
     return (
-        <div>
-            <input type="file" accept="image/*" onChange={handleImageChange} />
-            <br></br>
-            <br></br>
-            <input type="text" name="nomProduit" placeholder="Nom" value={newProduct.nomProduit} onChange={handleInputChange} />
-            <input type="text" name="prix" placeholder="Prix" value={newProduct.prix} onChange={handleInputChange} />
-            <input type="checkbox" name="etatProduit" checked={newProduct.etatProduit} onChange={handleCheckboxChange} />
-            <input type="text" name="lien" placeholder="Lien" value={newProduct.lien} onChange={handleInputChange} />
-            <br></br>
-            <br></br>
-            <button onClick={handleCreateProduct}>Créer le produit</button>
-
+        <div className="container my-3">
+            <div className="card">
+                <div className="card-body">
+                    <h5 className="card-title">Ajouter un produit</h5>
+                    <form>
+                        <div className="mb-3">
+                            <label htmlFor="image" className="form-label">Image</label>
+                            <input className="form-control" type="file" id="image" accept="image/*" onChange={handleImageChange} />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="nom" className="form-label">Nom</label>
+                            <input className="form-control" type="text" name="nomProduit" placeholder="Nom" value={newProduct.nomProduit} onChange={handleInputChange} />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="prix" className="form-label">Prix</label>
+                            <input className="form-control" type="text" name="prix" placeholder="Prix" value={newProduct.prix} onChange={handleInputChange} />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="etatProduit" className="form-label">Disponible</label>
+                            <input type="checkbox" name="etatProduit" checked={newProduct.etatProduit} onChange={handleCheckboxChange} />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="lien" className="form-label">Lien</label>
+                            <input className="form-control" type="text" name="lien" placeholder="Lien" value={newProduct.lien} onChange={handleInputChange} />
+                        </div>
+                        <div className="d-grid gap-2">
+                            <button className="module-tuileEvent-info-buttons-button2" onClick={handleCreateProduct}>Créer le produit</button>
+                            <button type="button" onClick={handleCancelClick}>
+                                <img src={CANCEL} alt="Annuler" />
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            {success && (
+                <div className="alert alert-success" role="alert">
+                    Le produit a été créé avec succès !
+                </div>
+            )}
             {/* Affichage des erreurs */}
             {error && (
-                <div style={{ color: 'red' }}>
-                    <p>Veuillez remplir tous les champs</p>
+                <div className="alert alert-danger" role="alert">
+                    Veuillez remplir tous les champs
                 </div>
             )}
         </div>

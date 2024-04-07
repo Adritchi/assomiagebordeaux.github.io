@@ -1,11 +1,14 @@
 import React, {Component} from 'react';
 
+// Import de l'image pour l'illustration
 import ShopIllustration from '../../assets/images/shop.jpg';
 
 import CreateProduct from '../../modules/shop/CreateProduct';
 import ListProduct from '../../modules/shop/GetProduct';
 
+// Import du fichier de style CSS spécifique à la page events
 import '../../assets/design/pages/shop.css';
+import '../../assets/design/commun/tuileShop.css';
 
 class Shop extends Component {
 
@@ -50,12 +53,11 @@ class Shop extends Component {
                         <div class="page-shop-illustration-infos-subtitle">La panoplie complète du bon miagiste</div>
                     </div>
                 </div>
-                <br></br>
                 <div class="page-shop-content">
-                    <div class="page-memories-content-margin">
+                    <div class="page-shop-content-margin">
                         <div>
                             {estAdmin && (
-                                <button onClick={this.toggleCreateProductForm}>Ajouter un produit</button>
+                                <button className="module-tuileEvent-info-buttons-button2" onClick={this.toggleCreateProductForm}>Ajouter un produit</button>
                             )}                        
                             <br></br>
                             <br></br>

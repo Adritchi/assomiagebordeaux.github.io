@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import '../../assets/design/commun/tuileShop.css';
 import DeleteProduct from './DeleteProduct';
 import EditProduct from './EditProduct';
+
+// Import des icônes nécessaires
 import EDIT from '../../assets/icons/edit.svg';
 import CANCEL from '../../assets/icons/cancel.svg';
 
@@ -27,25 +29,28 @@ export function TuileShop(props) {
     };
         return (
             <div class="module-tuileShop">
-                {props.estAdmin && (
-                    <div className="module-tuileProduct-edit-button">
-                        <button onClick={handleEditClick} alt="Modifier"><img src={EDIT}></img></button>
-                        <DeleteProduct product={props} onDelete={handleDelete} />
-                    </div>
-                )}
+                <div className="d-flex justify-content-end align-items-start">
+                    {props.estAdmin && (
+                        <div className="d-flex">
+                            <button onClick={handleEditClick} className="btn btn-outline-primary me-2" alt="Modifier">
+                                <img src={EDIT} alt="Edit icon" />
+                            </button>
+                            <DeleteProduct product={props} onDelete={handleDelete} />
+                        </div>
+                    )}
+                </div>
                 
                 {isEditing && (
                     <>
-                    {/* Affichage du formulaire de modification */}
-                    <br></br>
-                    <EditProduct product={props} />
-                    <br></br>
-                    <div>
-                        <button onClick={handleCancelClick} alt="Annuler"><img src={CANCEL}></img></button>
-                    </div>
+                        {/* Affichage du formulaire de modification */}
+                        <br></br>
+                        <EditProduct product={props} />
+                        <br></br>
+                        <div>
+                            <button onClick={handleCancelClick} alt="Annuler"><img src={CANCEL}></img></button>
+                        </div>
                     </>
                 )}
-
                 {/* <Link to={props.lien} style={{ textDecoration: 'none' }}> */}
                 <a href={props.lien} target="_blank" rel="noopener noreferrer nofollow"
                    style={{textDecoration: 'none'}}>

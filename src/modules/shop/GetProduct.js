@@ -25,7 +25,7 @@ const ListProduct = ({ estAdmin }) => {
 
     return (
         <div>
-            <div className="liste-tuiles">
+            <div className="page-shop-articles">
                 {products.map(product => {
                     return (
                         <TuileShop
