@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 // Import Bootstrap CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
-import CANCEL from '../../assets/icons/cancel.svg';
 import '../../assets/design/commun/tuileMemories.css';
 
 const CreateMemories = () => {
@@ -50,11 +49,6 @@ const CreateMemories = () => {
 
         // Lit le contenu du fichier en tant que données URL
         reader.readAsDataURL(file);
-    };
-
-    // Gestion du clic sur le bouton "Annuler"
-    const handleCancelClick = () => {
-        setNewMemory(false);
     };
 
     // Gestion de la création d'event
@@ -152,14 +146,11 @@ const CreateMemories = () => {
                             <input className="form-control" type="url" id="lien" name="lien" placeholder="Lien" value={newMemory.lien} onChange={handleInputChange} />
                         </div>
                         <div className="d-grid gap-2">
-                            <button type="button" onClick={handleCancelClick}>
-                                <img src={CANCEL} alt="Annuler" />
-                            </button>
                             <button className="module-tuileMemories-info-buttons-button2" type="button" onClick={handleCreateMemory}>Ajouter le souvenir</button>
                         </div>
                     </form>
                 </div>
-            </div>
+            </div><br></br>
             {success && (
                 <div className="alert alert-success" role="alert">
                     Le souvenir a été créé avec succès !

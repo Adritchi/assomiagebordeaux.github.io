@@ -102,7 +102,7 @@ const EditEvent = ({ event }) => {
                 <div className="d-grid gap-2">
                     <button className="module-tuileEvent-info-buttons-button2" type="button" onClick={handleEditSubmit}>Enregistrer les modifications</button>
                 </div>
-            </form>
+            </form><br></br>
             {updatedSuccess && (
                 <div className="alert alert-success" role="alert">
                     L'événement a été modifié avec succès !

@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 // Import Bootstrap CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-import CANCEL from '../../assets/icons/cancel.svg';
 import '../../assets/design/commun/tuileEvent.css';
 
 const CreateEvent = () => {
@@ -52,11 +50,6 @@ const CreateEvent = () => {
 
         // Lit le contenu du fichier en tant que données URL
         reader.readAsDataURL(file);
-    };
-
-    // Gestion du clic sur le bouton "Annuler"
-    const handleCancelClick = () => {
-        setNewEvent(false);
     };
 
     // Gestion de la création d'event
@@ -152,13 +145,10 @@ const CreateEvent = () => {
                         </div>
                         <div className="d-grid gap-2">
                             <button className="module-tuileEvent-info-buttons-button2" type="button" onClick={handleCreateEvent}>Ajouter l'événement</button>
-                            <button type="button" onClick={handleCancelClick}>
-                                <img src={CANCEL} alt="Annuler" />
-                            </button>
                         </div>
                     </form>
                 </div>
-            </div>
+            </div><br></br>
             {success && (
                 <div className="alert alert-success" role="alert">
                     L'événement a été créé avec succès !

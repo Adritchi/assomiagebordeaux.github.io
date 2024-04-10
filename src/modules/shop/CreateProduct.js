@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 // Import Bootstrap CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-import CANCEL from '../../assets/icons/cancel.svg';
 import '../../assets/design/commun/tuileShop.css';
 
 const CreateProduct = () => {
@@ -67,11 +65,6 @@ const CreateProduct = () => {
 
         // Lit le contenu du fichier en tant que données URL
         reader.readAsDataURL(file);
-    };
-
-    // Gestion du clic sur le bouton "Annuler"
-    const handleCancelClick = () => {
-        setNewProduct(false);
     };
 
     // Gestion de la création de produit
@@ -148,13 +141,10 @@ const CreateProduct = () => {
                         </div>
                         <div className="d-grid gap-2">
                             <button className="module-tuileEvent-info-buttons-button2" onClick={handleCreateProduct}>Créer le produit</button>
-                            <button type="button" onClick={handleCancelClick}>
-                                <img src={CANCEL} alt="Annuler" />
-                            </button>
                         </div>
                     </form>
                 </div>
-            </div>
+            </div><br></br>
             {success && (
                 <div className="alert alert-success" role="alert">
                     Le produit a été créé avec succès !
