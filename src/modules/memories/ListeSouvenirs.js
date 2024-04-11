@@ -3,16 +3,16 @@ import TuileMemories from './TuileMemories';
 import moment from 'moment';
 import '../../assets/design/pages/memories.css';
 
-const ListMemories = ({ estAdmin }) => {
-    const [memories, setMemories] = useState([]);
+const ListeSouvenirs = ({ estAdmin }) => {
+    const [souvenirs, setSouvenirs] = useState([]);
 
     useEffect(() => {
         const fetchMemories = async () => {
             try {
-                const response = await fetch('http://localhost:3000/memory');
-                if (response.ok) {
-                    const data = await response.json();
-                    setMemories(data);
+                const reponse = await fetch('http://localhost:3000/souvenir');
+                if (reponse.ok) {
+                    const data = await reponse.json();
+                    setSouvenirs(data);
                 } else {
                     console.error('Erreur lors de la récupération des souvenirs');
                 }
@@ -55,7 +55,7 @@ const ListMemories = ({ estAdmin }) => {
     // Fonction pour obtenir les périodes scolaires uniques des souvenirs
     const getUniqueSchoolYears = () => {
         const schoolYears = new Set();
-        memories.forEach(memory => {
+        souvenirs.forEach(memory => {
             const startMoment = moment(memory.date_debut);
             const schoolYearStart = startMoment.month() >= 8 ? startMoment.year() : startMoment.year() - 1;
             const schoolYearEnd = startMoment.month() >= 8 ? startMoment.year() + 1 : startMoment.year();
@@ -72,8 +72,8 @@ const ListMemories = ({ estAdmin }) => {
                     <div key={schoolYear} className="year-container">
                         <div className="page-memories-content-one-title">{schoolYear}</div>
                         <div className="tuiles-container">
-                            {memories.map(memory => {
-                                const startMoment = moment(memory.date_debut);
+                            {souvenirs.map(souvenir => {
+                                const startMoment = moment(souvenir.date_debut);
                                 const schoolYearStart = startMoment.month() >= 8 ? startMoment.year() : startMoment.year() - 1;
                                 const schoolYearEnd = startMoment.month() >= 8 ? startMoment.year() + 1 : startMoment.year();
                                 const memorySchoolYear = `${schoolYearStart}/${schoolYearEnd}`;
@@ -82,12 +82,12 @@ const ListMemories = ({ estAdmin }) => {
                                     const estNouveau = daysDifference <= 14;
                                     return (
                                         <TuileMemories
-                                            ID={memory.ID}
-                                            titre={memory.titre}
-                                            date={formatDateRange(memory.date_debut, memory.date_fin)}
-                                            description={memory.description}
-                                            lien={memory.lien}
-                                            image={memory.image}
+                                            ID={souvenir.ID}
+                                            titre={souvenir.titre}
+                                            date={formatDateRange(souvenir.date_debut, souvenir.date_fin)}
+                                            description={souvenir.description}
+                                            lien={souvenir.lien}
+                                            image={souvenir.image}
                                             estAdmin={estAdmin}
                                             estNouveau={estNouveau}
                                         />
@@ -103,4 +103,4 @@ const ListMemories = ({ estAdmin }) => {
     );
 };
 
-export default ListMemories;
+export default ListeSouvenirs;

@@ -3,45 +3,45 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../assets/design/commun/tuileShop.css';
 
-const CreateProduct = () => {
+const CreerProduit = () => {
     // Etat local pour gérer les données du nouvel événement
-    const [newProduct, setNewProduct] = useState({
-        imageProduit: null,
-        nomProduit: '',
+    const [nouveauProduit, setNouveauProduit] = useState({
+        image: null,
+        nom: '',
         prix: '',
         lien: '',
-        etatProduit: false, // Initialisé comme un booléen
+        estDispo: false, // Initialisé comme un booléen
     });
 
     // Etat de succès
     const [success, setSuccess] = useState(false);
 
     // Etat local pour gérer les erreurs de formulaire
-    const [error, setError] = useState(false);
+    const [erreur, setErreur] = useState(false);
 
     // Gestion de changement pour la case à cocher
-    const handleCheckboxChange = () => {
-        setNewProduct(prevState => ({
+    const gererChangementCheckbox = () => {
+        setNouveauProduit(prevState => ({
             ...prevState,
-            etatProduit: !prevState.etatProduit // Inverse l'état actuel
+            estDispo: !prevState.estDispo // Inverse l'état actuel
         }));
     };
 
     // Gestion de changement pour les champs de saisie
-    const handleInputChange = (e) => {
+    const gererChangementEntree = (element) => {
         // Extraie le nom et la valeur de l'élément déclencheur de l'event
-        const { name, value } = e.target;
+        const { name, value } = element.target;
 
         // Vérification si le champ est "prix" et si la valeur est numérique ou float
         if (name === 'prix' && (!isNaN(value) || (value === '' || /^\d*\.?\d*$/.test(value)))) {
-            // Met à jour l'état newProduct en utilisant la fonction de mise à jour avec l'ancien état
-            setNewProduct(prevState => ({
+            // Met à jour l'état nouveauProduit en utilisant la fonction de mise à jour avec l'ancien état
+            setNouveauProduit(prevState => ({
                 ...prevState, // Garde les valeurs précédentes des champs inchangées
                 [name]: value // Met à jour la valeur du champ spécifié par son nom
             }));
         } else if (name !== 'prix') {
             // Si le champ n'est pas "prix", met à jour l'état directement sans vérification
-            setNewProduct(prevState => ({
+            setNouveauProduit(prevState => ({
                 ...prevState,
                 [name]: value
             }));
@@ -49,50 +49,50 @@ const CreateProduct = () => {
     };
 
     // Gestion de changement pour le champ image (fichier)
-    const handleImageChange = (e) => {
+    const gererChangementImage = (element) => {
         // Récupère le fichier sélectionné
-        const file = e.target.files[0];
-        const reader = new FileReader();
+        const fichier = element.target.files[0];
+        const lecteur = new FileReader();
 
         // Configure le lecteur pour lire le fichier
-        reader.onloadend = () => {
-            // Met à jour l'état newEvent pour inclure l'image sous forme de base64
-            setNewProduct(prevState => ({
+        lecteur.onloadend = () => {
+            // Met à jour l'état pour inclure l'image sous forme de base64
+            setNouveauProduit(prevState => ({
                 ...prevState,
-                imageProduit: reader.result // Stock l'image en base64
+                image: lecteur.result // Stock l'image en base64
             }));
         };
 
         // Lit le contenu du fichier en tant que données URL
-        reader.readAsDataURL(file);
+        lecteur.readAsDataURL(fichier);
     };
 
     // Gestion de la création de produit
-    const handleCreateProduct = async () => {
+    const creerProduit = async () => {
         try {
-            setError(false);
+            setErreur(false);
             // Vérification de la saisie des champs obligatoires
-            if (!newProduct.imageProduit || newProduct.nomProduit.trim() === '' || newProduct.lien.trim() === '' || newProduct.prix.trim() === '') {
-                setError(true);
+            if (!nouveauProduit.image || nouveauProduit.nom === '' || nouveauProduit.lien === '' || nouveauProduit.prix === '') {
+                setErreur(true);
                 return;
             }
             
-            // Envoi d'une requête POST avec la version modifiée de l'objet newProduct
-            const response = await fetch('http://localhost:3000/product', {
+            // Envoi d'une requête POST avec la version modifiée de l'objet nouveauProduit
+            const reponse = await fetch('http://localhost:3000/produit', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json', // Indique à la requête que c'est du JSON
                 },
-                body: JSON.stringify(newProduct), // Converti l'objet newProduct en JSON
+                body: JSON.stringify(nouveauProduit), // Converti l'objet nouveauProduit en JSON
             });
             // Vérification de la réponse de la requête
-            if (response.ok) {
+            if (reponse.ok) {
                 // Réinitialisation des champs après la création réussie
-                setNewProduct({
-                    imageProduit: null,
-                    nomProduit: '',
+                setNouveauProduit({
+                    image: null,
+                    nom: '',
                     prix: '',
-                    etatProduit: '',
+                    estDispo: '',
                     lien: '',
                 });
 
@@ -102,12 +102,12 @@ const CreateProduct = () => {
                 }, 3000); // Attente de 3 secondes
                 
                 setSuccess(true); // Success
-                setError(false); // Réinitialisation des erreurs
+                setErreur(false); // Réinitialisation des erreurs
             } else {
-                console.error('Erreur lors de la création de l\'événement');
+                console.error('Erreur lors de la création du produit');
             }
-        } catch (error) {
-            console.error(error);
+        } catch (erreur) {
+            console.error(erreur);
         }
     };
     
@@ -121,26 +121,26 @@ const CreateProduct = () => {
                     <form>
                         <div className="mb-3">
                             <label htmlFor="image" className="form-label">Image</label>
-                            <input className="form-control" type="file" id="image" accept="image/*" onChange={handleImageChange} />
+                            <input className="form-control" type="file" id="image" accept="image/*" onChange={gererChangementImage} />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="nom" className="form-label">Nom</label>
-                            <input className="form-control" type="text" name="nomProduit" placeholder="Nom" value={newProduct.nomProduit} onChange={handleInputChange} />
+                            <input className="form-control" type="text" name="nom" placeholder="Nom" value={nouveauProduit.nom} onChange={gererChangementEntree} />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="prix" className="form-label">Prix</label>
-                            <input className="form-control" type="text" name="prix" placeholder="Prix" value={newProduct.prix} onChange={handleInputChange} />
+                            <input className="form-control" type="text" name="prix" placeholder="Prix" value={nouveauProduit.prix} onChange={gererChangementEntree} />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="etatProduit" className="form-label">Disponible</label>
-                            <input type="checkbox" name="etatProduit" checked={newProduct.etatProduit} onChange={handleCheckboxChange} />
+                            <input type="checkbox" name="estDispo" checked={nouveauProduit.estDispo} onChange={gererChangementCheckbox} />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="lien" className="form-label">Lien</label>
-                            <input className="form-control" type="text" name="lien" placeholder="Lien" value={newProduct.lien} onChange={handleInputChange} />
+                            <input className="form-control" type="text" name="lien" placeholder="Lien" value={nouveauProduit.lien} onChange={gererChangementEntree} />
                         </div>
                         <div className="d-grid gap-2">
-                            <button className="module-tuileEvent-info-buttons-button2" onClick={handleCreateProduct}>Créer le produit</button>
+                            <button className="module-tuileEvent-info-buttons-button2" onClick={creerProduit}>Créer le produit</button>
                         </div>
                     </form>
                 </div>
@@ -151,7 +151,7 @@ const CreateProduct = () => {
                 </div>
             )}
             {/* Affichage des erreurs */}
-            {error && (
+            {erreur && (
                 <div className="alert alert-danger" role="alert">
                     Veuillez remplir tous les champs
                 </div>
@@ -160,4 +160,4 @@ const CreateProduct = () => {
     );
 };
 
-export default CreateProduct;
+export default CreerProduit;

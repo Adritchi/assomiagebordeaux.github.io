@@ -1,53 +1,51 @@
 import React, { useState } from 'react';
 
 import '../../assets/design/commun/tuileShop.css';
-import DeleteProduct from './DeleteProduct';
-import EditProduct from './EditProduct';
-
-// Import des icônes nécessaires
+import SuppressionProduit from './SuppressionProduit';
+import EditerProduit from './EditerProduit';
 import EDIT from '../../assets/icons/edit.svg';
 import CANCEL from '../../assets/icons/cancel.svg';
 
 export function TuileShop(props) {
 
     // Etat local pour suivre si l'utilisateur est en train d'éditer l'event
-    const [isEditing, setIsEditing] = useState(false);
+    const [estEnEdition, setEstEnEdition] = useState(false);
 
     // Gestion du clic sur le bouton "Modifier"
-    const handleEditClick = () => {
-        setIsEditing(true);
+    const gererCliqueEdition = () => {
+        setEstEnEdition(true);
     };
 
     // Gestion du clic sur le bouton "Annuler"
-    const handleCancelClick = () => {
-        setIsEditing(false);
+    const gererCliqueAnnuler = () => {
+        setEstEnEdition(false);
     };
 
     // Gestion de la suppression de l'event
-    const handleDelete = (productId) => {
-        props.handleDelete(productId);
+    const gererSuppression = (productId) => {
+        props.gererSuppression(productId);
     };
         return (
             <div class="module-tuileShop">
                 <div className="d-flex justify-content-end align-items-start">
                     {props.estAdmin && (
                         <div className="d-flex">
-                            <button onClick={handleEditClick} className="btn btn-outline-primary me-2" alt="Modifier">
+                            <button onClick={gererCliqueEdition} className="btn btn-outline-primary me-2" alt="Modifier">
                                 <img src={EDIT} alt="Edit icon" />
                             </button>
-                            <DeleteProduct product={props} onDelete={handleDelete} />
+                            <SuppressionProduit produit={props} onDelete={gererSuppression} />
                         </div>
                     )}
                 </div>
                 
-                {isEditing && (
+                {estEnEdition && (
                     <>
                         {/* Affichage du formulaire de modification */}
                         <br></br>
-                        <EditProduct product={props} />
+                        <EditerProduit produit={props} />
                         <br></br>
                         <div>
-                            <button onClick={handleCancelClick} alt="Annuler"><img src={CANCEL}></img></button>
+                            <button onClick={gererCliqueAnnuler} alt="Annuler"><img src={CANCEL}></img></button>
                         </div>
                     </>
                 )}
@@ -55,18 +53,18 @@ export function TuileShop(props) {
                 <a href={props.lien} target="_blank" rel="noopener noreferrer nofollow"
                    style={{textDecoration: 'none'}}>
                     <div class="module-tuileShop-imageProduit">
-                        <img src={props.imageProduit} alt={props.title}/>
+                        <img src={props.image} alt={props.title}/>
                     </div>
 
-                {!isEditing && (
+                {!estEnEdition && (
                 <div class="module-tuileShop-infosProduit">
                     <div class="module-tuileShop-infosProduit-nom">
-                        {props.nomProduit}
+                        {props.nom}
                     </div>
                     <div className="module-tuileShop-infosProduit-prix">
                         {parseFloat(props.prix).toFixed(2)} €
                     </div>
-                    {props.etatProduit === 1
+                    {props.estDispo === 1
                         ?
                         <div class="module-tuileShop-infosProduit-etatProduit disponible">
                             {"En stock"}
@@ -74,7 +72,7 @@ export function TuileShop(props) {
                         :
                         <div></div>
                     }
-                    {props.etatProduit === 0
+                    {props.estDispo === 0
                         ?
                         <div class="module-tuileShop-infosProduit-etatProduit indisponible">
                             {"Indisponible"}

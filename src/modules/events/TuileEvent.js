@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
 import '../../assets/design/commun/tuileEvent.css';
-import EditEvent from './EditEvent';
-import DeleteEvent from './DeleteEvent';
+import EditerEvenement from './EditerEvenement';
+import SupprimerEvenement from './SupprimerEvenement';
 
 // Import des icônes nécessaires
 import EDIT from '../../assets/icons/edit.svg';
@@ -10,22 +10,22 @@ import CANCEL from '../../assets/icons/cancel.svg';
 
 export function TuileEvent(props) {
     
-    // Etat local pour suivre si l'utilisateur est en train d'éditer l'event
-    const [isEditing, setIsEditing] = useState(false);
+    // Etat local pour suivre si l'utilisateur est en train d'éditer l'evenement
+    const [estEnEdition, setEstEnEdition] = useState(false);
 
     // Gestion du clic sur le bouton "Modifier"
-    const handleEditClick = () => {
-        setIsEditing(true);
+    const gererCliqueEdition = () => {
+        setEstEnEdition(true);
     };
 
     // Gestion du clic sur le bouton "Annuler"
-    const handleCancelClick = () => {
-        setIsEditing(false);
+    const gererCliqueAnnuler = () => {
+        setEstEnEdition(false);
     };
 
     // Gestion de la suppression de l'event
-    const handleDelete = (eventId) => {
-        props.handleDelete(eventId);
+    const gererSuppression = (identifiantEvenement) => {
+        props.gererSuppression(identifiantEvenement);
     };
 
     return (
@@ -33,11 +33,11 @@ export function TuileEvent(props) {
             <div className="module-tuileEvent-illustration">
                 <img src={props.image} alt={props.titre} />
             </div>
-            {isEditing ? (
+            {estEnEdition ? (
                 <>
-                    <EditEvent event={props} />
+                    <EditerEvenement evenement={props} />
                     <div>
-                        <button onClick={handleCancelClick} alt="Annuler"><img src={CANCEL}></img></button>
+                        <button onClick={gererCliqueAnnuler} alt="Annuler"><img src={CANCEL}></img></button>
                     </div>
                 </>
             ) : (
@@ -52,10 +52,10 @@ export function TuileEvent(props) {
                     <div className="d-flex justify-content-end align-items-start">
                         {props.estAdmin && (
                             <div className="d-flex">
-                                <button onClick={handleEditClick} className="btn btn-outline-primary me-2" alt="Modifier">
+                                <button onClick={gererCliqueEdition} className="btn btn-outline-primary me-2" alt="Modifier">
                                     <img src={EDIT} alt="Edit icon" />
                                 </button>
-                                <DeleteEvent event={props} onDelete={handleDelete} />
+                                <SupprimerEvenement event={props} onDelete={gererSuppression} />
                             </div>
                         )}
                     </div>
