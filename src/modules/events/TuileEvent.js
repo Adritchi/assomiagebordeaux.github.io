@@ -30,9 +30,16 @@ export function TuileEvent(props) {
 
     return (
         <div className="module-tuileEvent module-tuileEvent-margin d-flex justify-content-between">
-            <div className="module-tuileEvent-illustration">
-                <img src={props.image} alt={props.titre} />
-            </div>
+            {/* Gestion de l'affichage de l'image */}
+            {props.status === "over" ? (
+                <div className="module-tuileEvent-illustration module-tuileEvent-illustration-over">
+                    <img src={props.image} alt={props.titre} />
+                </div>
+            ) : (
+                <div className="module-tuileEvent-illustration">
+                    <img src={props.image} alt={props.titre} />
+                </div>
+            )}
             {estEnEdition ? (
                 <>
                     <EditerEvenement evenement={props} />
@@ -55,7 +62,7 @@ export function TuileEvent(props) {
                                 <button onClick={gererCliqueEdition} className="btn btn-outline-primary me-2" alt="Modifier">
                                     <img src={EDIT} alt="Edit icon" />
                                 </button>
-                                <SupprimerEvenement event={props} onDelete={gererSuppression} />
+                                <SupprimerEvenement evenement={props} onDelete={gererSuppression} />
                             </div>
                         )}
                     </div>

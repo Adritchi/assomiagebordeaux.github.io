@@ -12,7 +12,7 @@ const EditerProduit = ({ produit }) => {
     const gererChangementCheckbox  = () => {
         setProduitModifie(prevState => ({
             ...prevState,
-            etatProduit: !prevState.etatProduit // Inverse l'état actuel
+            estDispo: !prevState.estDispo // Inverse l'état actuel
         }));
     };         
 
@@ -86,8 +86,8 @@ const EditerProduit = ({ produit }) => {
                     <input className="form-control" type="file" accept="image/*" onChange={gererChangementImage} />
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="nomProduit" className="form-label label-shop">Nom</label>
-                    <input className="form-control" type="text" name="nomProduit" value={produitModifie.nomProduit} onChange={gererChangementEntree} />
+                    <label htmlFor="nom" className="form-label label-shop">Nom</label>
+                    <input className="form-control" type="text" name="nomProduit" value={produitModifie.nom} onChange={gererChangementEntree} />
                 </div>
                 <div className="mb-3">
                     <label htmlFor="prix" className="form-label label-shop">Prix</label>
@@ -101,7 +101,7 @@ const EditerProduit = ({ produit }) => {
                 </div>
                 <div className="col">
                     <label htmlFor="etatProduit" className="form-label label-shop">Disponible</label>
-                    <input type="checkbox" name="etatProduit" checked={produitModifie.etatProduit} onChange={gererChangementCheckbox} />
+                    <input type="checkbox" name="estDispo" checked={produitModifie.estDispo} onChange={gererChangementCheckbox} />
                 </div>
                 <div className="d-grid gap-2">
                     <button className="module-tuileEvent-info-buttons-button2" type="button" onClick={gererEnvoiEdition}>Enregistrer les modifications</button>
