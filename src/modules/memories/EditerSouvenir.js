@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const EditerSouvenir = ({ souvenir }) => {
     const [souvenirMiseAJour, setSouvenirMiseAJour] = useState(souvenir);
     const [erreur, setErreur] = useState(false);
     const [erreurDate, setErreurDate] = useState(false);
+    const [updatedSuccess, setUpdatedSuccess] = useState(false);
+
 
     const gererChangementEntree = (element) => {
         const { name, value } = element.target;
@@ -53,9 +56,12 @@ const EditerSouvenir = ({ souvenir }) => {
             });
 
             if (reponse.ok) {
-                console.log('Souvenir mis à jour avec succès');
+                setUpdatedSuccess(true); // Success
                 setErreurDate(false);
                 setErreur(false);
+                setTimeout(() => {
+                    window.location.reload();
+                }, 3000); // Attente de 3 secondes
                 window.location.reload();
             } else {
                 console.error('Erreur lors de la mise à jour du souvenir');
@@ -66,32 +72,45 @@ const EditerSouvenir = ({ souvenir }) => {
     };
 
     return (
-        <div>
-            <input type="file" accept="image/*" onChange={gererChangementImage} />
-            <br></br>
-            <br></br>
-            <input type="text" name="titre" value={souvenirMiseAJour.titre} onChange={gererChangementEntree} />
-            <input type="date" name="date_debut" value={souvenirMiseAJour.date_debut} onChange={gererChangementEntree} />
-            <input type="date" name="date_fin" value={souvenirMiseAJour.date_fin} onChange={gererChangementEntree} />
-            <input type="text" name="description" value={souvenirMiseAJour.description} onChange={gererChangementEntree} />
-            <input type="text" name="lien" value={souvenirMiseAJour.lien} onChange={gererChangementEntree} />
-            <br></br>
-            <br></br>
-            <button onClick={gererEnvoiEdition}>Enregistrer les modifications</button>
-            
-            {/* Rendu conditionnel du label d'erreur */}
-            {erreur && (
-                <div style={{ color: 'red' }}>
-                    <p>Veuillez remplir tous les champs</p>
+        <div className="container my-4">
+            <form>
+                <div className="mb-3">
+                    <label htmlFor="image" className="form-label">Image</label>
+                    <input className="form-control" type="file" id="image" accept="image/*" onChange={gererChangementImage} />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="titre" className="form-label">Titre</label>
+                    <input className="form-control" type="text" id="titre" name="titre" value={souvenirMiseAJour.titre} onChange={gererChangementEntree} />
+                </div>
+                <div className="row g-3">
+                    <div className="col">
+                        <label htmlFor="date_debut" className="form-label">Date de début</label>
+                        <input className="form-control" type="date" id="date_debut" name="date_debut" value={souvenirMiseAJour.date_debut} onChange={gererChangementEntree} />
+                    </div>
+                    <div className="col">
+                        <label htmlFor="date_fin" className="form-label">Date de fin</label>
+                        <input className="form-control" type="date" id="date_fin" name="date_fin" value={souvenirMiseAJour.date_fin} onChange={gererChangementEntree} />
+                    </div>
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="description" className="form-label">Description</label>
+                    <textarea className="form-control" id="description" name="description" rows="3" value={souvenirMiseAJour.description} onChange={gererChangementEntree}></textarea>
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="lien" className="form-label">Lien</label>
+                    <input className="form-control" type="url" id="lien" name="lien" value={souvenirMiseAJour.lien} onChange={gererChangementEntree} />
+                </div>
+                <div className="d-grid gap-2">
+                    <button className="module-tuileMemories-info-buttons-button2" type="button" onClick={gererEnvoiEdition}>Enregistrer les modifications</button>
+                </div>
+            </form>
+            {updatedSuccess && (
+                <div className="alert alert-success" role="alert">
+                    Le souvenir a été modifié avec succès !
                 </div>
             )}
-            {erreurDate && (
-                <div style={{ color: 'red' }}>
-                    <p>Veuillez entrer des dates valides</p>
-                </div>
-            )}
+            {erreur && <div className="alert alert-danger">Veuillez remplir tous les champs.</div>}
+            {erreurDate && <div className="alert alert-danger">Veuillez entrer des dates valides.</div>}
         </div>
     );
 };
-
-export default EditerSouvenir;
