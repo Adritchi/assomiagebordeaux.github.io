@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import DELETE from '../../assets/icons/delete.svg';
 
 // Récupère l'objet event en tant que prop
-const SupprimerEvenement = ({ produit }) => {
+const SupprimerEvenement = ({ evenement }) => {
     const [deleteSuccess, setDeleteSuccess] = useState(false);
     // Fonction handleDelete pour gérer la suppression de l'événement
     const gererSuppression = async () => {

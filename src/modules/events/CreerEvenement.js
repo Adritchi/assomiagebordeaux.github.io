@@ -80,7 +80,7 @@ const CreerEvenement = () => {
             });
 
             // Vérification de la réponse de la requête
-            if (response.ok) {
+            if (reponse.ok) {
                 // Réinitialisation des champs après la création réussie
                 setNouveauEvenement({
                     image: null,
