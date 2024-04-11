@@ -114,3 +114,5 @@ const EditerSouvenir = ({ souvenir }) => {
         </div>
     );
 };
+
+export default EditerSouvenir;

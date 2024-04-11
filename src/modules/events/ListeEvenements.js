@@ -47,7 +47,7 @@ const ListeEvenements = ({ estAdmin, statut }) => {
                             lien={evenement.lien}
                             image={evenement.image}
                             estAdmin={estAdmin} 
-                            status={new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'numeric', year: 'numeric' }) > new Date(evenement.date_fin).toLocaleDateString('fr-FR', { day: 'numeric', month: 'numeric', year: 'numeric' }) && evenement.date_fin !== null ? 'over' : ''}                        />
+                            status={statut=== 'passe' && evenement.date_fin !== null ? 'over' : ''}/>
                     );
                 })}
             </div>  

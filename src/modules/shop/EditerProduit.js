@@ -65,7 +65,7 @@ const EditerProduit = ({ produit }) => {
     
             if (reponse.ok) {
                 setUpdatedSuccess(true); // Success
-                setError(false);
+                setErreur(false);
                 setTimeout(() => {
                     window.location.reload();
                 }, 3000); // Attente de 3 secondes
