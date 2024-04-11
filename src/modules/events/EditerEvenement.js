@@ -52,7 +52,7 @@ const EditerEvenement = ({ evenement }) => {
                 setErreur(false);
                 setTimeout(() => {
                     window.location.reload();
-                }, 3000); // Attente de 3 secondes
+                }, 2000); // Attente de 3 secondes
             } else {
                 console.error('Erreur lors de la mise à jour de l\'événement');
             }

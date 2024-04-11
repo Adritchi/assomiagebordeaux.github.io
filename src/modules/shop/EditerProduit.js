@@ -50,7 +50,7 @@ const EditerProduit = ({ produit }) => {
     const gererEnvoiEdition = async () => {
         try {
             setErreur(false);
-            if (produitModifie.nom === '' || produitModifie.lien === '' || produitModifie.prix === '') {
+            if (produitModifie.nom === '' || produitModifie.lien === '' || produitModifie.prix === '' ) {
                 setErreur(true);
                 return;
             }
@@ -68,9 +68,10 @@ const EditerProduit = ({ produit }) => {
                 setErreur(false);
                 setTimeout(() => {
                     window.location.reload();
-                }, 3000); // Attente de 3 secondes
+                }, 2000); // Attente de 3 secondes
             } else {
                 console.error('Erreur lors de la mise à jour du produit');
+                setErreur(true);
             }
         } catch (erreur) {
             console.error(erreur);
@@ -113,7 +114,7 @@ const EditerProduit = ({ produit }) => {
                 </div>
             )}
             {/* Rendu conditionnel du label d'erreur */}
-            {erreur && <div className="alert alert-danger">Veuillez remplir tous les champs.</div>}
+            {erreur && <div className="alert alert-danger">Veuillez verifier tous les champs.</div>}
         </div>
     );
 };

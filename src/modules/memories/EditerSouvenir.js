@@ -61,7 +61,7 @@ const EditerSouvenir = ({ souvenir }) => {
                 setErreur(false);
                 setTimeout(() => {
                     window.location.reload();
-                }, 3000); // Attente de 3 secondes
+                }, 2000); // Attente de 3 secondes
                 window.location.reload();
             } else {
                 console.error('Erreur lors de la mise à jour du souvenir');
