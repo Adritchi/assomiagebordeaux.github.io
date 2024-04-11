@@ -19,7 +19,7 @@ function hideMenu() {
 class Navbar extends Component {
     
     state = {
-            adminConnected: false
+            adminConnecte: false
     };
 
     componentDidMount() {
@@ -36,7 +36,7 @@ class Navbar extends Component {
         try {
             const reponse = await fetch('/estAdminConnecte');
             const donnees = await reponse.json();
-            this.setState({ adminConnected: donnees.adminConnected });
+            this.setState({ adminConnecte: donnees.adminConnecte });
         } catch (error) {
             console.error('Erreur lors de la vérification de l\'état de connexion :', error);
         }
@@ -45,7 +45,7 @@ class Navbar extends Component {
     gererDeconnexion = async () => {
         try {
             await fetch('/deconnexion', { method: 'POST' }); // Une route pour déconnecter l'utilisateur
-            this.setState({ adminConnected: false });
+            this.setState({ adminConnecte: false });
             window.location.reload();
         } catch (error) {
             console.error('Erreur lors de la déconnexion :', error);
