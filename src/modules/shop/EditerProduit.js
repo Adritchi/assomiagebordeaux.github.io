@@ -88,7 +88,7 @@ const EditerProduit = ({ produit }) => {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="nom" className="form-label label-shop">Nom</label>
-                    <input className="form-control" type="text" name="nomProduit" value={produitModifie.nom} onChange={gererChangementEntree} />
+                    <input className="form-control" type="text" name="nom" value={produitModifie.nom} onChange={gererChangementEntree} />
                 </div>
                 <div className="mb-3">
                     <label htmlFor="prix" className="form-label label-shop">Prix</label>
