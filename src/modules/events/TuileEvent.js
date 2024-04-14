@@ -54,7 +54,12 @@ export function TuileEvent(props) {
                         <div className="module-tuileEvent-info-lieu">{props.lieu}</div>
                         <div className="module-tuileEvent-info-date">{props.date}</div>
                         <div className="module-tuileEvent-info-description">{props.description}</div>
-                        <a href={props.lien} className="module-tuileEvent-info-buttons-button2">En savoir plus</a>
+                        {props.status === "over" ? (
+                            <></>
+                        ) : (
+                            <a href={props.lien} className="module-tuileEvent-info-buttons-button2">En savoir plus</a>
+                        )}
+    
                     </div>
                     <div className="d-flex justify-content-end align-items-start">
                         {props.estAdmin && (
