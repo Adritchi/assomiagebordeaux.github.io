@@ -46,7 +46,6 @@ export function TuileMemories(props) {
                         <div className="module-tuileMemories-info-titre">{props.titre}</div>
                         <div className="module-tuileMemories-info-date">{props.date}</div>
                         <div className="module-tuileMemories-info-description">{props.description}</div>
-                        <a href={props.lien} className="module-tuileMemories-info-buttons-button2">En savoir plus</a>
                     </div>
                     <div className="d-flex justify-content-end align-items-start">
                         {props.estAdmin && (
